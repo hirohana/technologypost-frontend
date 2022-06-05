@@ -1,0 +1,15 @@
+version: "3"
+services:
+  front:
+    build: .
+    tty: true
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/front
+      - node_modules_volume:/front/node_modules
+    # 起動時のカレントフォルダを指定
+    working_dir: /front
+
+volumes:
+  node_modules_volume:
