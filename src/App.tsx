@@ -1,20 +1,14 @@
-import "./App.css";
-import { useState, useEffect } from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid*/
+import "font-awesome/css/font-awesome.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-social/bootstrap-social.css";
+import AuthGithub from "./components/molecules/authGithub/AuthGithub";
 
 function App() {
-  const [message, setMessage] = useState("");
-
-  const onAuthGitHubHandler = () => {
-    fetch("http://localhost:5000/api")
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err));
-  };
   return (
     <div className="App">
       <h1>フロントエンド</h1>
-      <button onClick={() => onAuthGitHubHandler()}>GitHubログイン認証</button>
-      <p>{message}</p>
+      <AuthGithub />
     </div>
   );
 }
