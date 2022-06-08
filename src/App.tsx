@@ -2,14 +2,13 @@
 import "font-awesome/css/font-awesome.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-social/bootstrap-social.css";
-import AuthGithub from "./components/molecules/authGithub/AuthGithub";
+import Router from "routers/Router";
 
 function App() {
   return (
-    <div className="App">
-      <h1>フロントエンド</h1>
-      <AuthGithub />
-    </div>
+    <>
+      <Router />
+    </>
   );
 }
 
