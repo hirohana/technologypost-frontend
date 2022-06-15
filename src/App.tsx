@@ -1,18 +1,14 @@
-import "./App.css";
-import { useState, useEffect } from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid*/
+import "font-awesome/css/font-awesome.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-social/bootstrap-social.css";
+import Router from "routers/Router";
 
 function App() {
-  const [message, setMessage] = useState("");
-  useEffect(() => {
-    fetch("https://hirohana-backend.herokuapp.com/api")
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message));
-  }, []);
   return (
-    <div className="App">
-      <h1>フロントエンド</h1>
-      <p>{message}</p>
-    </div>
+    <>
+      <Router />
+    </>
   );
 }
 
