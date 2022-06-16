@@ -30,28 +30,28 @@ const useAuthGithub = () => {
     });
   };
 
-  // /**
-  //  * cookieにGitHubのデータを保存するメソッド。ログイン認証が終わってから1時間が有効期限。
-  //  * @param {string} name
-  //  * @param {string} value
-  //  * @param {object} options
-  //  * @returns {string}
-  //  */
-  // const setCookie = (name, value, options) => {
-  //   return new Promise((resolve) => {
-  //     let cook = "";
-  //     cook += `${name}=${encodeURIComponent(value)}`;
-  //     if (options.expires) {
-  //       let exp = new Date();
-  //       exp.setHours(exp.getHours() + options.expires);
-  //       cook += `; expires = ${exp.toUTCString()}`;
-  //     }
-  //     if (options.secure) {
-  //       cook += `; secure`;
-  //     }
-  //     document.cookie = cook;
-  //   });
-  // };
+  /**
+   * cookieにGitHubのデータを保存するメソッド。ログイン認証が終わってから1時間が有効期限。
+   * @param {string} name
+   * @param {string} value
+   * @param {object} options
+   * @returns {string}
+   */
+  const setCookie = (name, value, options) => {
+    return new Promise((resolve) => {
+      let cook = "";
+      cook += `${name}=${encodeURIComponent(value)}`;
+      if (options.expires) {
+        let exp = new Date();
+        exp.setHours(exp.getHours() + options.expires);
+        cook += `; expires = ${exp.toUTCString()}`;
+      }
+      if (options.secure) {
+        cook += `; secure`;
+      }
+      document.cookie = cook;
+    });
+  };
 
   const onAuthGitHubHandler = async (e) => {
     e.preventDefault();
@@ -64,15 +64,15 @@ const useAuthGithub = () => {
       const data = await provider.get("/user");
       await Promise.all([
         loginToSaveReduxStore(data),
-        // setCookie("id", String(data.id), { expires: 1, secure: true }),
-        // setCookie("displayName", String(data.login), {
-        //   expires: 1,
-        //   secure: true,
-        // }),
-        // setCookie("photoUrl", String(data.avatar_url), {
-        //   expires: 1,
-        //   secure: true,
-        // }),
+        setCookie("id", String(data.id), { expires: 1, secure: true }),
+        setCookie("displayName", String(data.login), {
+          expires: 1,
+          secure: true,
+        }),
+        setCookie("photoUrl", String(data.avatar_url), {
+          expires: 1,
+          secure: true,
+        }),
       ]);
       sweetAlertOfSuccess(
         `GitHubアカウントを利用したログイン認証に成功しました!`

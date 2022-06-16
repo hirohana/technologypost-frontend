@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-social/bootstrap-social.css";
 
 import { logout } from "reducks/user/actionCreator";
-
+import { deleteAllCookies } from "utils/deleteAllCookies/deleteAllCookies";
 import useAuthGithub from "../../../hooks/components/useAuthGithub";
 
 const AuthGithub = () => {
@@ -20,6 +20,7 @@ const AuthGithub = () => {
 
   const logoutFromGitHub = () => {
     dispatch(logout());
+    deleteAllCookies();
   };
 
   return (
