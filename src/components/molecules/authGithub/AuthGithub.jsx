@@ -1,19 +1,26 @@
 /* eslint-disable jsx-a11y/anchor-is-valid*/
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "font-awesome/css/font-awesome.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-social/bootstrap-social.css";
+
+import { logout } from "reducks/user/actionCreator";
 
 import useAuthGithub from "../../../hooks/components/useAuthGithub";
 
 const AuthGithub = () => {
   const { message, setMessage, onAuthGitHubHandler } = useAuthGithub();
   const { user } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setMessage(user);
   }, [user, setMessage]);
+
+  const logoutFromGitHub = () => {
+    dispatch(logout());
+  };
 
   return (
     <>
@@ -25,6 +32,7 @@ const AuthGithub = () => {
       </a>
       <p>{message.displayName}</p>
       <img src={message.photoUrl} alt="" />
+      <button onClick={logoutFromGitHub}>GitHubアカウントからログアウト</button>
     </>
   );
 };
