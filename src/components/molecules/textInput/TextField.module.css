@@ -1,0 +1,9 @@
+.textField {
+  border-radius: 9999px;
+  padding: 10px;
+  border-color: white;
+}
+.textField:focus {
+  outline: none;
+}
+/*# sourceMappingURL=TextField.module.css.map */

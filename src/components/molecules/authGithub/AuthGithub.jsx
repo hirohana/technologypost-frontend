@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { logout } from "reducks/user/actionCreator";
 import { deleteAllCookies } from "utils/deleteAllCookies/deleteAllCookies";
-import useAuthGithub from "../../../hooks/components/useAuthGithub";
+import useAuthGithub from "../../../hooks/components/github/useAuthGithub";
 
 const AuthGithub = () => {
   const { message, setMessage, onAuthGitHubHandler } = useAuthGithub();

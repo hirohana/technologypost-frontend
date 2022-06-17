@@ -1,0 +1,14 @@
+@import "/src/styles/modules/valiables";
+.likes_user {
+  color: $cPink;
+}
+
+.favoriteIcon {
+  vertical-align: top;
+  cursor: pointer;
+}
+
+.number {
+  font-size: 1em;
+  @extend .shin_font;
+}
