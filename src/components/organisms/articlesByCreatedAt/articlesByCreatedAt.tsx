@@ -8,8 +8,11 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Avatar } from "@mui/material";
 
+import avatarSample from "images/avatarSample.png";
 import { useArticlesByCreatedAt } from "hooks/components/articles/useArticlesByCreatedAt";
+import styles from "./articlesByCreatedAt.module.scss";
 
 const theme = createTheme();
 
@@ -41,10 +44,23 @@ const ArticlesByCreatedAt = () => {
                         }
                         alt="random"
                       />
+
                       <CardContent sx={{ flexGrow: 1 }}>
                         <Typography gutterBottom variant="h5" component="h2">
                           {article.title}
                         </Typography>
+                        <div className={styles.article_information}>
+                          <Avatar
+                            src={
+                              article.user_photo_url
+                                ? article.user_photo_url
+                                : avatarSample
+                            }
+                          />
+                          <Typography gutterBottom variant="h5" component="h5">
+                            {article.username}
+                          </Typography>
+                        </div>
                       </CardContent>
                       <CardActions>
                         <Button size="small">View</Button>
