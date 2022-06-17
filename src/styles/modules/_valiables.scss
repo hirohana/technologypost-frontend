@@ -1,0 +1,28 @@
+// color
+$cLightBlue: #00bfff;
+$cGray: #d3d1d1;
+$cWhite: white;
+$cBlack: black;
+$cRed: red;
+$cBlue: blue;
+$cLightBrown: #d6c87f;
+$cAquamarine: aquamarine;
+$cLightGreen: rgb(201, 250, 234);
+$cPink: #fd74b2;
+$cPurple: rgb(206, 79, 225);
+$cOrange: rgb(223, 135, 20);
+$cShinGreen: rgb(21, 231, 116);
+$cShinBlue: rgb(9, 88, 192);
+
+// font-style
+.shin_font {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+// border-style
+.border_style {
+  border: 1px solid;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 5px 2px 5px rgb(175, 174, 174);
+  padding: 10px 0px;
+}

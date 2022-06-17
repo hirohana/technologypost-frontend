@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 
 import { createStore } from "reducks/store/store";
 import App from "./App";
+import "./styles/styles.css";
 
 const store = createStore();
 const root = ReactDOM.createRoot(
