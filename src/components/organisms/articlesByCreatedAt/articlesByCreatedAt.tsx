@@ -18,7 +18,7 @@ const ArticlesByCreatedAt = () => {
   return (
     <>
       <main>
-        <Container sx={{ py: 8 }} maxWidth="md">
+        <Container sx={{ py: 4 }} maxWidth="md">
           <Grid container spacing={4}>
             {articlesByCreatedAtData[0] &&
               articlesByCreatedAtData.map((article) => (
@@ -80,10 +80,7 @@ const ArticlesByCreatedAt = () => {
               ))}
           </Grid>
         </Container>
-        <PaginationOutlined
-          pageCount={3}
-          setData={setArticlesByCreatedAtData}
-        />
+        <PaginationOutlined maxPage={10} setData={setArticlesByCreatedAtData} />
       </main>
     </>
   );

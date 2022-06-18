@@ -1,39 +1,53 @@
-import { Link } from "react-router-dom";
+import * as React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 import { config } from "config/applicationConfig";
 import styles from "./PaginationOutlined.module.scss";
 
 type PROPS = {
-  pageCount: number;
+  maxPage: number;
   setData: any;
 };
 export default function PaginationOutlined(props: PROPS) {
-  const { pageCount, setData } = props;
-  const pageCountArray = [];
+  const { maxPage, setData } = props;
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const currentPage = Number(query.get("page"));
 
-  const changePageCurrent = async (i: number) => {
-    const response = await fetch(`${config.BACKEND_URL}/articles/?page=${i}`);
-    setData(await response.json());
+  const changeCurrentPage = async (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    event.preventDefault();
+    try {
+      navigate(`/articles/?page=${page}`);
+      const response = await fetch(
+        `${config.BACKEND_URL}/articles/?page=${page}`
+      );
+      setData(await response.json());
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  for (let i = 1; i <= pageCount; i++) {
-    const ele = (
-      <Link
-        to={`/articles/?page=${i}`}
-        onClick={() => changePageCurrent(i)}
-        key={i}
-      >
-        {i}
-      </Link>
-    );
-    pageCountArray.push(ele);
-  }
-
   return (
-    <>
-      <ul>{pageCountArray}</ul>
-    </>
+    <div className={styles.container}>
+      <Stack spacing={2}>
+        <Pagination
+          page={currentPage}
+          count={maxPage}
+          variant="outlined"
+          color="primary"
+          size="medium"
+          hideNextButton={true}
+          hidePrevButton={true}
+          onChange={(event, page) => changeCurrentPage(event, page)}
+        />
+      </Stack>
+    </div>
   );
 }
-
 export { PaginationOutlined };

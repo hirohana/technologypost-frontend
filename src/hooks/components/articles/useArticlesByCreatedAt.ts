@@ -28,7 +28,9 @@ const useArticlesByCreatedAt = () => {
       try {
         const query = new URLSearchParams(search);
         const response = await fetch(
-          `${config.BACKEND_URL}/articles/?page=${query.get("page")}`
+          `${config.BACKEND_URL}/articles/?page=${
+            query.get("page") ? query.get("page") : 1
+          }`
         );
         const jsonData = await response.json();
         setArticlesByCreatedAtData(jsonData);
