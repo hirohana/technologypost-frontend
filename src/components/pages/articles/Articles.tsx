@@ -1,6 +1,6 @@
 import React from "react";
 
-import ArticlesByCreatedAt from "components/organisms/articlesByCreatedAt/articlesByCreatedAt";
+import ArticlesByCreatedAt from "components/organisms/articlesByCreatedAt/ArticlesByCreatedAt";
 import TextField from "components/molecules/textInput/TextField";
 import { useArticlesById } from "hooks/components/articles/useArticlesById";
 import styles from "./Article.module.scss";

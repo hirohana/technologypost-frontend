@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { config } from "config/applicationConfig";
 
 type obj = {
@@ -20,10 +21,15 @@ const useArticlesByCreatedAt = () => {
   const [articlesByCreatedAtData, setArticlesByCreatedAtData] = useState<DATA>(
     []
   );
+  const { search } = useLocation();
+
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch(`${config.BACKEND_URL}/articles`);
+        const query = new URLSearchParams(search);
+        const response = await fetch(
+          `${config.BACKEND_URL}/articles/?page=${query.get("page")}`
+        );
         const jsonData = await response.json();
         setArticlesByCreatedAtData(jsonData);
       } catch (err) {
@@ -31,7 +37,7 @@ const useArticlesByCreatedAt = () => {
       }
     })();
   }, []);
-  return { articlesByCreatedAtData };
+  return { articlesByCreatedAtData, setArticlesByCreatedAtData };
 };
 
 export { useArticlesByCreatedAt };

@@ -1,0 +1,7 @@
+@import "/src/styles/modules/valiables";
+
+.container {
+  & > span {
+    @extend .shin_font;
+  }
+}
