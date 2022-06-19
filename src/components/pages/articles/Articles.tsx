@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import ArticlesByCreatedAt from "components/organisms/articlesByCreatedAt/ArticlesByCreatedAt";
+import ArticlesCards from "components/organisms/ArticlesCards/ArticlesCards";
 import TextField from "components/molecules/textInput/TextField";
 import { useArticlesById } from "hooks/components/articles/useArticlesById";
-import styles from "./Article.module.scss";
+import { PaginationOutlined } from "components/molecules/pagenation/PaginationOutlined";
+import { useArticlesByCreatedAt } from "hooks/components/articles/useArticlesByCreatedAt";
+import styles from "./ArticlesCards.module.scss";
 
 const Articles = () => {
   const { articleIdData, getArticlesById } = useArticlesById();
+  const { articlesByCreatedAtData, setArticlesByCreatedAtData } =
+    useArticlesByCreatedAt();
 
   return (
     <main>
       <div className={styles.container}>
         <TextField />
-        <ArticlesByCreatedAt />
+        {articlesByCreatedAtData?.data ? (
+          <>
+            <ArticlesCards data={articlesByCreatedAtData.data} />
+            <PaginationOutlined
+              maxPage={articlesByCreatedAtData.pagination.paginationMaxCount}
+              setData={setArticlesByCreatedAtData}
+            />
+          </>
+        ) : null}
       </div>
     </main>
   );

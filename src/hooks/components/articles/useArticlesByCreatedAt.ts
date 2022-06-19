@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { config } from "config/applicationConfig";
 
-type obj = {
+type ARTICLES_DATA = {
   username: string;
   user_photo_url: string;
   user_id: number;
@@ -14,13 +14,19 @@ type obj = {
   category_name: null | string;
   comment: null | string;
   comment_created_at: null | string;
+}[];
+
+type ARTICLES_DATA_AND_PAGINATION = {
+  data: ARTICLES_DATA;
+  pagination: {
+    totalPages: number;
+    paginationMaxCount: number;
+  };
 };
-type DATA = obj[];
 
 const useArticlesByCreatedAt = () => {
-  const [articlesByCreatedAtData, setArticlesByCreatedAtData] = useState<DATA>(
-    []
-  );
+  const [articlesByCreatedAtData, setArticlesByCreatedAtData] =
+    useState<ARTICLES_DATA_AND_PAGINATION>();
   const { search } = useLocation();
 
   useEffect(() => {
@@ -43,4 +49,4 @@ const useArticlesByCreatedAt = () => {
 };
 
 export { useArticlesByCreatedAt };
-export type { DATA };
+export type { ARTICLES_DATA, ARTICLES_DATA_AND_PAGINATION };

@@ -1,27 +1,25 @@
 import { useNavigate } from "react-router-dom";
+
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import { Avatar } from "@mui/material";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 
-import { PaginationOutlined } from "components/molecules/pagenation/PaginationOutlined";
+import { ARTICLES_DATA } from "hooks/components/articles/useArticlesByCreatedAt";
 import TimestampProcessing from "components/atoms/time/timestampProcessing/TimestampProcessing";
-import { useArticlesByCreatedAt } from "hooks/components/articles/useArticlesByCreatedAt";
-import styles from "./ArticlesByCreatedAt.module.scss";
+import styles from "./ArticlesCards.module.scss";
 
-const ArticlesByCreatedAt = () => {
+const ArticlesCards = (props: { data: ARTICLES_DATA }) => {
+  const { data } = props;
   const navigate = useNavigate();
-  const { articlesByCreatedAtData, setArticlesByCreatedAtData } =
-    useArticlesByCreatedAt();
-
   return (
     <>
       <main>
         <Container sx={{ py: 4 }} maxWidth="md">
           <Grid container spacing={4}>
-            {articlesByCreatedAtData[0] &&
-              articlesByCreatedAtData.map((article) => (
+            {data[0] &&
+              data.map((article) => (
                 <Grid item key={article.article_id} xs={12} sm={6} md={4}>
                   <Card
                     sx={{
@@ -80,10 +78,9 @@ const ArticlesByCreatedAt = () => {
               ))}
           </Grid>
         </Container>
-        <PaginationOutlined maxPage={10} setData={setArticlesByCreatedAtData} />
       </main>
     </>
   );
 };
 
-export default ArticlesByCreatedAt;
+export default ArticlesCards;
