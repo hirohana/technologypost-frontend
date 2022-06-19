@@ -45,6 +45,7 @@ const useArticlesByCreatedAt = () => {
       }
     })();
   }, []);
+  console.log(articlesByCreatedAtData);
   return { articlesByCreatedAtData, setArticlesByCreatedAtData };
 };
 

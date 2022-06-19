@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Card from "@mui/material/Card";
@@ -13,6 +14,7 @@ import styles from "./ArticlesCards.module.scss";
 const ArticlesCards = (props: { data: ARTICLES_DATA }) => {
   const { data } = props;
   const navigate = useNavigate();
+  console.log(data);
   return (
     <>
       <main>

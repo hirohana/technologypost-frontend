@@ -10,7 +10,7 @@ type PROPS = {
   maxPage: number;
   setData: any;
 };
-export default function PaginationOutlined(props: PROPS) {
+const PaginationOutlined = (props: PROPS) => {
   const { maxPage, setData } = props;
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -49,5 +49,5 @@ export default function PaginationOutlined(props: PROPS) {
       </Stack>
     </div>
   );
-}
+};
 export { PaginationOutlined };
