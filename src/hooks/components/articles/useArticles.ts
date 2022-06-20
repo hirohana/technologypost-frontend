@@ -32,14 +32,14 @@ const useArticles = (resourceUrl: string) => {
 
   const getArticles = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate(`/articles/search?keyword=${searchKeyword}&page=${searchPage}`);
+    navigate(`/articles/search?keyword=${searchKeyword}`);
   };
 
   const getArticlesBySearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate(`/articles/search?keyword=${searchKeyword}&page=${searchPage}`);
+    navigate(`/articles/search?keyword=${searchKeyword}`);
     const response = await fetch(
-      `${config.BACKEND_URL}/articles/search?keyword=${searchKeyword}&page=${searchPage}`
+      `${config.BACKEND_URL}/articles/search?keyword=${searchKeyword}`
     );
     const data = await response.json();
     setData(data);
