@@ -7,7 +7,7 @@ import Container from "@mui/material/Container";
 import { Avatar } from "@mui/material";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 
-import { ARTICLES_DATA } from "hooks/components/articles/useArticlesByCreatedAt";
+import { ARTICLES_DATA } from "components/pages/articles/Articles";
 import TimestampProcessing from "components/atoms/time/timestampProcessing/TimestampProcessing";
 import styles from "./ArticlesCards.module.scss";
 
