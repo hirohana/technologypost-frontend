@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import {
+  ArticlesSearch,
   Articles,
   Article,
   Contact,
@@ -12,7 +13,7 @@ const Router = () => {
   return (
     <Routes>
       <Route path="articles/article/:id" element={<Article />} />
-      <Route path="articles/search" element={<Articles />} />
+      <Route path="articles/search" element={<ArticlesSearch />} />
       <Route path="articles" element={<Articles />} />
       <Route path="contact" element={<Contact />} />
       <Route path="/login" element={<Login />} />

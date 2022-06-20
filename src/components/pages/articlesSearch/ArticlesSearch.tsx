@@ -1,19 +1,25 @@
-import { useArticles } from "hooks/components/articles/useArticles";
 import ArticlesCards from "components/organisms/ArticlesCards/ArticlesCards";
 import TextField from "components/molecules/textField/TextField";
 import { PaginationOutlined } from "components/molecules/pagination/PaginationOutlined";
-import styles from "./Articles.module.scss";
+import styles from "./ArticlesSearch.module.scss";
+import { useArticles } from "hooks/components/articles/useArticles";
 
-const Articles = () => {
-  const { data, setData, searchKeyword, setSearchKeyword, getArticles } =
-    useArticles("articles");
+const ArticlesSearch = () => {
+  const {
+    data,
+    setData,
+    searchKeyword,
+    setSearchKeyword,
+    getArticlesBySearch,
+  } = useArticles("articles/search");
+
   return (
     <main>
       <div className={styles.container}>
         <TextField
           values={searchKeyword}
           changeValues={setSearchKeyword}
-          onSubmitHandler={getArticles}
+          onSubmitHandler={getArticlesBySearch}
         />
         {data?.data ? (
           <>
@@ -29,4 +35,4 @@ const Articles = () => {
   );
 };
 
-export default Articles;
+export default ArticlesSearch;
