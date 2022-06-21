@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-import { ARTICLES_DATA_AND_PAGINATION } from "components/types/articles/articles";
+import {
+  ARTICLES_DATA_AND_PAGINATION,
+  ARTICLE_DATA,
+} from "types/articles/articles";
 import { config } from "config/applicationConfig";
 
 const useArticles = (resourceUrl: string) => {
@@ -21,7 +24,6 @@ const useArticles = (resourceUrl: string) => {
           `${config.BACKEND_URL}/${resourceUrl}?keyword=${keyword}&page=${page}`
         );
         const jsonData = await response.json();
-        console.log(jsonData);
         setData(jsonData);
       } catch (err) {
         console.error(err);
@@ -54,4 +56,25 @@ const useArticles = (resourceUrl: string) => {
   };
 };
 
-export { useArticles };
+const useArticlesById = () => {
+  const [data, setData] = useState<ARTICLE_DATA>();
+  const { id } = useParams();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await fetch(
+          `${config.BACKEND_URL}/articles/article/${id}`
+        );
+        const jsonData = await data.json();
+        setData(jsonData);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [id]);
+
+  return { data };
+};
+
+export { useArticles, useArticlesById };
