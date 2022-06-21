@@ -1,10 +1,13 @@
-import { useParams } from "react-router-dom";
-
+import { useArticlesById } from "hooks/components/articles/useArticles";
 import styles from "./Article.module.scss";
 
 const Article = () => {
-  const { id } = useParams();
-  return <div>Article: {id}</div>;
+  const { data } = useArticlesById();
+  return (
+    <main>
+      <div className={styles.container}>{data?.article_id}</div>
+    </main>
+  );
 };
 
 export default Article;
