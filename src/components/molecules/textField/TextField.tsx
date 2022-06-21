@@ -1,19 +1,18 @@
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
 
 import styles from "./TextField.module.scss";
 
-const TextField = () => {
-  const [searchWords, setSearchWords] = useState("");
+type PROPS = {
+  onSubmitHandler: any;
+  values: string;
+  changeValues: any;
+};
 
-  const searchInput = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(searchWords);
-  };
-
+const TextField = (props: PROPS) => {
+  const { onSubmitHandler, values, changeValues } = props;
   return (
     <>
-      <form onSubmit={(e) => searchInput(e)} className={styles.form}>
+      <form onSubmit={(e) => onSubmitHandler(e)} className={styles.form}>
         <div className={styles.container}>
           <SearchIcon className={styles.searchIcon} />
           <input
@@ -23,8 +22,8 @@ const TextField = () => {
             autoComplete="search"
             autoFocus
             className={styles.textField}
-            value={searchWords}
-            onChange={(e) => setSearchWords(e.target.value)}
+            value={values}
+            onChange={(e) => changeValues(e.target.value)}
             placeholder="検索入力"
           />
         </div>
