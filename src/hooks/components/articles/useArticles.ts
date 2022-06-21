@@ -7,7 +7,6 @@ import { config } from "config/applicationConfig";
 const useArticles = (resourceUrl: string) => {
   const [data, setData] = useState<ARTICLES_DATA_AND_PAGINATION>();
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [searchPage, setSearchPage] = useState(1);
   const { search } = useLocation();
   const navigate = useNavigate();
 
@@ -18,11 +17,11 @@ const useArticles = (resourceUrl: string) => {
         let keyword = query.get("keyword") || "";
         let page = Number(query.get("page")) || 1;
         setSearchKeyword(keyword);
-        setSearchPage(page);
         const response = await fetch(
           `${config.BACKEND_URL}/${resourceUrl}?keyword=${keyword}&page=${page}`
         );
         const jsonData = await response.json();
+        console.log(jsonData);
         setData(jsonData);
       } catch (err) {
         console.error(err);

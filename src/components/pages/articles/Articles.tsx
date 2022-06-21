@@ -1,7 +1,7 @@
 import { useArticles } from "hooks/components/articles/useArticles";
 import ArticlesCards from "components/organisms/ArticlesCards/ArticlesCards";
 import TextField from "components/molecules/textField/TextField";
-import { PaginationOutlined } from "components/molecules/pagination/PaginationOutlined";
+import { PaginationArticles } from "components/molecules/pagination/paginationArticles/PaginationArticles";
 import styles from "./Articles.module.scss";
 
 const Articles = () => {
@@ -18,7 +18,7 @@ const Articles = () => {
         {data?.data ? (
           <>
             <ArticlesCards data={data.data} />
-            <PaginationOutlined
+            <PaginationArticles
               maxPage={data.pagination.paginationMaxCount}
               setData={setData}
             />

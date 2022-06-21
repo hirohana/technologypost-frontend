@@ -1,6 +1,6 @@
 import ArticlesCards from "components/organisms/ArticlesCards/ArticlesCards";
 import TextField from "components/molecules/textField/TextField";
-import { PaginationOutlined } from "components/molecules/pagination/PaginationOutlined";
+import { PaginationArticlesSearch } from "components/molecules/pagination/paginationArticlesSearch/PaginationArticlesSearch";
 import styles from "./ArticlesSearch.module.scss";
 import { useArticles } from "hooks/components/articles/useArticles";
 
@@ -24,7 +24,7 @@ const ArticlesSearch = () => {
         {data?.data ? (
           <>
             <ArticlesCards data={data.data} />
-            <PaginationOutlined
+            <PaginationArticlesSearch
               maxPage={data.pagination.paginationMaxCount}
               setData={setData}
             />
