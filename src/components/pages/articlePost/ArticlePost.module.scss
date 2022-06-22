@@ -1,0 +1,41 @@
+@import "../../../styles/modules/valiables";
+
+.global_container {
+  @extend .border_style;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  background-color: $cWhite;
+}
+
+.container {
+  @extend .content-width;
+  height: 70vh;
+  margin-top: 50px;
+}
+
+.error_code {
+  color: $cRed;
+}
+
+.sendDisableBtn {
+  background-color: $cGray !important;
+  border-radius: 20px !important;
+  color: $cWhite !important;
+  cursor: pointer !important;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.sendBtn {
+  @extend .sendDisableBtn;
+  background-color: $cLightBlue !important;
+}
+
+.formControl {
+  min-width: 200px !important;
+  margin-top: 20px !important;
+  margin-bottom: 20px !important;
+}

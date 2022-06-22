@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 import { login } from "reducks/user/actionCreator";
 import sweetAlertOfError from "utils/sweetAlert/sweetAlertOfError";
-import sweetAlertOfSuccess from "utils/sweetAlert/sweetAlertofSuccess";
+import sweetAlertOfSuccess from "utils/sweetAlert/sweetAlertOfSuccess";
 
 const useAuthGithub = () => {
   const [message, setMessage] = useState({});

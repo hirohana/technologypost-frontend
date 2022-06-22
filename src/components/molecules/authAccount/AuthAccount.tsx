@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 
 import { login } from "reducks/user/actionCreator";
-import sweetAlertOfSuccess from "utils/sweetAlert/sweetAlertofSuccess";
+import sweetAlertOfSuccess from "utils/sweetAlert/sweetAlertOfSuccess";
 
 const AuthAccount = () => {
   const emailRef = useRef<HTMLInputElement | null>(null);

@@ -18,7 +18,7 @@ type FormData = {
   inquiry: string;
 };
 
-const ContactOfReactHookForm = () => {
+const Contact = () => {
   const {
     register,
     handleSubmit,
@@ -169,4 +169,4 @@ const ContactOfReactHookForm = () => {
   );
 };
 
-export default ContactOfReactHookForm;
+export default Contact;

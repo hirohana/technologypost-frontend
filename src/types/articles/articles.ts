@@ -1,4 +1,4 @@
-export type ARTICLES_DATA = {
+type ARTICLES_DATA = {
   username: string;
   user_photo_url: string;
   user_id: number;
@@ -12,7 +12,15 @@ export type ARTICLES_DATA = {
   comment_created_at: null | string;
 }[];
 
-export type ARTICLE_DATA = {
+type ARTICLES_DATA_AND_PAGINATION = {
+  data: ARTICLES_DATA;
+  pagination: {
+    totalPages: number;
+    paginationMaxCount: number;
+  };
+};
+
+type ARTICLE_DATA = {
   data: {
     article_id: number;
     article_photo_url: null | string;
@@ -32,10 +40,23 @@ export type ARTICLE_DATA = {
   }[];
 };
 
-export type ARTICLES_DATA_AND_PAGINATION = {
-  data: ARTICLES_DATA;
-  pagination: {
-    totalPages: number;
-    paginationMaxCount: number;
+type DRAFT_ARTICLES_DATA = {
+  data: {
+    article_id: number;
+    article_photo_url: null | string;
+    category_name: null | string;
+    created_at: string;
+    letter_body: string | null;
+    title: string;
+    user_id: number;
+    user_photo_url: string;
+    username: string;
   };
+};
+
+export type {
+  ARTICLES_DATA,
+  ARTICLES_DATA_AND_PAGINATION,
+  ARTICLE_DATA,
+  DRAFT_ARTICLES_DATA,
 };

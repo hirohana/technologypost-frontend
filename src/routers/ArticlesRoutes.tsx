@@ -6,6 +6,8 @@ import {
   ArticleComplete,
   ArticleConfirm,
   ArticlePost,
+  Error404,
+  UserArticles,
 } from "components/pages";
 
 const ArticlesRoutes = () => {
@@ -15,8 +17,10 @@ const ArticlesRoutes = () => {
       <Route path="/complete" element={<ArticleComplete />} />
       <Route path="/confirm" element={<ArticleConfirm />} />
       <Route path="/post" element={<ArticlePost />} />
+      <Route path="userlist" element={<UserArticles />} />
       <Route path="/search" element={<ArticlesSearch />} />
       <Route path="/" element={<Articles />} />
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 };

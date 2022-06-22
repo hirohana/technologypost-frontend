@@ -5,9 +5,11 @@ import ArticlePost from "./articlePost/ArticlePost";
 import Articles from "./articles/Articles";
 import ArticlesSearch from "./articlesSearch/ArticlesSearch";
 import Contact from "./contact/Contact";
-import Error from "./error/Error";
+import Error403 from "./error/error403/Error403";
+import Error404 from "./error/error404/Error404";
 import Home from "./home/Home";
 import Login from "./login/Login";
+import UserArticles from "./userArticles/UserArticles";
 
 export {
   ArticleComplete,
@@ -17,7 +19,9 @@ export {
   Articles,
   Article,
   Contact,
-  Error,
+  Error403,
+  Error404,
   Login,
   Home,
+  UserArticles,
 };
