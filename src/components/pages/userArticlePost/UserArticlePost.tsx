@@ -31,16 +31,16 @@ type FormData = {
 
 const ArticlesPost = () => {
   const [draftBlogData, setDraftBlogData] = useState<DRAFT_ARTICLES_DATA>({
-    category: "",
-    createName: "",
-    draftState: true,
-    fileNames: [],
-    imageDbUrls: [],
-    likes: [],
-    publicBlogId: "",
-    timestamp: null,
-    title: "",
-    textArea: "",
+    data: {
+      article_photo_url: "",
+      category_name: "",
+      created_at: "",
+      letter_body: "",
+      title: "",
+      user_id: null,
+      user_photo_url: "",
+      username: "",
+    },
   });
   const { image, setImage, changeImageHandler } = useChangeImage();
   const {
@@ -60,12 +60,12 @@ const ArticlesPost = () => {
       if (!willDelete) {
         return;
       }
-      if (draftBlogData.imageDbUrls.length === 0) {
-        sweetAlertOfError(
-          `下書き保存の際は画像を1枚以上アップロードしてください。`
-        );
-        return;
-      }
+      // if (draftBlogData.imageDbUrls.length === 0) {
+      //   sweetAlertOfError(
+      //     `下書き保存の際は画像を1枚以上アップロードしてください。`
+      //   );
+      //   return;
+      // }
 
       // try {
       //   useDraftBlogOverwrite(
@@ -85,13 +85,9 @@ const ArticlesPost = () => {
     });
   };
 
-  // history.pushを使用してこのコンポーネントに遷移されなかった場合、resultは存在しないので
-  //   エラーが発生する。その為オプショナルチェイニングを使用してresult?.idがfallsyな場合は
-  //   アクセス権限がないと表示に飛ばすことで、エラー対策とした。
-  //   ※ user.displayNameとurlのユーザー名が一致する場合には編集できるようにコードを修正したい 2021/10/16
   return (
     <>
-      {draftBlogData.draftState ? (
+      {/* {draftBlogData.draftState ? (
         <div className={styles.container}>
           <div className={styles.container_box}>
             <main>
@@ -212,9 +208,9 @@ const ArticlesPost = () => {
                   <div className={styles.create_date}>
                     <div className={styles.timestamp}>
                       作成日 &nbsp;
-                      {/* <TimestampProcessing
+                      <TimestampProcessing
                         timestamp={draftBlogData.timestamp}
-                      /> */}
+                      />
                     </div>
                     作成者 &nbsp;{draftBlogData.createName}
                   </div>
@@ -238,7 +234,7 @@ const ArticlesPost = () => {
         </div>
       ) : (
         <Error403 />
-      )}
+      )} */}
     </>
   );
 };
