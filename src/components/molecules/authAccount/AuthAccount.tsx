@@ -27,14 +27,13 @@ const AuthAccount = () => {
     const { message, user } = await response.json();
     dispatch(
       login({
-        uid: user[0].id,
+        uid: user[0].userId,
         displayName: user[0].displayName,
         photoUrl: user[0].photoUrl,
       })
     );
     sweetAlertOfSuccess(message);
   };
-
   return (
     <form onSubmit={(e) => authAccountHandler(e)}>
       <input

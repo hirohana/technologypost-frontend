@@ -1,0 +1,42 @@
+@import "/src/styles/modules/valiables";
+
+.container {
+  @extend .content-width;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  background-color: $cLightBlue !important;
+  border-radius: 9999px !important;
+  color: $cWhite !important;
+  margin-bottom: 10px !important;
+  border: none !important;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+}
+
+.user_title {
+  font-size: 1em !important;
+}
+
+@media (min-width: 600px) {
+  .button {
+    display: inline-block !important;
+    padding-left: 100px !important;
+    padding-right: 100px !important;
+    font-size: 1.1em !important;
+  }
+
+  .user_title {
+    font-size: 1.2em !important;
+  }
+}

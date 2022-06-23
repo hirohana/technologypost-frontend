@@ -27,6 +27,7 @@ const useAuthGithub = () => {
           photoUrl: data.avatar_url,
         })
       );
+      resolve();
     });
   };
 
@@ -50,6 +51,7 @@ const useAuthGithub = () => {
         cook += `; secure`;
       }
       document.cookie = cook;
+      resolve();
     });
   };
 
