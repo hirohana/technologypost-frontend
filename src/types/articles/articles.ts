@@ -40,19 +40,35 @@ type ARTICLE_DATA = {
   }[];
 };
 
-// ※article_idはデータベース(draftArticles)に対し、データ挿入時に自動で付与されるので
+// 下書き記事をデータベース(draft_articles)から取得する際に使用する型。UserArticleListページで使用。
+// ※article_idはデータベース(draft_articles)に対し、データ挿入時に自動で付与されるので
 //   JavaScript側では定義する必要はない？
 type DRAFT_ARTICLES_DATA = {
   data: {
-    // article_id: number;
-    article_photo_url: string | null;
-    category_name: string | null;
-    created_at: string | null;
+    user_id: number;
+    username: string;
+    user_photo_url: string;
+    article_id: number;
+    title: string;
     letter_body: string | null;
-    title: string | null;
-    user_id: number | null;
-    user_photo_url: string | null;
-    username: string | null;
+    article_photo_url: string | null;
+    created_at: string;
+  };
+};
+
+// 公開記事をデータベース(articles)から取得する際に使用する型。UserArticleListページで使用。
+// ※article_idはデータベース(articles)に対し、データ挿入時に自動で付与されるので
+//   JavaScript側では定義する必要はない？
+type PUBLIC_ARTICLES_DATA = {
+  data: {
+    user_id: number;
+    username: string;
+    user_photo_url: string;
+    article_id: number;
+    title: string;
+    letter_body: string | null;
+    article_photo_url: string | null;
+    created_at: string;
   };
 };
 
@@ -60,5 +76,6 @@ export type {
   ARTICLES_DATA,
   ARTICLES_DATA_AND_PAGINATION,
   ARTICLE_DATA,
+  PUBLIC_ARTICLES_DATA,
   DRAFT_ARTICLES_DATA,
 };

@@ -30,18 +30,18 @@ type FormData = {
 };
 
 const ArticlesPost = () => {
-  const [draftBlogData, setDraftBlogData] = useState<DRAFT_ARTICLES_DATA>({
-    data: {
-      article_photo_url: "",
-      category_name: "",
-      created_at: "",
-      letter_body: "",
-      title: "",
-      user_id: null,
-      user_photo_url: "",
-      username: "",
-    },
-  });
+  // const [draftBlogData, setDraftBlogData] = useState<DRAFT_ARTICLES_DATA>({
+  //   data: {
+  //     article_photo_url: "",
+  //     category_name: "",
+  //     created_at: "",
+  //     letter_body: "",
+  //     title: "",
+  //     user_id: null,
+  //     user_photo_url: "",
+  //     username: "",
+  //   },
+  // });
   const { image, setImage, changeImageHandler } = useChangeImage();
   const {
     register,

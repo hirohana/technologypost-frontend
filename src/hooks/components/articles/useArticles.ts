@@ -6,6 +6,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   ARTICLES_DATA_AND_PAGINATION,
   ARTICLE_DATA,
+  PUBLIC_ARTICLES_DATA,
+  DRAFT_ARTICLES_DATA,
 } from "types/articles/articles";
 import { config } from "config/applicationConfig";
 import { useSelector } from "react-redux";
@@ -94,17 +96,46 @@ const useArticlesById = () => {
   return { data };
 };
 
-export { useArticles, useArticlesById };
-
-// UserArticlesページへ飛んだ際に、ユーザーの記事一覧をDBから取得するフック。useEffectを使用。
+/**
+ * UserArticlesページへ飛んだ際に、該当ユーザーの公開記事一覧を
+ * DB(articles)から取得するフック。
+ * useEffectを使用。
+ */
 const useGetArticlesOfUser = () => {
+  const [data, setData] = useState<PUBLIC_ARTICLES_DATA>();
   const { user } = useSelector(selectUser);
   useEffect(() => {
     (async () => {
-      const data = await fetch(
-        `${config.BACKEND_URL}/articles/user?userId=${user.uid}`
+      const response = await fetch(
+        `${config.BACKEND_URL}/articles/user/public_articles?userId=${user.uid}`
       );
-      console.log(data);
+      const data = await response.json();
+      setData(data);
     })();
-  });
+  }, [user.uid]);
+
+  return { data };
 };
+
+/**
+ * 下書き記事データベース(draft_articles)からユーザー記事を取得する関数。
+ * UserArticleListページで使用。
+ */
+const useGetDraftArticles = () => {
+  const { user } = useSelector(selectUser);
+  const getDraftArticles = async () => {
+    const response = await fetch(
+      `${config.BACKEND_URL}/articles/user/draft_articles?userId=${user.uid}&page=${}`
+    );
+  };
+};
+
+/**
+ * 公開記事データベース(articles)からユーザー記事を取得する関数。
+ * UserArticleListページで使用。
+ */
+const getPublicArticles = () => {
+  //
+};
+
+export { useArticles, useArticlesById, useGetArticlesOfUser };
