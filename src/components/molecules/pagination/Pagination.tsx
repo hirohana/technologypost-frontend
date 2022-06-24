@@ -18,7 +18,7 @@ const Pagination = (props: PROPS) => {
   const queryKeyword = query.get("keyword") || "";
 
   const changeCurrentPage = (page: number) => {
-    navigate(`/${url}/?keyword=${queryKeyword}&page=${page}`);
+    navigate(`/${url}?keyword=${queryKeyword}&page=${page}`);
   };
 
   return (

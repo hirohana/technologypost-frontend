@@ -103,7 +103,10 @@ const useUserArticleList = () => {
   const [data, setData] =
     useState<ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST>();
   const { user } = useSelector(selectUser);
-
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const page = query.get("page");
+  console.log(page);
   /**
    * UserArticleListページへ飛んだ際に、該当ユーザーの記事一覧(下書きも含めてすべて)を
    * DB(articles)から取得するフック。
@@ -112,11 +115,10 @@ const useUserArticleList = () => {
     (async () => {
       try {
         const response = await fetch(
-          `${config.BACKEND_URL}/articles/user/article_list?userId=${user.uid}`
+          `${config.BACKEND_URL}/articles/user/article_list?userId=${user.uid}&page=${page}`
         );
         const jsonData = await response.json();
         setData(jsonData);
-        console.log(jsonData);
       } catch (err) {
         console.error(err);
       }
