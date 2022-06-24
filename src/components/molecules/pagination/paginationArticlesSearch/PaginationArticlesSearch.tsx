@@ -30,7 +30,7 @@ const PaginationArticlesSearch = (props: PROPS) => {
           hideNextButton={true}
           hidePrevButton={true}
           onChange={(event, page) =>
-            changeCurrentSearchPage(event, page, queryKeyword, setData)
+            changeCurrentSearchPage(event, page, queryKeyword)
           }
         />
       </Stack>

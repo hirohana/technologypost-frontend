@@ -9,13 +9,12 @@ import Error403 from "../error/error403/Error403";
 import styles from "./UserArticleList.module.scss";
 import UserArticleTitleList from "components/organisms/userArticleTitleList/UserArticleTitleList";
 import { UserArticlesInformation } from "components/molecules/userArticleInformation/UserArticleInformation";
+import { PaginationArticles } from "components/molecules/pagination/paginationArticles/PaginationArticles";
 
 const UserArticleList = () => {
-  const [publicState, setPublicState] = useState(true);
   const { user } = useSelector(selectUser);
   const { username } = useParams();
-  const { data, getDraftArticles, getPublicArticles } =
-    useUserArticleList(setPublicState);
+  const { data } = useUserArticleList();
 
   return (
     <DefaultLayout>
@@ -23,12 +22,13 @@ const UserArticleList = () => {
         {user.displayName === username ? (
           <div className={styles.container}>
             <UserArticlesInformation />
-            {publicState ? (
-              <p onClick={getDraftArticles}>下書き記事一覧</p>
-            ) : (
-              <p onClick={getPublicArticles}>公開記事一覧</p>
-            )}
             {data && <UserArticleTitleList articlesData={data.data} />}
+            {data?.pagination.paginationMaxCount && (
+              <PaginationArticles
+                maxPage={data.pagination.paginationMaxCount}
+                setData
+              />
+            )}
           </div>
         ) : (
           <Error403 />

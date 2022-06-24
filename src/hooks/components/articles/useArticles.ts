@@ -100,25 +100,24 @@ const useArticlesById = () => {
 };
 
 // UserArticleListページで使用するフック
-const useUserArticleList = (
-  setPublicState: React.Dispatch<React.SetStateAction<boolean>>
-) => {
+const useUserArticleList = () => {
   const [data, setData] =
     useState<ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST>();
   const { user } = useSelector(selectUser);
 
   /**
-   * UserArticleListページへ飛んだ際に、該当ユーザーの公開記事一覧を
+   * UserArticleListページへ飛んだ際に、該当ユーザーの記事一覧(下書きも含めてすべて)を
    * DB(articles)から取得するフック。
    */
   useEffect(() => {
     (async () => {
       try {
         const response = await fetch(
-          `${config.BACKEND_URL}/articles/user/public_articles?userId=${user.uid}`
+          `${config.BACKEND_URL}/articles/user/article_list?userId=${user.uid}`
         );
         const jsonData = await response.json();
         setData(jsonData);
+        console.log(jsonData);
       } catch (err) {
         console.error(err);
       }
@@ -126,131 +125,22 @@ const useUserArticleList = (
   }, [user.uid]);
 
   /**
-   * 下書き記事データベース(draft_articles)からユーザー記事を取得し、
+   * 記事データベース(articles)から公開されているユーザー記事を取得し、
    * 引数で受け取ったsetPublicState関数の真偽値を反転する関数。
    */
-  const getDraftArticles = async () => {
-    try {
-      const response = await fetch(
-        `${config.BACKEND_URL}/articles/user/draft_articles?userId=${user.uid}&page=${user.uid}`
-      );
-      const jsonData = await response.json();
-      setData(jsonData);
-      setPublicState((prev) => !prev);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const getPublicArticles = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `${config.BACKEND_URL}/articles/user/public?userId=${user.uid}&page=${user.uid}`
+  //     );
+  //     const jsonData = await response.json();
+  //     setData(jsonData);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
-  /**
-   * 公開記事データベース(articles)からユーザー記事を取得し、
-   * 引数で受け取ったsetPublicState関数の真偽値を反転する関数。
-   */
-  const getPublicArticles = async () => {
-    try {
-      const response = await fetch(
-        `${config.BACKEND_URL}/articles/user/public_articles?userId=${user.uid}&page=${user.uid}`
-      );
-      const jsonData = await response.json();
-      setData(jsonData);
-      setPublicState((prev) => !prev);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  return { data, getDraftArticles, getPublicArticles };
+  return { data };
 };
 
 export { useArticles, useArticlesById, useUserArticleList };
-
-// /**
-//  * UserArticleListページへ飛んだ際に、該当ユーザーの公開記事一覧を
-//  * DB(articles)から取得するフック。
-//  * useEffectを使用。
-//  */
-// const useGetArticlesOfUser = () => {
-//   const [data, setData] =
-//     useState<ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST>();
-//   const { user } = useSelector(selectUser);
-//   useEffect(() => {
-//     (async () => {
-//       try {
-//         const response = await fetch(
-//           `${config.BACKEND_URL}/articles/user/public_articles?userId=${user.uid}`
-//         );
-//         const jsonData = await response.json();
-//         setData(jsonData);
-//         console.log(jsonData);
-//       } catch (err) {
-//         console.error(err);
-//       }
-//     })();
-//   }, [user.uid]);
-
-//   return { data };
-// };
-
-// /**
-//  * 下書き記事データベース(draft_articles)からユーザー記事を取得し、
-//  * 引数で受け取ったsetPublicState関数の真偽値を反転する関数。
-//  * UserArticleListページで使用。
-//  */
-// const useGetDraftArticles = (
-//   setPublicState: React.Dispatch<React.SetStateAction<boolean>>
-// ) => {
-//   const [data, setData] =
-//     useState<ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST>();
-//   const { user } = useSelector(selectUser);
-//   const getDraftArticles = async () => {
-//     try {
-//       const response = await fetch(
-//         `${config.BACKEND_URL}/articles/user/draft_articles?userId=${user.uid}&page=${user.uid}`
-//       );
-//       const jsonData = await response.json();
-//       setData(jsonData);
-//       setPublicState((prev) => !prev);
-//       console.log(jsonData);
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
-//   return { getDraftArticles, data };
-// };
-
-// /**
-//  * 公開記事データベース(articles)からユーザー記事を取得し、
-//  * 引数で受け取ったsetPublicState関数の真偽値を反転する関数。
-//  * UserArticleListページで使用。
-//  */
-// const useGetPublicArticles = (
-//   setPublicState: React.Dispatch<React.SetStateAction<boolean>>
-// ) => {
-//   const [data, setData] =
-//     useState<ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST>();
-//   const { user } = useSelector(selectUser);
-//   const getPublicArticles = async () => {
-//     try {
-//       const response = await fetch(
-//         `${config.BACKEND_URL}/articles/user/public_articles?userId=${user.uid}&page=${user.uid}`
-//       );
-//       const jsonData = await response.json();
-//       setData(jsonData);
-//       setPublicState((prev) => !prev);
-//       console.log(jsonData);
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
-//   return { getPublicArticles, data };
-// };
-
-// export {
-//   useArticles,
-//   useArticlesById,
-//   useGetArticlesOfUser,
-//   useGetDraftArticles,
-//   useGetPublicArticles,
-// };

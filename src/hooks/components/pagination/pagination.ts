@@ -1,11 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { selectUser } from "reducks/user/selectUser";
 import { config } from "config/applicationConfig";
 
 const usePagination = () => {
   const navigate = useNavigate();
-
+  const { user } = useSelector(selectUser);
   const changeCurrentPage = async (
     event: React.ChangeEvent<unknown>,
     page: number,
@@ -26,19 +28,21 @@ const usePagination = () => {
   const changeCurrentSearchPage = async (
     event: React.ChangeEvent<unknown>,
     page: number,
-    queryKeyword: string,
-    setData: any
+    queryKeyword: string
   ) => {
     event.preventDefault();
-
-    try {
-      navigate(`/articles/search?keyword=${queryKeyword}&page=${page}`);
-    } catch (err) {
-      console.error(err);
-    }
+    navigate(`/articles/search?keyword=${queryKeyword}&page=${page}`);
   };
 
-  return { changeCurrentPage, changeCurrentSearchPage };
+  const changeUserCurrentPage = async (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    event.preventDefault();
+    navigate(`/articles/?userId=${user.uid}&page=${page}`);
+  };
+
+  return { changeCurrentPage, changeCurrentSearchPage, changeUserCurrentPage };
 };
 
 export { usePagination };

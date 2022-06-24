@@ -38,7 +38,7 @@ const UserArticleTitleList = (props: ARTICLES_DATA) => {
     }
     try {
       const response = await fetch(
-        `${config.BACKEND_URL}/articles/user/public_articles/delete?id=${id}`,
+        `${config.BACKEND_URL}/articles/user/article_list/delete?id=${id}`,
         {
           method: "DELETE",
         }
