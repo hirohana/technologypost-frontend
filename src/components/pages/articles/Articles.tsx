@@ -4,14 +4,14 @@ import DefaultLayout from "components/templates/defaultLayout/DefaultLayout";
 import { selectUser } from "reducks/user/selectUser";
 import { useArticles } from "hooks/components/articles/useArticles";
 import { trimString } from "utils/trimString/trimString";
-import ArticlesCards from "components/organisms/ArticlesCards/ArticlesCards";
+import { Cards } from "components/organisms/cards/Cards";
 import TextField from "components/molecules/textField/TextField";
 import { Pagination } from "components/molecules/pagination/Pagination";
 import styles from "./Articles.module.scss";
 import { Link } from "react-router-dom";
 
 const Articles = () => {
-  const { data, setData, searchKeyword, setSearchKeyword, getArticles } =
+  const { data, searchKeyword, setSearchKeyword, getArticles } =
     useArticles("articles");
   const { user } = useSelector(selectUser);
   const trimUserName = trimString(user.displayName);
@@ -35,7 +35,7 @@ const Articles = () => {
           />
           {data?.data ? (
             <>
-              <ArticlesCards data={data.data} />
+              <Cards data={data.data} />
               <Pagination
                 maxPage={data.pagination.paginationMaxCount}
                 url="articles"

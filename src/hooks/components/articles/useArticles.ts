@@ -65,7 +65,6 @@ const useArticles = (resourceUrl: string) => {
 
   return {
     data,
-    setData,
     searchKeyword,
     setSearchKeyword,
     getArticles,
