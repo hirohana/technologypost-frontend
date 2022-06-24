@@ -21,7 +21,6 @@ import sweetAlertOfError from "utils/sweetAlert/sweetAlertOfError";
 import sweetAlertOfSuccess from "utils/sweetAlert/sweetAlertOfSuccess";
 import Error403 from "components/pages/error/error403/Error403";
 import TimestampProcessing from "components/atoms/time/timestampProcessing/TimestampProcessing";
-import { DRAFT_ARTICLES_DATA } from "types/articles/articles";
 
 type FormData = {
   title: string;

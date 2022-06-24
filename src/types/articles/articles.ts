@@ -1,3 +1,15 @@
+type ARTICLE_DATA = {
+  article_id: number;
+  article_photo_url: string | null;
+  category_name: string | null;
+  created_at: string;
+  letter_body: string;
+  title: string;
+  user_id: number;
+  user_photo_url: string;
+  username: string;
+}[];
+
 type ARTICLES_DATA = {
   username: string;
   user_photo_url: string;
@@ -20,62 +32,31 @@ type ARTICLES_DATA_AND_PAGINATION = {
   };
 };
 
-type ARTICLE_DATA = {
-  data: {
-    article_id: number;
-    article_photo_url: string | null;
-    category_name: string | null;
-    created_at: string;
-    letter_body: string;
-    title: string;
-    user_id: number;
-    user_photo_url: string;
-    username: string;
-  }[];
-  comments: {
-    user_comment: string | null;
-    comment_created_at: string | null;
-    username: string;
-    user_photo_url: string;
-  }[];
-};
+// 公開記事、下書き記事をデータベース(articles,draft_articles)から取得する際に使用する型。
+// UserArticleListページで使用。
+type ARTICLES_DATA_FOR_USER_ARTICLE_LIST = {
+  user_id: number;
+  username: string;
+  user_photo_url: string;
+  article_id: number;
+  title: string;
+  letter_body: string | null;
+  article_photo_url: string | null;
+  created_at: string;
+}[];
 
-// 下書き記事をデータベース(draft_articles)から取得する際に使用する型。UserArticleListページで使用。
-// ※article_idはデータベース(draft_articles)に対し、データ挿入時に自動で付与されるので
-//   JavaScript側では定義する必要はない？
-type DRAFT_ARTICLES_DATA = {
-  data: {
-    user_id: number;
-    username: string;
-    user_photo_url: string;
-    article_id: number;
-    title: string;
-    letter_body: string | null;
-    article_photo_url: string | null;
-    created_at: string;
-  };
-};
-
-// 公開記事をデータベース(articles)から取得する際に使用する型。UserArticleListページで使用。
-// ※article_idはデータベース(articles)に対し、データ挿入時に自動で付与されるので
-//   JavaScript側では定義する必要はない？
-type PUBLIC_ARTICLES_DATA = {
-  data: {
-    user_id: number;
-    username: string;
-    user_photo_url: string;
-    article_id: number;
-    title: string;
-    letter_body: string | null;
-    article_photo_url: string | null;
-    created_at: string;
+type ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST = {
+  data: ARTICLES_DATA_FOR_USER_ARTICLE_LIST;
+  pagination: {
+    totalPages: number;
+    paginationMaxCount: number;
   };
 };
 
 export type {
+  ARTICLE_DATA,
   ARTICLES_DATA,
   ARTICLES_DATA_AND_PAGINATION,
-  ARTICLE_DATA,
-  PUBLIC_ARTICLES_DATA,
-  DRAFT_ARTICLES_DATA,
+  ARTICLES_DATA_FOR_USER_ARTICLE_LIST,
+  ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST,
 };

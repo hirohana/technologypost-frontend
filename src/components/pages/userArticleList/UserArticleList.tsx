@@ -1,19 +1,21 @@
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { selectUser } from "reducks/user/selectUser";
-import { useGetArticlesOfUser } from "hooks/components/articles/useArticles";
+import { useUserArticleList } from "hooks/components/articles/useArticles";
 import DefaultLayout from "components/templates/defaultLayout/DefaultLayout";
 import Error403 from "../error/error403/Error403";
 import styles from "./UserArticleList.module.scss";
+import UserArticleTitleList from "components/organisms/userArticleTitleList/UserArticleTitleList";
 import { UserArticlesInformation } from "components/molecules/userArticleInformation/UserArticleInformation";
-import { useState } from "react";
 
 const UserArticleList = () => {
   const [publicState, setPublicState] = useState(true);
   const { user } = useSelector(selectUser);
   const { username } = useParams();
-  const { data } = useGetArticlesOfUser();
+  const { data, getDraftArticles, getPublicArticles } =
+    useUserArticleList(setPublicState);
 
   return (
     <DefaultLayout>
@@ -26,6 +28,7 @@ const UserArticleList = () => {
             ) : (
               <p onClick={getPublicArticles}>公開記事一覧</p>
             )}
+            {data && <UserArticleTitleList articlesData={data.data} />}
           </div>
         ) : (
           <Error403 />

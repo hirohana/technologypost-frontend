@@ -9,7 +9,6 @@ import AsideScrollTop from "components/atoms/button/asideScrollTop/AsideScrollTo
 
 const UserArticlesInformation = () => {
   const { user } = useSelector(selectUser);
-  console.log(user);
   return (
     <div className={styles.container}>
       <Link to={`/articles/user/${user.displayName}/article_post`}>

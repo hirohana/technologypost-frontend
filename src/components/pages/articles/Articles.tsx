@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import DefaultLayout from "components/templates/defaultLayout/DefaultLayout";
 import { selectUser } from "reducks/user/selectUser";
 import { useArticles } from "hooks/components/articles/useArticles";
-import { trimString } from "utils/trimUserName/trimUserName";
+import { trimString } from "utils/trimString/trimString";
 import ArticlesCards from "components/organisms/ArticlesCards/ArticlesCards";
 import TextField from "components/molecules/textField/TextField";
 import { PaginationArticles } from "components/molecules/pagination/paginationArticles/PaginationArticles";
