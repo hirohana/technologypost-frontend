@@ -6,7 +6,7 @@ import { useArticles } from "hooks/components/articles/useArticles";
 import { trimString } from "utils/trimString/trimString";
 import ArticlesCards from "components/organisms/ArticlesCards/ArticlesCards";
 import TextField from "components/molecules/textField/TextField";
-import { PaginationArticles } from "components/molecules/pagination/paginationArticles/PaginationArticles";
+import { Pagination } from "components/molecules/pagination/Pagination";
 import styles from "./Articles.module.scss";
 import { Link } from "react-router-dom";
 
@@ -36,9 +36,9 @@ const Articles = () => {
           {data?.data ? (
             <>
               <ArticlesCards data={data.data} />
-              <PaginationArticles
+              <Pagination
                 maxPage={data.pagination.paginationMaxCount}
-                setData={setData}
+                url="articles"
               />
             </>
           ) : null}

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -9,7 +8,7 @@ import Error403 from "../error/error403/Error403";
 import styles from "./UserArticleList.module.scss";
 import UserArticleTitleList from "components/organisms/userArticleTitleList/UserArticleTitleList";
 import { UserArticlesInformation } from "components/molecules/userArticleInformation/UserArticleInformation";
-import { PaginationArticles } from "components/molecules/pagination/paginationArticles/PaginationArticles";
+import { Pagination } from "components/molecules/pagination/Pagination";
 
 const UserArticleList = () => {
   const { user } = useSelector(selectUser);
@@ -24,9 +23,9 @@ const UserArticleList = () => {
             <UserArticlesInformation />
             {data && <UserArticleTitleList articlesData={data.data} />}
             {data?.pagination.paginationMaxCount && (
-              <PaginationArticles
+              <Pagination
                 maxPage={data.pagination.paginationMaxCount}
-                setData
+                url={`/articles/${username}/article_list`}
               />
             )}
           </div>

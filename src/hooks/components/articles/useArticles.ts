@@ -124,22 +124,6 @@ const useUserArticleList = () => {
     })();
   }, [user.uid]);
 
-  /**
-   * 記事データベース(articles)から公開されているユーザー記事を取得し、
-   * 引数で受け取ったsetPublicState関数の真偽値を反転する関数。
-   */
-  // const getPublicArticles = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `${config.BACKEND_URL}/articles/user/public?userId=${user.uid}&page=${user.uid}`
-  //     );
-  //     const jsonData = await response.json();
-  //     setData(jsonData);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
   return { data };
 };
 
