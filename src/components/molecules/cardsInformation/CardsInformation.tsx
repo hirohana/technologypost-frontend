@@ -3,11 +3,10 @@ import { useSelector } from "react-redux";
 import { AppBar, Toolbar, Typography } from "@mui/material";
 
 import { selectUser } from "reducks/user/selectUser";
-import styles from "./UserArticleInformation.module.scss";
+import styles from "./CardsInformation.module.scss";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import AsideScrollTop from "components/atoms/button/asideScrollTop/AsideScrollTop";
 
-const UserArticlesInformation = () => {
+const CardsInformation = () => {
   const { user } = useSelector(selectUser);
   return (
     <div className={styles.container}>
@@ -27,9 +26,8 @@ const UserArticlesInformation = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <AsideScrollTop />
     </div>
   );
 };
 
-export { UserArticlesInformation };
+export { CardsInformation };

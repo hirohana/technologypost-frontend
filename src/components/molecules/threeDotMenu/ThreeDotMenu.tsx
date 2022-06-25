@@ -1,45 +1,18 @@
 import { useState } from "react";
-
 import { Menu, MenuItem } from "@mui/material";
-
 import ThreeDot from "components/atoms/button/threeDot/ThreeDot";
-// import { userBlogTitlesMenuItem } from "./menuItem";
 
-// type PROPS = {
-//   blankRemovalName: string;
-//   category: string;
-//   fileNames: string[];
-//   draftBlogId: string;
-//   imageDbUrls: string[];
-//   likes: string[];
-//   mainWorld: string;
-//   publicBlogId: string;
-//   textArea: string;
-//   title: string;
-//   user: USER;
-// };
+type menuLists = {
+  title: string;
+  onClick: any;
+}[];
 
-const ThreeDotMenu = () => {
-  // const {
-  //   blankRemovalName,
-  //   category,
-  //   fileNames,
-  //   draftBlogId,
-  //   imageDbUrls,
-  //   likes,
-  //   mainWorld,
-  //   publicBlogId,
-  //   textArea,
-  //   title,
-  //   user,
-  // } = props;
-
+const ThreeDotMenu = (props: { menuLists: menuLists; id: number }) => {
+  const { menuLists, id } = props;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -53,38 +26,11 @@ const ThreeDotMenu = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {/* {userBlogTitlesMenuItem.map((item) => */}
-        item.title === "日記を公開する" ? (
-        <MenuItem
-        // onClick={() =>
-        //   item.onClick(
-        //     blankRemovalName,
-        //     category,
-        //     fileNames,
-        //     draftBlogId,
-        //     imageDbUrls,
-        //     likes,
-        //     mainWorld,
-        //     publicBlogId,
-        //     textArea,
-        //     title,
-        //     user
-        //   )
-
-        // key={item.title}
-        >
-          {/* {item.title} */}
-        </MenuItem>
-        ) : (
-        <MenuItem
-        // onClick={() =>
-        //   item.onClick(blankRemovalName, draftBlogId, publicBlogId)
-        // }
-        // key={item.title}
-        >
-          {/* {item.title} */}
-        </MenuItem>
-        ){/* )} */}
+        {menuLists.map((list) => (
+          <MenuItem key={list.title} onClick={() => list.onClick(id)}>
+            {list.title}
+          </MenuItem>
+        ))}
       </Menu>
     </div>
   );

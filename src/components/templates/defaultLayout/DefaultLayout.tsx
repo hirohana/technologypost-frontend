@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { useGetCookieToRedux } from "hooks/components/layout/useGetCookieToRedux";
+import { useGetCookieToReduxStore } from "hooks/components/authAccount/useAuthAccount";
 import styles from "./DefaultLayout.module.scss";
 
 type PROPS = {
@@ -9,7 +9,7 @@ type PROPS = {
 
 const DefaultLayout = (props: PROPS) => {
   const { children } = props;
-  useGetCookieToRedux();
+  useGetCookieToReduxStore();
   return (
     <>
       <header className={styles.header}>Header</header>

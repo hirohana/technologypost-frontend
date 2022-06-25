@@ -2,7 +2,7 @@
 import { memo } from "react";
 import { useInView } from "react-intersection-observer";
 
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import styles from "./AsideScrollTop.module.scss";
 
 const AsideScrollTop = memo(() => {
@@ -10,10 +10,10 @@ const AsideScrollTop = memo(() => {
     rootMargin: "200px",
     triggerOnce: false,
   });
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   return (
     <aside className={styles.side_left} ref={ref}>
       <button
@@ -21,7 +21,11 @@ const AsideScrollTop = memo(() => {
           inView ? styles.side_left_inner : styles.side_left_inner__appear
         }
       >
-        <ArrowUpwardIcon onClick={scrollToTop} />
+        <ArrowForwardIcon
+          onClick={scrollToTop}
+          fontSize="large"
+          color="primary"
+        />
       </button>
     </aside>
   );

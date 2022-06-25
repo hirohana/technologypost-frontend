@@ -5,6 +5,7 @@ const AuthAccount = () => {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const { authAccountHandler } = useAuthAccount(emailRef, passwordRef);
+
   return (
     <form onSubmit={(e) => authAccountHandler(e)}>
       <input
