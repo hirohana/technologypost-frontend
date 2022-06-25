@@ -7,7 +7,7 @@ import { config } from "config/applicationConfig";
 import { selectUser } from "reducks/user/selectUser";
 import ThreeDotMenu from "components/molecules/threeDotMenu/ThreeDotMenu";
 import { trimString } from "utils/trimString/trimString";
-import styles from "./UserArticleTitleList.module.scss";
+import styles from "./SimpleCards.module.scss";
 import sweetAlertOfError from "utils/sweetAlert/sweetAlertOfError";
 import TimestampProcessing from "components/atoms/time/timestampProcessing/TimestampProcessing";
 import { ARTICLES_DATA_FOR_USER_ARTICLE_LIST } from "types/articles/articles";
@@ -16,7 +16,7 @@ import sweetAlertOfSuccess from "utils/sweetAlert/sweetAlertOfSuccess";
 type ARTICLES_DATA = {
   articlesData: ARTICLES_DATA_FOR_USER_ARTICLE_LIST;
 };
-const UserArticleTitleList = (props: ARTICLES_DATA) => {
+const SimpleCards = (props: ARTICLES_DATA) => {
   const { articlesData } = props;
   const { user } = useSelector(selectUser);
   const navigate = useNavigate();
@@ -142,4 +142,4 @@ const UserArticleTitleList = (props: ARTICLES_DATA) => {
   );
 };
 
-export default UserArticleTitleList;
+export default SimpleCards;

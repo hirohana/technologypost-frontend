@@ -9,7 +9,7 @@ const ArticlesRoutes = () => {
       <Route path="/article/:id" element={<Article />} />
       <Route path="/search" element={<ArticlesSearch />} />
       <Route path="/" element={<Articles />} />
-      <Route path="*" element={<Error404 />} />
+      {/* <Route path="*" element={<Error404 />} /> */}
     </Routes>
   );
 };

@@ -106,7 +106,6 @@ const useUserArticleList = () => {
   const { search } = useLocation();
   const query = new URLSearchParams(search);
   const page = query.get("page");
-  console.log(page);
   /**
    * UserArticleListページへ飛んだ際に、該当ユーザーの記事一覧(下書きも含めてすべて)を
    * DB(articles)から取得するフック。
@@ -123,7 +122,7 @@ const useUserArticleList = () => {
         console.error(err);
       }
     })();
-  }, [user.uid]);
+  }, [user.uid, page]);
 
   return { data };
 };
