@@ -1,26 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any*/
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { Button, TextField, FormControl, FormLabel } from "@mui/material";
 
-import {
-  Button,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-} from "@mui/material";
+import { useChangeImageHandler } from "hooks/components/useChangeImage/useChangeImage";
 import swal from "sweetalert";
-
+import styles from "./UserArticlePost.module.scss";
+import Error403 from "../error/error403/Error403";
 import ImageIcon from "components/atoms/button/imageIcon/ImageIcon";
-import useChangeImage from "hooks/components/changeImage/useChangeImage";
-import styles from "./ArticlePost.module.scss";
-import sweetAlertOfError from "utils/sweetAlert/sweetAlertOfError";
-import sweetAlertOfSuccess from "utils/sweetAlert/sweetAlertOfSuccess";
-import Error403 from "components/pages/error/error403/Error403";
-import TimestampProcessing from "components/atoms/time/timestampProcessing/TimestampProcessing";
 
 type FormData = {
   title: string;
@@ -28,30 +14,18 @@ type FormData = {
   category: string;
 };
 
-const ArticlesPost = () => {
-  // const [draftBlogData, setDraftBlogData] = useState<DRAFT_ARTICLES_DATA>({
-  //   data: {
-  //     article_photo_url: "",
-  //     category_name: "",
-  //     created_at: "",
-  //     letter_body: "",
-  //     title: "",
-  //     user_id: null,
-  //     user_photo_url: "",
-  //     username: "",
-  //   },
-  // });
-  const { image, setImage, changeImageHandler } = useChangeImage();
+const UserArticlePost = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>({ criteriaMode: "all", shouldFocusError: false });
+  const { image, setImage, changeImageHandler } = useChangeImageHandler();
 
-  // React-Hook-Formのライブラリを利用してデータをfirestoreに送信。
   const onSubmit = (data: FormData) => {
     swal({
-      text: "下書き内容は以上で宜しいですか？",
+      text: "送信内容に問題はありませんか？",
       icon: "warning",
       buttons: ["キャンセル", "OK"],
       dangerMode: true,
@@ -59,74 +33,66 @@ const ArticlesPost = () => {
       if (!willDelete) {
         return;
       }
-      // if (draftBlogData.imageDbUrls.length === 0) {
-      //   sweetAlertOfError(
-      //     `下書き保存の際は画像を1枚以上アップロードしてください。`
-      //   );
-      //   return;
-      // }
-
-      // try {
-      //   useDraftBlogOverwrite(
-      //     data.text,
-      //     data.title,
-      //     data.category,
-      //     blankRemovalName,
-      //     id.id
-      //   );
-      // } catch (err) {
-      //   sweetAlertOfError(
-      //     `エラーが発生して下書きが保存されませんでした。エラー内容: ${err}`
-      //   );
-      // }
-      // sweetAlertOfSuccess("下書きが保存されました!");
-      // history.push(`/blogList/${blankRemovalName}`);
+      const text = data.text;
+      const title = data.title;
+      const category = data.category;
+      // const username = blankRemovalName;
+      // const userUd = id.id;
     });
   };
-
   return (
-    <>
-      {/* {draftBlogData.draftState ? (
+    <main>
+      {draftBlogData.draftState ? (
         <div className={styles.container}>
           <div className={styles.container_box}>
-            <main>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className={styles.container_main}>
-                  <ImageIcon image={image} onChange={changeImageHandler} />
-                  <p className={styles.error_code}>
-                    {draftBlogData.imageDbUrls?.length !== 0
-                      ? "※上記画像ファイルは日記公開の際に、スライダーとしてレンダリングされます。"
-                      : null}
-                  </p>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    required
-                    multiline={true}
-                    label="タイトル(必須)"
-                    defaultValue={draftBlogData.title}
-                    {...register("title", { required: true })}
-                  />
-                  <p className={styles.error_code}>
+            {draftBlogData.imageDbUrls !== undefined &&
+            draftBlogData.imageDbUrls.length !== 0 ? (
+              <ImageTemporarily
+                blankRemovalName={blankRemovalName}
+                fileNames={draftBlogData.fileNames}
+                id={id.id}
+                imageDbUrls={draftBlogData.imageDbUrls}
+              />
+            ) : null}
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className={styles.container_main}>
+                <ImageIcon image={image} onChange={changeImageHandler} />
+                <p className={styles.error_code}>
+                  {draftBlogData.imageDbUrls?.length !== 0
+                    ? "※上記画像ファイルは日記公開の際に、スライダーとしてレンダリングされます。"
+                    : null}
+                </p>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  required
+                  multiline={true}
+                  label="タイトル(必須)"
+                  // defaultValue={draftBlogData.title}
+                  // className={classes.textfiled}
+                  {...register("title", { required: true })}
+                />
+                {/* <p className={styles.error_code}>
                     {errors.title?.types?.required &&
                       "タイトル欄をクリックし、タイトルを変更しない場合は一文字削除しその後元に戻してください。"}
-                  </p>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    required
-                    multiline={true}
-                    rows={10}
-                    label="本文(必須)"
-                    autoFocus
-                    defaultValue={draftBlogData.textArea}
-                    {...register("text")}
-                  />
-                  <div className={styles.radio_category}>
-                    <FormControl>
-                      <FormLabel>カテゴリー(必須)</FormLabel>
-                      {draftBlogData.category ? (
+                  </p> */}
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  required
+                  multiline={true}
+                  rows={10}
+                  label="本文(必須)"
+                  autoFocus
+                  // defaultValue={draftBlogData.textArea}
+                  // className={classes.textfiled}
+                  {...register("text")}
+                />
+                <div className={styles.radio_category}>
+                  <FormControl>
+                    <FormLabel>カテゴリー(必須)</FormLabel>
+                    {/* {draftBlogData.category ? (
                         <RadioGroup
                           defaultValue={draftBlogData.category}
                           defaultChecked={true}
@@ -197,45 +163,43 @@ const ArticlesPost = () => {
                             />
                           </RadioGroup>
                         </>
-                      )}
-                    </FormControl>
-                  </div>
-                  <p className={styles.error_code}>
-                    {errors.category?.types?.required &&
-                      "カテゴリーを必ず1つ選択してください。"}
-                  </p>
-                  <div className={styles.create_date}>
-                    <div className={styles.timestamp}>
-                      作成日 &nbsp;
-                      <TimestampProcessing
-                        timestamp={draftBlogData.timestamp}
-                      />
-                    </div>
-                    作成者 &nbsp;{draftBlogData.createName}
-                  </div>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    type="submit"
-                    disabled={errors.title && true}
-                    className={
-                      errors.title && true
-                        ? styles.sendDisableBtn
-                        : styles.sendBtn
-                    }
-                  >
-                    下書き保存
-                  </Button>
+                      )} */}
+                  </FormControl>
                 </div>
-              </form>
-            </main>
+                <p className={styles.error_code}>
+                  {errors.category?.types?.required &&
+                    "カテゴリーを必ず1つ選択してください。"}
+                </p>
+                <div className={styles.create_date}>
+                  <div className={styles.timestamp}>
+                    作成日 &nbsp;
+                    <TimestampProcessing timestamp={draftBlogData.timestamp} />
+                  </div>
+                  作成者 &nbsp;{draftBlogData.createName}
+                </div>
+                <Button
+                  startIcon={<EmailIcon />}
+                  fullWidth
+                  variant="contained"
+                  type="submit"
+                  disabled={errors.title && true}
+                  className={
+                    errors.title && true
+                      ? styles.sendDisableBtn
+                      : styles.sendBtn
+                  }
+                >
+                  下書き保存
+                </Button>
+              </div>
+            </form>
           </div>
         </div>
       ) : (
         <Error403 />
-      )} */}
-    </>
+      )}
+    </main>
   );
 };
 
-export default ArticlesPost;
+export default UserArticlePost;
