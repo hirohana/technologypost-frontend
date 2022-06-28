@@ -5,7 +5,7 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import Grid from "@mui/material/Grid";
 
 import { ARTICLES_DATA } from "types/articles/articles";
-import TimestampProcessing from "components/atoms/time/timestampProcessing/TimestampProcessing";
+import TimestampProcessing from "components/atoms/timestampProcessing/TimestampProcessing";
 import styles from "./Card.module.scss";
 
 const Card = (props: { data: ARTICLES_DATA }) => {

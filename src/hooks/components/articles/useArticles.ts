@@ -127,4 +127,13 @@ const useUserArticleList = () => {
   return { data };
 };
 
-export { useArticles, useArticlesById, useUserArticleList };
+// UserArticlePostページで使用するフック。
+const useUserArticlePost = () => {
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(`${config.BACKEND_URL}/`);
+    })();
+  }, []);
+};
+
+export { useArticles, useArticlesById, useUserArticleList, useUserArticlePost };

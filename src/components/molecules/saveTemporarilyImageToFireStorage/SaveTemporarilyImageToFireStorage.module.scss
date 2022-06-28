@@ -1,0 +1,58 @@
+@import "/src/styles/modules/valiables";
+
+.container {
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.container_image_deleteButton {
+  display: flex;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    background-color: rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  & > img {
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 2%;
+  }
+
+  & > button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    border: none;
+    background-color: transparent;
+
+    &:focus {
+      outline: 0;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+@media (min-width: 600px) {
+  .container {
+    display: flex;
+    justify-content: center;
+  }
+}

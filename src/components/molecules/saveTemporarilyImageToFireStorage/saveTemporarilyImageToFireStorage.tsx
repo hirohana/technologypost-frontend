@@ -2,8 +2,7 @@ import { storage, db } from "../../../firebase";
 import firebase from "firebase/app";
 
 import sweetAlertOfError from "utils/sweetAlert/sweetAlertOfError";
-
-import styles from "./ImageTemporarily.module.scss";
+import styles from "./SaveTemporarilyImageToFireStorage.module.scss";
 
 type PROPS = {
   blankRemovalName: string;
@@ -12,7 +11,7 @@ type PROPS = {
   imageDbUrls: string[];
 };
 
-const ImageTemporarily = (props: PROPS) => {
+const SaveTemporarilyImageToFireStorage = (props: PROPS) => {
   const { blankRemovalName, fileNames, id, imageDbUrls } = props;
 
   // firebaseのstorage及びfirestoreから該当するfilename,imageDbUrlを削除する関数。
@@ -76,4 +75,4 @@ const ImageTemporarily = (props: PROPS) => {
   );
 };
 
-export default ImageTemporarily;
+export { SaveTemporarilyImageToFireStorage };

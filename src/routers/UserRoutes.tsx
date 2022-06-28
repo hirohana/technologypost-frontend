@@ -12,7 +12,7 @@ const UserRoutes = () => {
   return (
     <Routes>
       <Route path="/:username/article_list" element={<UserArticleList />} />
-      <Route path="/:username/article_post/:id" element={<UserArticlePost />} />
+      <Route path="/:username/article_post" element={<UserArticlePost />} />
       <Route
         path="/:username/article_confirm/:id"
         element={<UserArticleConfirm />}

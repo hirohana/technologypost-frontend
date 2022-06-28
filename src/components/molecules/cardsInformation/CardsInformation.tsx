@@ -10,7 +10,9 @@ const CardsInformation = () => {
   const { user } = useSelector(selectUser);
   return (
     <div className={styles.container}>
-      <Link to={`/articles/user/${user.displayName}/article_post`}>
+      <Link
+        to={`/articles/user/${user.displayName}/article_post?user_id=${user.uid}`}
+      >
         記事作成
       </Link>
       <AppBar position="relative">
