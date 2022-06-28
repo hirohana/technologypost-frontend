@@ -1,0 +1,27 @@
+@import "styles/modules/valiables";
+
+.three_dot {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  list-style: none;
+  border: none;
+  border-radius: 9999px;
+  background-color: $cWhite;
+
+  &:focus {
+    outline: 0;
+  }
+  & span {
+    display: block;
+    width: 4px;
+    height: 4px;
+    margin-left: 2px;
+    border: 1px solid;
+    border-radius: 9999px;
+    background-color: $cBlack;
+  }
+}

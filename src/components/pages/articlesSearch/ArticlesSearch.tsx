@@ -1,17 +1,12 @@
-import ArticlesCards from "components/organisms/ArticlesCards/ArticlesCards";
+import { Cards } from "components/organisms/cards/Cards";
 import TextField from "components/molecules/textField/TextField";
-import { PaginationArticlesSearch } from "components/molecules/pagination/paginationArticlesSearch/PaginationArticlesSearch";
+import { Pagination } from "components/molecules/pagination/Pagination";
 import styles from "./ArticlesSearch.module.scss";
 import { useArticles } from "hooks/components/articles/useArticles";
 
 const ArticlesSearch = () => {
-  const {
-    data,
-    setData,
-    searchKeyword,
-    setSearchKeyword,
-    getArticlesBySearch,
-  } = useArticles("articles/search");
+  const { data, searchKeyword, setSearchKeyword, getArticlesBySearch } =
+    useArticles("articles/search");
 
   return (
     <main>
@@ -23,10 +18,10 @@ const ArticlesSearch = () => {
         />
         {data?.data ? (
           <>
-            <ArticlesCards data={data.data} />
-            <PaginationArticlesSearch
+            <Cards data={data.data} />
+            <Pagination
               maxPage={data.pagination.paginationMaxCount}
-              setData={setData}
+              url="articles/search"
             />
           </>
         ) : null}

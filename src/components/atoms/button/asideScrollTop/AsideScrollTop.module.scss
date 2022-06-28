@@ -1,0 +1,31 @@
+.side_left {
+  position: relative;
+}
+
+.side_left_inner {
+  border: none;
+  display: block;
+  font-size: 1.2em;
+  position: fixed;
+  top: 90%;
+  left: -50%;
+  z-index: 100;
+  transform-origin: top left;
+  transform: translateY(-50%);
+  transform: rotate(-90deg);
+  transition: left 1s;
+  cursor: pointer;
+  background-color: transparent;
+  &:focus {
+    outline: 0;
+  }
+}
+
+.side_left_inner__appear {
+  @extend .side_left_inner;
+  left: 2%;
+}
+
+.forward_icon {
+  font-size: 2em !important;
+}

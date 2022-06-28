@@ -1,0 +1,85 @@
+@import "/src/styles/modules/valiables";
+
+.ui_page_change {
+  margin-top: 20px;
+}
+
+.title {
+  display: flex !important;
+  justify-content: center !important;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.image_and_delete {
+  position: relative;
+  z-index: 0;
+
+  & > img {
+    max-height: 200px;
+    object-fit: contain;
+  }
+
+  & > button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    border: none;
+    background-color: $cWhite;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+}
+
+.three_dot_menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.draft {
+  display: block;
+  text-align: center;
+  width: 70px;
+  border-radius: 9999px;
+  margin-top: 10px;
+  font-weight: bold;
+  background-color: $cLightBrown;
+}
+
+.card_container {
+  &:hover {
+    cursor: pointer;
+    background-color: $cGray;
+  }
+}
+
+.page_ui {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card_content {
+  flex-grow: 1 !important;
+  padding-bottom: 16px !important;
+
+  & > p {
+    margin-bottom: 0px;
+  }
+
+  .card_title {
+    font-size: 1.2em;
+  }
+
+  .public {
+    @extend .draft;
+    background-color: $cAquamarine;
+  }
+}

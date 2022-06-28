@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Contact, Error, Login, Home } from "components/pages";
+import { Contact, Error404, Login, Home } from "components/pages";
 import ArticlesRoutes from "./ArticlesRoutes";
 
 const Router = () => {
@@ -9,7 +9,7 @@ const Router = () => {
       <Route path="contact" element={<Contact />} />
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<Home />} />
-      <Route path="*" element={<Error />} />
+      {/* <Route path="*" element={<Error404 />} /> */}
     </Routes>
   );
 };

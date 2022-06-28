@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid*/
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { logout } from "reducks/user/actionCreator";
 import { deleteAllCookies } from "utils/deleteAllCookies/deleteAllCookies";
@@ -22,6 +23,7 @@ const AuthGithub = () => {
 
   return (
     <>
+      <Link to="/articles">記事へ</Link>
       <a onClick={(e) => onAuthGitHubHandler(e)}>
         <span></span> Sign in with Github
       </a>
