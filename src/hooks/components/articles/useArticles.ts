@@ -131,11 +131,24 @@ const useUserArticleList = () => {
 
 // UserArticlePostページで使用するフック。
 const useUserArticlePost = () => {
+  const [articleId, setArticleId] = useState<number | null>(null);
+  const { user } = useSelector(selectUser);
+  console.log(user.uid);
   useEffect(() => {
+    if (!user.uid) {
+      return;
+    }
     (async () => {
-      const response = await fetch(`${config.BACKEND_URL}/`);
+      console.log(user.uid);
+      const response = await fetch(
+        `${config.BACKEND_URL}/articles/users/${user.uid}`
+      );
+      const jsonData = await response.json();
+      setArticleId(jsonData);
+      console.log(jsonData);
+      return { articleId };
     })();
-  }, []);
+  }, [user.uid]);
 };
 
 export { useArticles, useArticlesById, useUserArticleList, useUserArticlePost };
