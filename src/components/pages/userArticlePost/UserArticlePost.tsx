@@ -3,12 +3,15 @@ import { useForm } from "react-hook-form";
 import { Button, TextField, FormControl, FormLabel } from "@mui/material";
 import swal from "sweetalert";
 
+import { useUserArticlePost } from "hooks/components/articles/useArticles";
 import { SaveTemporarilyImageToFireStorage } from "components/molecules/saveTemporarilyImageToFireStorage/SaveTemporarilyImageToFireStorage";
 import { useChangeImageHandler } from "hooks/components/useChangeImage/useChangeImage";
 import Error403 from "../error/error403/Error403";
 import ImageIcon from "components/atoms/button/imageIcon/ImageIcon";
 import TimestampProcessing from "components/atoms/timestampProcessing/TimestampProcessing";
 import styles from "./UserArticlePost.module.scss";
+import { useSelector } from "react-redux";
+import { selectUser } from "reducks/user/selectUser";
 
 type FormData = {
   title: string;
@@ -17,6 +20,7 @@ type FormData = {
 };
 
 const UserArticlePost = () => {
+  console.log("UserArticlePost");
   const {
     register,
     handleSubmit,
@@ -24,6 +28,7 @@ const UserArticlePost = () => {
     reset,
   } = useForm<FormData>({ criteriaMode: "all", shouldFocusError: false });
   const { image, setImage, changeImageHandler } = useChangeImageHandler();
+  useUserArticlePost();
 
   const onSubmit = (data: FormData) => {
     swal({
