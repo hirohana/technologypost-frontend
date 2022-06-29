@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "reducks/user/selectUser";
 
 // articlesページ関連のフック。
-const useArticles = (resourceUrl: string) => {
+const useArticles = () => {
   const [data, setData] = useState<ARTICLES_DATA_AND_PAGINATION>();
   const [searchKeyword, setSearchKeyword] = useState("");
   const { search } = useLocation();
@@ -30,7 +30,7 @@ const useArticles = (resourceUrl: string) => {
         let page = Number(query.get("page")) || 1;
         setSearchKeyword(keyword);
         const response = await fetch(
-          `${config.BACKEND_URL}/${resourceUrl}?keyword=${keyword}&page=${page}`
+          `${config.BACKEND_URL}/articles/page/${page}`
         );
         const jsonData = await response.json();
         setData(jsonData);
@@ -38,7 +38,7 @@ const useArticles = (resourceUrl: string) => {
         console.error(err);
       }
     })();
-  }, [resourceUrl, search]);
+  }, [search]);
 
   // 記事検索した際のクエリパラメータkeywordに曖昧一致した記事を取得する。
   // 最新記事から6記事取得。Articlesページで使用されている。
@@ -84,9 +84,7 @@ const useArticlesById = () => {
   useEffect(() => {
     (async () => {
       try {
-        const data = await fetch(
-          `${config.BACKEND_URL}/articles/article/${id}`
-        );
+        const data = await fetch(`${config.BACKEND_URL}/articles/${id}`);
         const jsonData = await data.json();
         setData(jsonData);
       } catch (err) {
@@ -113,8 +111,12 @@ const useUserArticleList = () => {
   useEffect(() => {
     (async () => {
       try {
+        // ユーザー情報をReduxStoreから取得する際にデータが取れなければfetchを行わせない為の条件分岐
+        if (!user.uid) {
+          return;
+        }
         const response = await fetch(
-          `${config.BACKEND_URL}/articles/user/article_list?userId=${user.uid}&page=${page}`
+          `${config.BACKEND_URL}/articles/page/${page}/users/${user.uid}`
         );
         const jsonData = await response.json();
         setData(jsonData);

@@ -7,9 +7,7 @@ import sweetAlertOfSuccess from "utils/sweetAlert/sweetAlertOfSuccess";
 const updateArticlesDBtoTrue = async (id: number) => {
   try {
     const response = await fetch(
-      `${
-        config.BACKEND_URL
-      }/articles/user/article_list/update/public?public=${true}&id=${id}`,
+      `${config.BACKEND_URL}/articles/${id}/${true}`,
       {
         method: "PUT",
       }
@@ -26,9 +24,7 @@ const updateArticlesDBtoTrue = async (id: number) => {
 const updateArticlesDBtoFalse = async (id: number) => {
   try {
     const response = await fetch(
-      `${
-        config.BACKEND_URL
-      }/articles/user/article_list/update/public?public=${false}&id=${id}`,
+      `${config.BACKEND_URL}/articles/${id}/${false}`,
       {
         method: "PUT",
       }

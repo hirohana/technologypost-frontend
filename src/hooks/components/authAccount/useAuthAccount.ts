@@ -28,15 +28,18 @@ const useAuthAccount = (
     };
 
     try {
-      const response = await fetch(`${config.BACKEND_URL}/account/login`, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${config.BACKEND_URL}/api/v1/account/login`,
+        {
+          method: "POST",
+          body: JSON.stringify(payload),
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const { message, user } = await response.json();
       dispatch(
         login({

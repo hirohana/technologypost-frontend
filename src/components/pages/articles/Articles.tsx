@@ -11,8 +11,7 @@ import styles from "./Articles.module.scss";
 import { Link } from "react-router-dom";
 
 const Articles = () => {
-  const { data, searchKeyword, setSearchKeyword, getArticles } =
-    useArticles("articles");
+  const { data, searchKeyword, setSearchKeyword, getArticles } = useArticles();
   const { user } = useSelector(selectUser);
   const trimUserName = trimString(user.displayName);
   return (
