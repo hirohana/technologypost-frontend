@@ -6,7 +6,7 @@ import { useArticles } from "hooks/components/articles/useArticles";
 
 const ArticlesSearch = () => {
   const { data, searchKeyword, setSearchKeyword, getArticlesBySearch } =
-    useArticles("articles/search");
+    useArticles();
 
   return (
     <main>
