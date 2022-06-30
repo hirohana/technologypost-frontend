@@ -1,20 +1,20 @@
 // OAuthのGitHub外部認証をした後に、cookieとReduxに
 // ユーザー情報の保存を行うカスタムフック
 
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { login } from "reducks/user/actionCreator";
-import sweetAlertOfError from "utils/sweetAlert/sweetAlertOfError";
-import sweetAlertOfSuccess from "utils/sweetAlert/sweetAlertOfSuccess";
+import { login } from 'reducks/user/actionCreator';
+import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
+// import sweetAlertOfSuccess from "utils/sweetAlert/sweetAlertOfSuccess";
 
 const useAuthGithub = () => {
   const [message, setMessage] = useState({});
   const dispatch = useDispatch();
   useEffect(() => {
-    const oauthScript = document.createElement("script");
+    const oauthScript = document.createElement('script');
     oauthScript.src =
-      "https://cdn.rawgit.com/oauth-io/oauth-js/c5af4519/dist/oauth.js";
+      'https://cdn.rawgit.com/oauth-io/oauth-js/c5af4519/dist/oauth.js';
     document.body.appendChild(oauthScript);
   }, []);
 
@@ -40,7 +40,7 @@ const useAuthGithub = () => {
    */
   const setCookie = (name, value, options) => {
     return new Promise((resolve) => {
-      let cook = "";
+      let cook = '';
       cook += `${name}=${encodeURIComponent(value)}`;
       if (options.expires) {
         let exp = new Date();
@@ -58,27 +58,27 @@ const useAuthGithub = () => {
   const onAuthGitHubHandler = async (e) => {
     e.preventDefault();
     // API keyを使ってOAuth.ioを初期化する。
-    window.OAuth.initialize("RcbjgasvsZMYQ9ZGiw-SgzZzJJo");
+    window.OAuth.initialize('RcbjgasvsZMYQ9ZGiw-SgzZzJJo');
 
     // ポップアップウインドウを表示し、Githubの承認する。
     try {
-      const provider = await window.OAuth.popup("github");
-      const data = await provider.get("/user");
+      const provider = await window.OAuth.popup('github');
+      const data = await provider.get('/user');
       await Promise.all([
         loginToSaveReduxStore(data),
-        setCookie("id", String(data.id), { expires: 1, secure: true }),
-        setCookie("displayName", String(data.login), {
+        setCookie('id', String(data.id), { expires: 1, secure: true }),
+        setCookie('displayName', String(data.login), {
           expires: 1,
           secure: true,
         }),
-        setCookie("photoUrl", String(data.avatar_url), {
+        setCookie('photoUrl', String(data.avatar_url), {
           expires: 1,
           secure: true,
         }),
       ]);
-      sweetAlertOfSuccess(
-        `GitHubアカウントを利用したログイン認証に成功しました!`
-      );
+      // sweetAlertOfSuccess(
+      //   `GitHubアカウントを利用したログイン認証に成功しました!`
+      // );
     } catch (err) {
       console.error(err);
       sweetAlertOfError(

@@ -1,21 +1,22 @@
 // Articles関連のフック一覧
 
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import {
   ARTICLES_DATA_AND_PAGINATION,
   ARTICLE_DATA,
   ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST,
-} from "types/articles/articles";
-import { config } from "config/applicationConfig";
-import { useSelector } from "react-redux";
-import { selectUser } from "reducks/user/selectUser";
+  ARTICLE_DATA_FOR_USER_ARTICLE_LIST,
+} from 'types/articles/articles';
+import { config } from 'config/applicationConfig';
+import { useSelector } from 'react-redux';
+import { selectUser } from 'reducks/user/selectUser';
 
 // articlesページ関連のフック。
 const useArticles = () => {
   const [data, setData] = useState<ARTICLES_DATA_AND_PAGINATION>();
-  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState('');
   const { search } = useLocation();
   const navigate = useNavigate();
 
@@ -26,8 +27,8 @@ const useArticles = () => {
     (async () => {
       try {
         const query = new URLSearchParams(search);
-        let keyword = query.get("keyword") || "";
-        let page = Number(query.get("page")) || 1;
+        let keyword = query.get('keyword') || '';
+        let page = Number(query.get('page')) || 1;
         setSearchKeyword(keyword);
         const response = await fetch(
           `${config.BACKEND_URL}/articles/page/${page}`
@@ -103,7 +104,7 @@ const useUserArticleList = () => {
   const { user } = useSelector(selectUser);
   const { search } = useLocation();
   const query = new URLSearchParams(search);
-  const page = query.get("page");
+  const page = query.get('page');
   /**
    * UserArticleListページへ飛んだ際に、該当ユーザーの記事一覧(下書きも含めてすべて)を
    * DB(articles)から取得するフック。
@@ -131,24 +132,33 @@ const useUserArticleList = () => {
 
 // UserArticlePostページで使用するフック。
 const useUserArticlePost = () => {
-  const [articleId, setArticleId] = useState<number | null>(null);
+  const [data, setData] = useState<ARTICLE_DATA_FOR_USER_ARTICLE_LIST>({
+    article_id: null,
+    article_photo_url: null,
+    created_at: null,
+    letter_body: null,
+    public: null,
+    title: null,
+    user_id: null,
+    user_photo_url: null,
+    username: null,
+  });
   const { user } = useSelector(selectUser);
-  console.log(user.uid);
+  const { article_id } = useParams();
+
   useEffect(() => {
-    if (!user.uid) {
+    if (!user.uid || !article_id) {
       return;
     }
     (async () => {
-      console.log(user.uid);
-      const response = await fetch(
-        `${config.BACKEND_URL}/articles/users/${user.uid}`
-      );
+      // 記事データベース(articles)からユーザーの下書き記事データを取得するAPI
+      const response = await fetch(`${config.BACKEND_URL}/${article_id}/draft`);
       const jsonData = await response.json();
-      setArticleId(jsonData);
-      console.log(jsonData);
-      return { articleId };
+      setData(jsonData);
     })();
-  }, [user.uid]);
+  }, [user.uid, article_id]);
+
+  return { data };
 };
 
 export { useArticles, useArticlesById, useUserArticleList, useUserArticlePost };

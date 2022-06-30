@@ -1,16 +1,16 @@
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Card, CardContent, Grid } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Card, CardContent, Grid } from '@mui/material';
 
-import { ARTICLE_DATA_FOR_USER_ARTICLE_LIST } from "types/articles/articles";
-import { selectUser } from "reducks/user/selectUser";
-import { config } from "config/applicationConfig";
-import ThreeDotMenu from "components/molecules/threeDotMenu/ThreeDotMenu";
-import styles from "./SimpleCard.module.scss";
-import TimestampProcessing from "components/atoms/timestampProcessing/TimestampProcessing";
-import sweetAlertOfSuccess from "utils/sweetAlert/sweetAlertOfSuccess";
-import { trimString } from "utils/trimString/trimString";
-import { menuForUserArticleList } from "components/molecules/threeDotMenu/menuForUserArticleListPage";
+import { ARTICLE_DATA_FOR_USER_ARTICLE_LIST } from 'types/articles/articles';
+import { selectUser } from 'reducks/user/selectUser';
+import { config } from 'config/applicationConfig';
+import ThreeDotMenu from 'components/molecules/threeDotMenu/ThreeDotMenu';
+import styles from './SimpleCard.module.scss';
+import TimestampProcessing from 'components/atoms/timestampProcessing/TimestampProcessing';
+import sweetAlertOfSuccess from 'utils/sweetAlert/sweetAlertOfSuccess';
+import { trimString } from 'utils/trimString/trimString';
+import { menuForUserArticleList } from 'components/molecules/threeDotMenu/menuForUserArticleListPage';
 
 // type PROPS = {
 //   data: ARTICLE_DATA_FOR_USER_ARTICLE_LIST;
@@ -24,14 +24,14 @@ const SimpleCard = (props: any) => {
   const trimUserName = trimString(user.displayName);
 
   const deleteArticle = async (id: number) => {
-    if (!window.confirm("記事を削除してもよろしいですか？")) {
+    if (!window.confirm('記事を削除してもよろしいですか？')) {
       return;
     }
     try {
       const response = await fetch(
         `${config.BACKEND_URL}/articles/user/article_list/delete?id=${id}`,
         {
-          method: "DELETE",
+          method: 'DELETE',
         }
       );
       const jsonData = await response.json();

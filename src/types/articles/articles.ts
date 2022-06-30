@@ -49,15 +49,15 @@ type ARTICLES_DATA_FOR_USER_ARTICLE_LIST = {
 // 公開記事、下書き記事をデータベース(articles,draft_articles)から取得する際に使用する型。
 // UserArticleListページで使用。
 type ARTICLE_DATA_FOR_USER_ARTICLE_LIST = {
-  article_id: number;
+  article_id: number | null;
   article_photo_url: string | null;
-  created_at: string;
+  created_at: string | null;
   letter_body: string | null;
-  public: number;
-  title: string;
-  user_id: number;
-  user_photo_url: string;
-  username: string;
+  public: number | null;
+  title: string | null;
+  user_id: number | null;
+  user_photo_url: string | null;
+  username: string | null;
 };
 
 type ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST = {
