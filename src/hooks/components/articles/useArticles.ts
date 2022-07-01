@@ -158,7 +158,7 @@ const useUserArticlePost = () => {
     })();
   }, [user.uid, article_id]);
 
-  return { data };
+  return { data, setData };
 };
 
 export { useArticles, useArticlesById, useUserArticleList, useUserArticlePost };

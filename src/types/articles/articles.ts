@@ -46,12 +46,28 @@ type ARTICLES_DATA_FOR_USER_ARTICLE_LIST = {
   username: string;
 }[];
 
-// 公開記事、下書き記事をデータベース(articles,draft_articles)から取得する際に使用する型。
+// 公開記事をデータベース(articles)から取得する際に使用する型。
 // UserArticleListページで使用。
 type ARTICLE_DATA_FOR_USER_ARTICLE_LIST = {
   article_id: number | null;
   article_photo_url: string | null;
   created_at: string | null;
+  letter_body: string | null;
+  public: number | null;
+  title: string | null;
+  user_id: number | null;
+  user_photo_url: string | null;
+  username: string | null;
+};
+
+// 下書き記事をデータベース(articles)から取得する際に使用する型。
+// UserArticlePostページで使用。
+type DRAFT_ARTICLE_DATA_FOR_USER = {
+  article_id: number | null;
+  article_photo_url: string | null;
+  created_at: string | null;
+  fileNames: string[] | null;
+  images: string[] | null;
   letter_body: string | null;
   public: number | null;
   title: string | null;
@@ -75,4 +91,5 @@ export type {
   ARTICLES_DATA_FOR_USER_ARTICLE_LIST,
   ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST,
   ARTICLE_DATA_FOR_USER_ARTICLE_LIST,
+  DRAFT_ARTICLE_DATA_FOR_USER,
 };
