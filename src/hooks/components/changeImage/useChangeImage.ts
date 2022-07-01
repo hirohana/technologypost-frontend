@@ -6,6 +6,7 @@ const useChangeImageHandler = () => {
 
   const changeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     swal({
+      text: 'このファイルを保存して宜しいですか？',
       icon: 'warning',
       buttons: ['キャンセル', 'OK'],
       dangerMode: true,
@@ -16,7 +17,6 @@ const useChangeImageHandler = () => {
       if (e.target.value![0]) {
         setImage(e.target.files![0]);
         e.target.value = '';
-        swal('Success', 'ファイルを送信する準備が出来ました!', 'success');
       }
     });
   };

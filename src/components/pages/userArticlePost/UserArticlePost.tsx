@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, TextField } from '@mui/material';
+import { Button, Select, TextField } from '@mui/material';
 import swal from 'sweetalert';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
@@ -15,21 +15,29 @@ import { useSelector } from 'react-redux';
 import { selectUser } from 'reducks/user/selectUser';
 import { randomChar16 } from 'utils/randomChar16/randomChar16';
 import { trimString } from 'utils/trimString/trimString';
+import SelectPulldown from 'components/molecules/selectPulldown/SelectPulldown';
 
 const UserArticlePost = () => {
   const [text, setText] = useState('');
-  const [textArea, setTextArea] = useState<string>('');
+  const [textArea, setTextArea] = useState('');
+  const [fileNames, setFileNames] = useState<string[]>([]);
+  const [images, setImages] = useState<string[]>([]);
   const { user } = useSelector(selectUser);
   const { image, setImage, changeImageHandler } = useChangeImageHandler();
   const { data, setData } = useUserArticlePost();
 
   useEffect(() => {
+    let newFileNames = fileNames;
+    let newImages = images;
+
     if (image === null) {
       return;
     }
     const randomChar = randomChar16();
     const fileName = randomChar + '_' + image.name;
     const trimName = trimString(user.displayName);
+    newFileNames.push(fileName);
+    setFileNames(newFileNames);
 
     // 3. 上記のファイル名を使用してstorageにファイル情報を保存。
     const storageRef = ref(
@@ -73,24 +81,15 @@ const UserArticlePost = () => {
         // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           insertTextAreaWithdownloadURL(downloadURL);
-          setData({
-            article_id: null,
-            article_photo_url: null,
-            created_at: null,
-            letter_body: null,
-            public: null,
-            title: null,
-            user_id: null,
-            user_photo_url: null,
-            username: null,
-          });
+          newImages.push(downloadURL);
+          setImages(newImages);
         });
       }
     );
   }, [image]);
 
   const insertTextAreaWithdownloadURL = (url: string) => {
-    const imgURL = `[src=${url}]`;
+    const imgURL = `[src=${url}]\n`;
     let str = textArea;
     setTextArea(str + imgURL);
   };
@@ -121,7 +120,14 @@ const UserArticlePost = () => {
             <div>true</div>
           ) : (
             <>
-              {/* <TemporarilyImageToFireStorage fileNames={} images={} /> */}
+              <TemporarilyImageToFireStorage
+                fileNames={fileNames}
+                images={images}
+                setFileNames={setFileNames}
+                setImages={setImages}
+                textArea={textArea}
+                setTextArea={setTextArea}
+              />
               <form onSubmit={handleSubmit}>
                 <div className={styles.container_main}>
                   <ImageIcon image={image} onChange={changeImageHandler} />
@@ -151,6 +157,7 @@ const UserArticlePost = () => {
                     value={textArea}
                     onChange={(e) => setTextArea(e.target.value)}
                   />
+                  <SelectPulldown />
                   <div className={styles.create_date}>
                     <div className={styles.timestamp}>
                       作成日 &nbsp;
