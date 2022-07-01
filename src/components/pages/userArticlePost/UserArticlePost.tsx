@@ -22,9 +22,10 @@ const UserArticlePost = () => {
   const [textArea, setTextArea] = useState('');
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
+  const [category, setCategory] = useState<string[]>([]);
   const { user } = useSelector(selectUser);
   const { image, setImage, changeImageHandler } = useChangeImageHandler();
-  const { data, setData } = useUserArticlePost();
+  const { data } = useUserArticlePost();
 
   useEffect(() => {
     let newFileNames = fileNames;
@@ -112,11 +113,13 @@ const UserArticlePost = () => {
     });
   };
 
+  console.log(data[1]);
+
   return (
     <main>
       {user.uid ? (
         <div className={styles.container}>
-          {data.article_id ? (
+          {data[0].article_id ? (
             <div>true</div>
           ) : (
             <>
@@ -142,7 +145,6 @@ const UserArticlePost = () => {
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                   />
-
                   <TextField
                     variant="outlined"
                     margin="normal"
@@ -157,14 +159,18 @@ const UserArticlePost = () => {
                     value={textArea}
                     onChange={(e) => setTextArea(e.target.value)}
                   />
-                  <SelectPulldown />
+                  <SelectPulldown
+                    category={category}
+                    setCategory={setCategory}
+                    menu={data[1].category}
+                  />
                   <div className={styles.create_date}>
                     <div className={styles.timestamp}>
                       作成日 &nbsp;
                       <TimestampProcessing
                         timestamp={
-                          data.created_at
-                            ? data.created_at
+                          data[0].created_at
+                            ? data[0].created_at
                             : new Date().toISOString()
                         }
                       />

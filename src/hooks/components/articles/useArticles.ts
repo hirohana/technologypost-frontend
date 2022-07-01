@@ -12,6 +12,7 @@ import {
 import { config } from 'config/applicationConfig';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'reducks/user/selectUser';
+import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
 
 // articlesページ関連のフック。
 const useArticles = () => {
@@ -129,32 +130,65 @@ const useUserArticleList = () => {
 
   return { data };
 };
-
+// {
+//   article_id: null,
+//   article_photo_url: null,
+//   created_at: null,
+//   letter_body: null,
+//   public: null,
+//   title: null,
+//   user_id: null,
+//   user_photo_url: null,
+//   username: null,
+// }
 // UserArticlePostページで使用するフック。
 const useUserArticlePost = () => {
-  const [data, setData] = useState<ARTICLE_DATA_FOR_USER_ARTICLE_LIST>({
-    article_id: null,
-    article_photo_url: null,
-    created_at: null,
-    letter_body: null,
-    public: null,
-    title: null,
-    user_id: null,
-    user_photo_url: null,
-    username: null,
-  });
+  const [data, setData] = useState<
+    [
+      ARTICLE_DATA_FOR_USER_ARTICLE_LIST,
+      { category: { id: number; name: string }[] }
+    ]
+  >([
+    {
+      article_id: null,
+      article_photo_url: null,
+      created_at: null,
+      letter_body: null,
+      public: null,
+      title: null,
+      user_id: null,
+      user_photo_url: null,
+      username: null,
+    },
+    { category: [] },
+  ]);
   const { user } = useSelector(selectUser);
   const { article_id } = useParams();
 
   useEffect(() => {
-    if (!user.uid || !article_id) {
-      return;
-    }
     (async () => {
-      // 記事データベース(articles)からユーザーの下書き記事データを取得するAPI
-      const response = await fetch(`${config.BACKEND_URL}/${article_id}/draft`);
-      const jsonData = await response.json();
-      setData(jsonData);
+      // 記事データベース(articles)からユーザーの下書き記事データを取得する関数
+      const draftArticlesData = async () => {
+        const response = await fetch(
+          `${config.BACKEND_URL}/articles/${article_id}/draft`
+        );
+        const jsonData = await response.json();
+        return jsonData;
+      };
+
+      // カテゴリーデータベース(category)からカテゴリー一覧全て取得するAPI
+      const categoryData = async () => {
+        const response = await fetch(`${config.BACKEND_URL}/articles/category`);
+        const jsonData = await response.json();
+        return jsonData;
+      };
+
+      try {
+        const data = await Promise.all([draftArticlesData(), categoryData()]);
+        setData(data);
+      } catch (err: any) {
+        sweetAlertOfError(err);
+      }
     })();
   }, [user.uid, article_id]);
 
