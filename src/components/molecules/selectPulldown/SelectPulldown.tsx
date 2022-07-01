@@ -31,13 +31,12 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 type PROPS = {
   category: string[];
   setCategory: React.Dispatch<React.SetStateAction<string[]>>;
-  menu: { id: number; name: string }[];
+  menus: { name: string }[];
 };
 
 export default function SelectPulldown(props: PROPS) {
-  const { category, setCategory, menu } = props;
+  const { category, setCategory, menus } = props;
   const theme = useTheme();
-  console.log(menu);
 
   const handleChange = (event: SelectChangeEvent<typeof category>) => {
     const {
@@ -52,13 +51,14 @@ export default function SelectPulldown(props: PROPS) {
   return (
     <div>
       <FormControl sx={{ width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+        <InputLabel id="demo-multiple-chip-label">category</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
           value={category}
           onChange={handleChange}
+          required
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -69,14 +69,14 @@ export default function SelectPulldown(props: PROPS) {
           )}
           MenuProps={MenuProps}
         >
-          {menu.length !== 0
-            ? menu.map((name) => (
+          {menus.length !== 0
+            ? menus.map((menu) => (
                 <MenuItem
-                  key={name.id}
-                  value={name.name}
-                  style={getStyles(name.name, category, theme)}
+                  key={menu.name}
+                  value={menu.name}
+                  style={getStyles(menu.name, category, theme)}
                 >
-                  {name.name}
+                  {menu.name}
                 </MenuItem>
               ))
             : null}

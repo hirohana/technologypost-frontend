@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Select, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import swal from 'sweetalert';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
@@ -97,7 +97,7 @@ const UserArticlePost = () => {
 
   const handleSubmit = () => {
     swal({
-      text: '送信内容に問題はありませんか？',
+      text: '下書き内容に問題はありませんか？',
       icon: 'warning',
       buttons: ['キャンセル', 'OK'],
       dangerMode: true,
@@ -105,6 +105,13 @@ const UserArticlePost = () => {
       if (!willDelete) {
         return;
       }
+      const payload = {
+        user_id: user.uid,
+        title: text,
+        letter_body: textArea,
+        created_at: new Date(),
+        public: 0,
+      };
       // const text = data.text;
       // const title = data.title;
       // const category = data.category;
@@ -113,10 +120,8 @@ const UserArticlePost = () => {
     });
   };
 
-  console.log(data[1]);
-
   return (
-    <main>
+    <main className={styles.global_container}>
       {user.uid ? (
         <div className={styles.container}>
           {data[0].article_id ? (
@@ -162,7 +167,7 @@ const UserArticlePost = () => {
                   <SelectPulldown
                     category={category}
                     setCategory={setCategory}
-                    menu={data[1].category}
+                    menus={data[1]}
                   />
                   <div className={styles.create_date}>
                     <div className={styles.timestamp}>
@@ -181,12 +186,12 @@ const UserArticlePost = () => {
                     fullWidth
                     variant="contained"
                     type="submit"
-                    // disabled={errors.title && true}
-                    // className={
-                    //   errors.title && true
-                    //     ? styles.sendDisableBtn
-                    //     : styles.sendBtn
-                    // }
+                    disabled={!text || !textArea || !category.length}
+                    className={
+                      !text || !textArea || !category.length
+                        ? styles.send_disable_btn
+                        : styles.send_btn
+                    }
                   >
                     下書き保存
                   </Button>

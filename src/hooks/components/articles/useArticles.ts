@@ -144,10 +144,7 @@ const useUserArticleList = () => {
 // UserArticlePostページで使用するフック。
 const useUserArticlePost = () => {
   const [data, setData] = useState<
-    [
-      ARTICLE_DATA_FOR_USER_ARTICLE_LIST,
-      { category: { id: number; name: string }[] }
-    ]
+    [ARTICLE_DATA_FOR_USER_ARTICLE_LIST, { name: string }[]]
   >([
     {
       article_id: null,
@@ -160,7 +157,7 @@ const useUserArticlePost = () => {
       user_photo_url: null,
       username: null,
     },
-    { category: [] },
+    [],
   ]);
   const { user } = useSelector(selectUser);
   const { article_id } = useParams();

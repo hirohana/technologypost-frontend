@@ -1,4 +1,4 @@
-@import "../../../styles/modules/valiables";
+@import '../../../styles/modules/valiables';
 
 .global_container {
   @extend .border_style;
@@ -10,15 +10,10 @@
 
 .container {
   @extend .content-width;
-  height: 70vh;
   margin-top: 50px;
 }
 
-.error_code {
-  color: $cRed;
-}
-
-.sendDisableBtn {
+.send_disable_btn {
   background-color: $cGray !important;
   border-radius: 20px !important;
   color: $cWhite !important;
@@ -29,13 +24,7 @@
   }
 }
 
-.sendBtn {
-  @extend .sendDisableBtn;
+.send_btn {
+  @extend .send_disable_btn;
   background-color: $cLightBlue !important;
-}
-
-.formControl {
-  min-width: 200px !important;
-  margin-top: 20px !important;
-  margin-bottom: 20px !important;
 }
