@@ -144,7 +144,7 @@ const useUserArticleList = () => {
 // UserArticlePostページで使用するフック。
 const useUserArticlePost = () => {
   const [data, setData] = useState<
-    [ARTICLE_DATA_FOR_USER_ARTICLE_LIST, { name: string }[]]
+    [ARTICLE_DATA_FOR_USER_ARTICLE_LIST, { id: number; name: string }[]]
   >([
     {
       article_id: null,

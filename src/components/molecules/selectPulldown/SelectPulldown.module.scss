@@ -1,1 +1,26 @@
+.select_pulldown {
+  position: relative;
+  overflow: hidden;
+  z-index: 10;
+}
 
+.select_pulldown__open {
+  display: inline-block;
+  width: 100%;
+  box-shadow: none;
+  padding: 8px 24px 8px 8px;
+  color: #404040;
+  line-height: 1.2;
+  background-color: #fff;
+  border-radius: 6px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 14px;
+  text-indent: 0.01px;
+  text-overflow: '';
+
+  &:focus {
+    outline: none;
+    border-color: blue;
+  }
+}

@@ -15,14 +15,14 @@ import { useSelector } from 'react-redux';
 import { selectUser } from 'reducks/user/selectUser';
 import { randomChar16 } from 'utils/randomChar16/randomChar16';
 import { trimString } from 'utils/trimString/trimString';
-import SelectPulldown from 'components/molecules/selectPulldown/SelectPulldown';
+import { SelectPulldown } from 'components/molecules/selectPulldown/SelectPulldown';
 
 const UserArticlePost = () => {
   const [text, setText] = useState('');
   const [textArea, setTextArea] = useState('');
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
-  const [category, setCategory] = useState<string[]>([]);
+  const [category, setCategory] = useState<{ id: number; name: string }[]>([]);
   const { user } = useSelector(selectUser);
   const { image, setImage, changeImageHandler } = useChangeImageHandler();
   const { data } = useUserArticlePost();
@@ -115,6 +115,8 @@ const UserArticlePost = () => {
     });
   };
 
+  console.log(category);
+
   return (
     <main className={styles.global_container}>
       {user.uid ? (
@@ -157,11 +159,7 @@ const UserArticlePost = () => {
                     value={textArea}
                     onChange={(e) => setTextArea(e.target.value)}
                   />
-                  <SelectPulldown
-                    category={category}
-                    setCategory={setCategory}
-                    menus={data[1]}
-                  />
+                  <SelectPulldown setCategory={setCategory} menus={data[1]} />
                   <div className={styles.create_date}>
                     <div className={styles.timestamp}>
                       作成日 &nbsp;
