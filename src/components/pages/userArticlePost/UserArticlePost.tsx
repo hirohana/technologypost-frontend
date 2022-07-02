@@ -102,7 +102,7 @@ const UserArticlePost = () => {
       buttons: ['キャンセル', 'OK'],
       dangerMode: true,
     }).then((willDelete) => {
-      if (!willDelete) {
+      if (!willDelete || !user.uid) {
         return;
       }
       const payload = {
@@ -112,11 +112,6 @@ const UserArticlePost = () => {
         created_at: new Date(),
         public: 0,
       };
-      // const text = data.text;
-      // const title = data.title;
-      // const category = data.category;
-      // const username = blankRemovalName;
-      // const userUd = id.id;
     });
   };
 
@@ -145,7 +140,6 @@ const UserArticlePost = () => {
                     required
                     multiline={true}
                     label="タイトル(必須)"
-                    // defaultValue={data.title}
                     className={styles.textfiled}
                     value={text}
                     onChange={(e) => setText(e.target.value)}
@@ -159,7 +153,6 @@ const UserArticlePost = () => {
                     rows={20}
                     label="本文(必須)"
                     autoFocus
-                    // defaultValue={data.letter_body}
                     className={styles.textfiled}
                     value={textArea}
                     onChange={(e) => setTextArea(e.target.value)}

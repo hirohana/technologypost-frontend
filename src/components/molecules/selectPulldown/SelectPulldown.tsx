@@ -48,6 +48,8 @@ export default function SelectPulldown(props: PROPS) {
     );
   };
 
+  console.log(menus);
+
   return (
     <div>
       <FormControl sx={{ width: 300 }}>
