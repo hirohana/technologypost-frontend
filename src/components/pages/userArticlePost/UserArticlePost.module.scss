@@ -13,6 +13,14 @@
   margin-top: 50px;
 }
 
+.create_date {
+  margin: 15px 0;
+}
+
+.timestamp {
+  display: flex;
+}
+
 .send_disable_btn {
   background-color: $cGray !important;
   border-radius: 20px !important;

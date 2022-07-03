@@ -4,6 +4,7 @@ import swal from 'sweetalert';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
 
+import { config } from 'config/applicationConfig';
 import { useUserArticlePost } from 'hooks/components/articles/useArticles';
 import { TemporarilyImageToFireStorage } from 'components/molecules/TemporarilyImageToFireStorage/TemporarilyImageToFireStorage';
 import { useChangeImageHandler } from 'hooks/components/changeImage/useChangeImage';
@@ -22,7 +23,8 @@ const UserArticlePost = () => {
   const [textArea, setTextArea] = useState('');
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
-  const [category, setCategory] = useState<{ id: number; name: string }[]>([]);
+  // const [category, setCategory] = useState<{ id: number; name: string }[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
   const { user } = useSelector(selectUser);
   const { image, setImage, changeImageHandler } = useChangeImageHandler();
   const { data } = useUserArticlePost();
@@ -89,33 +91,64 @@ const UserArticlePost = () => {
     );
   }, [image]);
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const category = onSetCategory();
+    const payload = {
+      user_id: user.uid,
+      title: text,
+      letter_body: textArea,
+      created_at: new Date().toLocaleString(),
+      public: 0,
+      category,
+    };
+
+    const response = await fetch(`${config.BACKEND_URL}/articles/draft`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+    console.log(await response.json());
+    // swal({
+    //   text: '下書き内容に問題はありませんか？',
+    //   icon: 'warning',
+    //   buttons: ['キャンセル', 'OK'],
+    //   dangerMode: true,
+    // }).then((willDelete) => {
+    //   if (!willDelete || !user.uid) {
+    //     return;
+    //   }
+    //   const payload = {
+    //     user_id: user.uid,
+    //     title: text,
+    //     letter_body: textArea,
+    //     created_at: new Date(),
+    //     public: 0,
+    //   };
+    // });
+  };
+
   const insertTextAreaWithdownloadURL = (url: string) => {
     const imgURL = `[src=${url}]\n`;
     let str = textArea;
     setTextArea(str + imgURL);
   };
 
-  const handleSubmit = () => {
-    swal({
-      text: '下書き内容に問題はありませんか？',
-      icon: 'warning',
-      buttons: ['キャンセル', 'OK'],
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (!willDelete || !user.uid) {
-        return;
-      }
-      const payload = {
-        user_id: user.uid,
-        title: text,
-        letter_body: textArea,
-        created_at: new Date(),
-        public: 0,
+  const onSetCategory = () => {
+    const selectedCategoryArray = selectedCategory.trim().split(' ');
+    const categoryArray = [];
+    for (const category of selectedCategoryArray) {
+      const arry = category.split('.');
+      const obj = {
+        id: arry[0],
+        name: arry[1],
       };
-    });
+      categoryArray.push(obj);
+    }
+    return categoryArray;
   };
-
-  console.log(category);
 
   return (
     <main className={styles.global_container}>
@@ -133,7 +166,7 @@ const UserArticlePost = () => {
                 textArea={textArea}
                 setTextArea={setTextArea}
               />
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={(e) => handleSubmit(e)}>
                 <div className={styles.container_main}>
                   <ImageIcon image={image} onChange={changeImageHandler} />
                   <TextField
@@ -159,7 +192,11 @@ const UserArticlePost = () => {
                     value={textArea}
                     onChange={(e) => setTextArea(e.target.value)}
                   />
-                  <SelectPulldown setCategory={setCategory} menus={data[1]} />
+                  <SelectPulldown
+                    menus={data[1]}
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={setSelectedCategory}
+                  />
                   <div className={styles.create_date}>
                     <div className={styles.timestamp}>
                       作成日 &nbsp;
@@ -177,9 +214,9 @@ const UserArticlePost = () => {
                     fullWidth
                     variant="contained"
                     type="submit"
-                    disabled={!text || !textArea || !category.length}
+                    disabled={!text || !textArea || !selectedCategory.length}
                     className={
-                      !text || !textArea || !category.length
+                      !text || !textArea || !selectedCategory.length
                         ? styles.send_disable_btn
                         : styles.send_btn
                     }

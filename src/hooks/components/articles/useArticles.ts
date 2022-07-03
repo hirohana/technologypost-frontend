@@ -40,7 +40,7 @@ const useArticles = () => {
         console.error(err);
       }
     })();
-  }, [search]);
+  }, []);
 
   // 記事検索した際のクエリパラメータkeywordに曖昧一致した記事を取得する。
   // 最新記事から6記事取得。Articlesページで使用されている。
@@ -130,17 +130,7 @@ const useUserArticleList = () => {
 
   return { data };
 };
-// {
-//   article_id: null,
-//   article_photo_url: null,
-//   created_at: null,
-//   letter_body: null,
-//   public: null,
-//   title: null,
-//   user_id: null,
-//   user_photo_url: null,
-//   username: null,
-// }
+
 // UserArticlePostページで使用するフック。
 const useUserArticlePost = () => {
   const [data, setData] = useState<

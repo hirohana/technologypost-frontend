@@ -1,37 +1,23 @@
-import { Menu } from '@mui/material';
+import { TextField } from '@mui/material';
 import { useState } from 'react';
 import styles from './SelectPulldown.module.scss';
 
 type PROPS = {
-  setCategory: React.Dispatch<
-    React.SetStateAction<
-      {
-        id: number;
-        name: string;
-      }[]
-    >
-  >;
   menus: { id: number; name: string }[];
+  selectedCategory: string;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const SelectPulldown = (props: PROPS) => {
-  const { setCategory, menus } = props;
-  const [selectedBox, setSelectedBox] = useState('');
+  const { menus, selectedCategory, setSelectedCategory } = props;
 
   const onSelectClick = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (selectedBox.includes(e.target.value)) {
+    if (selectedCategory.includes(e.target.value)) {
       return;
     }
-    const copySelectedBox = selectedBox;
+    const copySelectedBox = selectedCategory;
     const newSelectedBox = `${copySelectedBox} ${e.target.value}`;
-    setSelectedBox(newSelectedBox);
-
-    let arry: { id: number; name: string }[] = [];
-    for (const category of newSelectedBox) {
-      const menuObj = menus.filter((menu) => menu.name === category);
-      arry.push(menuObj[0]);
-    }
-    setCategory(arry);
+    setSelectedCategory(newSelectedBox);
   };
 
   return (
@@ -42,15 +28,20 @@ const SelectPulldown = (props: PROPS) => {
           onChange={(e) => onSelectClick(e)}
         >
           {menus.map((menu) => (
-            <option value={menu.name} key={menu.name}>
-              {menu.name}
+            <option value={`${menu.id}.${menu.name}`} key={menu.name}>
+              {menu.id}.{menu.name}
             </option>
           ))}
         </select>
-        <textarea
-          value={selectedBox}
-          onChange={(e) => setSelectedBox(e.target.value)}
-        ></textarea>
+        <TextField
+          variant="outlined"
+          fullWidth
+          multiline={true}
+          label="カテゴリー一覧"
+          className={styles.textfiled}
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        />
       </div>
     </div>
   );
