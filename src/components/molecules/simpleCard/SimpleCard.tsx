@@ -41,14 +41,20 @@ const SimpleCard = (props: PROPS) => {
       console.error(err);
     }
   };
-
   return (
     <>
       {data.article_id ? (
         <Grid item key={`${data.title}${index}`} xs={12} sm={6} md={4}>
           <Card
             className={styles.card}
-            onClick={() => navigate(`/articles/article/${data.article_id}`)}
+            onClick={
+              data.public === 1
+                ? () => navigate(`/articles/article/${data.article_id}`)
+                : () =>
+                    navigate(
+                      `/articles/user/${user.displayName}/article_post/${data.article_id}`
+                    )
+            }
           >
             <div className={styles.image_and_delete}>
               <button

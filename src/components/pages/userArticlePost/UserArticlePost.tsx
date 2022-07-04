@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps*/
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
 import swal from 'sweetalert';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
@@ -31,6 +32,7 @@ const UserArticlePost = () => {
   const { image, setImage, changeImageHandler } = useChangeImageHandler();
   const { data } = useUserArticlePost();
   const navigate = useNavigate();
+  const { username } = useParams();
 
   useEffect(() => {
     let newFileNames = fileNames;
@@ -160,7 +162,7 @@ const UserArticlePost = () => {
 
   return (
     <main className={styles.global_container}>
-      {user.uid ? (
+      {user.displayName === username ? (
         <div className={styles.container}>
           {data.length !== 0 ? (
             <>
