@@ -14,14 +14,13 @@ import { useSelector } from 'react-redux';
 import { selectUser } from 'reducks/user/selectUser';
 import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
 
-// articlesページ関連のフック。
+// articlesページのフック。
 const useArticles = () => {
   const [data, setData] = useState<ARTICLES_DATA_AND_PAGINATION>();
   const [searchKeyword, setSearchKeyword] = useState('');
   const { search } = useLocation();
   const query = new URLSearchParams(search);
   let page = Number(query.get('page')) || 1;
-
   const navigate = useNavigate();
 
   // 記事検索した際のクエリパラメータkeywordに曖昧一致する記事及び、OFFSET(1ページにおける最大記事数6)
@@ -30,10 +29,6 @@ const useArticles = () => {
   useEffect(() => {
     (async () => {
       try {
-        // const query = new URLSearchParams(search);
-        // let keyword = query.get('keyword') || '';
-        // let page = Number(query.get('page')) || 1;
-        // setSearchKeyword(keyword);
         const response = await fetch(
           `${config.BACKEND_URL}/articles/page/${page}`
         );
@@ -45,19 +40,12 @@ const useArticles = () => {
     })();
   }, [page]);
 
-  // 記事検索した際のクエリパラメータkeywordに曖昧一致した記事を取得する。
-  // 最新記事から6記事取得。Articlesページで使用されている。
-  const getArticles = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    navigate(`/articles/search?keyword=${searchKeyword}`);
-  };
-
   // 記事検索した際のクエリパラメータkeyword及び、該当ページであるpageと一致した記事を取得する。
   // moleculesのpaginationで使用されている。
   const getArticlesBySearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      navigate(`/articles/search?keyword=${searchKeyword}`);
+      navigate(`/articles?keyword=${searchKeyword}`);
       const response = await fetch(
         `${config.BACKEND_URL}/articles/search?keyword=${searchKeyword}`
       );
@@ -72,7 +60,6 @@ const useArticles = () => {
     data,
     searchKeyword,
     setSearchKeyword,
-    getArticles,
     getArticlesBySearch,
   };
 };
