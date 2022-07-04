@@ -1,6 +1,6 @@
-import { Routes, Route } from "react-router-dom";
-import { Contact, Error404, Login, Home } from "components/pages";
-import ArticlesRoutes from "./ArticlesRoutes";
+import { Routes, Route } from 'react-router-dom';
+import { Contact, Error404, Login, Home } from 'components/pages';
+import ArticlesRoutes from './ArticlesRoutes';
 
 const Router = () => {
   return (
@@ -9,7 +9,7 @@ const Router = () => {
       <Route path="contact" element={<Contact />} />
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<Home />} />
-      {/* <Route path="*" element={<Error404 />} /> */}
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 };

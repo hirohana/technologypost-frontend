@@ -38,7 +38,7 @@ type ARTICLES_DATA_FOR_USER_ARTICLE_LIST = {
   article_id: number;
   article_photo_url: string | null;
   created_at: string;
-  letter_body: string | null;
+  letter_body: string;
   public: number;
   title: string;
   user_id: number;
@@ -49,16 +49,27 @@ type ARTICLES_DATA_FOR_USER_ARTICLE_LIST = {
 // 公開記事、下書き記事をデータベース(articles)から取得する際に使用する型。
 // UserArticleListページで使用。
 type ARTICLE_DATA_FOR_USER_ARTICLE_LIST = {
-  article_id: number | null;
+  article_id: number;
   article_photo_url: string | null;
-  created_at: string | null;
-  letter_body: string | null;
-  public: number | null;
-  title: string | null;
-  user_id: number | null;
-  user_photo_url: string | null;
-  username: string | null;
+  created_at: string;
+  letter_body: string;
+  public: number;
+  title: string;
+  user_id: number;
+  user_photo_url: string;
+  username: string;
 };
+// type ARTICLE_DATA_FOR_USER_ARTICLE_LIST = {
+//   article_id: number | null;
+//   article_photo_url: string | null;
+//   created_at: string | null;
+//   letter_body: string | null;
+//   public: number | null;
+//   title: string | null;
+//   user_id: number | null;
+//   user_photo_url: string | null;
+//   username: string | null;
+// };
 
 type ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST = {
   data: ARTICLES_DATA_FOR_USER_ARTICLE_LIST;

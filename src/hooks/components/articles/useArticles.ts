@@ -7,7 +7,6 @@ import {
   ARTICLES_DATA_AND_PAGINATION,
   ARTICLE_DATA,
   ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST,
-  ARTICLE_DATA_FOR_USER_ARTICLE_LIST,
 } from 'types/articles/articles';
 import { config } from 'config/applicationConfig';
 import { useSelector } from 'react-redux';
@@ -123,22 +122,7 @@ const useUserArticleList = () => {
 
 // UserArticlePostページで使用するフック。
 const useUserArticlePost = () => {
-  const [data, setData] = useState<
-    [ARTICLE_DATA_FOR_USER_ARTICLE_LIST, { id: number; name: string }[]]
-  >([
-    {
-      article_id: null,
-      article_photo_url: null,
-      created_at: null,
-      letter_body: null,
-      public: null,
-      title: null,
-      user_id: null,
-      user_photo_url: null,
-      username: null,
-    },
-    [],
-  ]);
+  const [data, setData] = useState<any[]>([]);
   const { user } = useSelector(selectUser);
   const { article_id } = useParams();
 

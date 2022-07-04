@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps*/
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
 import swal from 'sweetalert';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
@@ -17,17 +19,18 @@ import { selectUser } from 'reducks/user/selectUser';
 import { randomChar16 } from 'utils/randomChar16/randomChar16';
 import { trimString } from 'utils/trimString/trimString';
 import { SelectPulldown } from 'components/molecules/selectPulldown/SelectPulldown';
+import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
 
 const UserArticlePost = () => {
   const [text, setText] = useState('');
   const [textArea, setTextArea] = useState('');
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
-  // const [category, setCategory] = useState<{ id: number; name: string }[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const { user } = useSelector(selectUser);
   const { image, setImage, changeImageHandler } = useChangeImageHandler();
   const { data } = useUserArticlePost();
+  const navigate = useNavigate();
 
   useEffect(() => {
     let newFileNames = fileNames;
@@ -93,41 +96,46 @@ const UserArticlePost = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const category = onSetCategory();
-    const payload = {
-      user_id: user.uid,
-      title: text,
-      letter_body: textArea,
-      created_at: new Date().toLocaleString(),
-      public: 0,
-      category,
-    };
+    swal({
+      text: '下書き内容に問題はありませんか？',
+      icon: 'warning',
+      buttons: ['キャンセル', 'OK'],
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (!willDelete || !user.uid) {
+        return;
+      }
+      const category = onSetCategory();
+      const payload = {
+        user_id: user.uid,
+        title: text,
+        letter_body: textArea,
+        created_at: new Date().toLocaleString(),
+        public: 0,
+        category,
+      };
 
-    const response = await fetch(`${config.BACKEND_URL}/articles/draft`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
+      try {
+        const response = await fetch(`${config.BACKEND_URL}/articles/draft`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+        if (response.status === 200) {
+          navigate(`/articles/user/${user.displayName}/article_list`);
+        } else if (response.status === 500) {
+          sweetAlertOfError(
+            `サーバー側のエラーにより下書きデータが保存されませんでした。\nエラー内容: ${await response.json()}`
+          );
+        }
+      } catch (err: any) {
+        sweetAlertOfError(
+          `通信エラーが発生し下書きデータが保存されなかった可能性があります。\nエラー内容: ${err}`
+        );
+      }
     });
-    console.log(await response.json());
-    // swal({
-    //   text: '下書き内容に問題はありませんか？',
-    //   icon: 'warning',
-    //   buttons: ['キャンセル', 'OK'],
-    //   dangerMode: true,
-    // }).then((willDelete) => {
-    //   if (!willDelete || !user.uid) {
-    //     return;
-    //   }
-    //   const payload = {
-    //     user_id: user.uid,
-    //     title: text,
-    //     letter_body: textArea,
-    //     created_at: new Date(),
-    //     public: 0,
-    //   };
-    // });
   };
 
   const insertTextAreaWithdownloadURL = (url: string) => {
@@ -154,9 +162,7 @@ const UserArticlePost = () => {
     <main className={styles.global_container}>
       {user.uid ? (
         <div className={styles.container}>
-          {data[0].article_id ? (
-            <div>true</div>
-          ) : (
+          {data.length !== 0 ? (
             <>
               <TemporarilyImageToFireStorage
                 fileNames={fileNames}
@@ -226,7 +232,7 @@ const UserArticlePost = () => {
                 </div>
               </form>
             </>
-          )}
+          ) : null}
         </div>
       ) : (
         <Error403 />

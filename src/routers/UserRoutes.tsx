@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from 'react-router-dom';
 
 import {
   UserArticleComplete,
@@ -6,7 +6,7 @@ import {
   UserArticlePost,
   UserArticleList,
   Error404,
-} from "components/pages";
+} from 'components/pages';
 
 const UserRoutes = () => {
   return (
@@ -21,7 +21,7 @@ const UserRoutes = () => {
         path="/:username/article_complete/:id"
         element={<UserArticleComplete />}
       />
-      {/* <Route path="*" element={<Error404 />} /> */}
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 };

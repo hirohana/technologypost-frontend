@@ -8,7 +8,7 @@ const ArticlesRoutes = () => {
       <Route path="/user/*" element={<UserRoutes />} />
       <Route path="/article/:id" element={<Article />} />
       <Route path="/" element={<Articles />} />
-      {/* <Route path="*" element={<Error404 />} /> */}
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 };
