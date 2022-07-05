@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps*/
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
@@ -30,9 +30,11 @@ const UserArticlePost = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const { user } = useSelector(selectUser);
   const { image, setImage, changeImageHandler } = useChangeImageHandler();
-  const { data } = useUserArticlePost();
+  const { data, category } = useUserArticlePost();
   const navigate = useNavigate();
   const { username } = useParams();
+  const textRef = useRef(null);
+  const textAreaRef = useRef(null);
 
   useEffect(() => {
     let newFileNames = fileNames;
@@ -161,85 +163,85 @@ const UserArticlePost = () => {
   };
 
   return (
-    <main className={styles.global_container}>
+    <>
       {user.displayName === username ? (
-        <div className={styles.container}>
-          {data.length !== 0 ? (
-            <>
-              <TemporarilyImageToFireStorage
-                fileNames={fileNames}
-                images={images}
-                setFileNames={setFileNames}
-                setImages={setImages}
-                textArea={textArea}
-                setTextArea={setTextArea}
-              />
-              <form onSubmit={(e) => handleSubmit(e)}>
-                <div className={styles.container_main}>
-                  <ImageIcon image={image} onChange={changeImageHandler} />
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    required
-                    multiline={true}
-                    label="タイトル(必須)"
-                    className={styles.textfiled}
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                  />
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    required
-                    multiline={true}
-                    rows={20}
-                    label="本文(必須)"
-                    autoFocus
-                    className={styles.textfiled}
-                    value={textArea}
-                    onChange={(e) => setTextArea(e.target.value)}
-                  />
-                  <SelectPulldown
-                    menus={data[1]}
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={setSelectedCategory}
-                  />
-                  <div className={styles.create_date}>
-                    <div className={styles.timestamp}>
-                      作成日 &nbsp;
-                      <TimestampProcessing
-                        timestamp={
-                          data[0].created_at
-                            ? data[0].created_at
-                            : new Date().toISOString()
-                        }
-                      />
+        <main className={styles.global_container}>
+          <div className={styles.container}>
+            {category.length !== 0 && (
+              <>
+                <TemporarilyImageToFireStorage
+                  fileNames={fileNames}
+                  images={images}
+                  setFileNames={setFileNames}
+                  setImages={setImages}
+                  textArea={textArea}
+                  setTextArea={setTextArea}
+                />
+                <form onSubmit={(e) => handleSubmit(e)}>
+                  <div className={styles.container_main}>
+                    <ImageIcon image={image} onChange={changeImageHandler} />
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      required
+                      multiline={true}
+                      label="タイトル(必須)"
+                      className={styles.textfiled}
+                      defaultValue={data.data[0] ? data.data[0].title : ''}
+                      ref={textRef}
+                    />
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      fullWidth
+                      required
+                      multiline={true}
+                      rows={20}
+                      label="本文(必須)"
+                      autoFocus
+                      className={styles.textfiled}
+                      defaultValue={
+                        data.data[0] ? data.data[0].letter_body : ''
+                      }
+                      ref={textAreaRef}
+                    />
+                    <SelectPulldown
+                      menus={category}
+                      selectedCategory={selectedCategory}
+                      setSelectedCategory={setSelectedCategory}
+                    />
+                    <div className={styles.create_date}>
+                      <div className={styles.timestamp}>
+                        作成日 &nbsp;
+                        <TimestampProcessing
+                          timestamp={new Date().toISOString()}
+                        />
+                      </div>
+                      作成者 &nbsp;{user.displayName}
                     </div>
-                    作成者 &nbsp;{user.displayName}
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      type="submit"
+                      disabled={!text || !textArea || !selectedCategory.length}
+                      className={
+                        !text || !textArea || !selectedCategory.length
+                          ? styles.send_disable_btn
+                          : styles.send_btn
+                      }
+                    >
+                      下書き保存
+                    </Button>
                   </div>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    type="submit"
-                    disabled={!text || !textArea || !selectedCategory.length}
-                    className={
-                      !text || !textArea || !selectedCategory.length
-                        ? styles.send_disable_btn
-                        : styles.send_btn
-                    }
-                  >
-                    下書き保存
-                  </Button>
-                </div>
-              </form>
-            </>
-          ) : null}
-        </div>
+                </form>
+              </>
+            )}
+          </div>
+        </main>
       ) : (
         <Error403 />
       )}
-    </main>
+    </>
   );
 };
 

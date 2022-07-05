@@ -59,17 +59,6 @@ type ARTICLE_DATA_FOR_USER_ARTICLE_LIST = {
   user_photo_url: string;
   username: string;
 };
-// type ARTICLE_DATA_FOR_USER_ARTICLE_LIST = {
-//   article_id: number | null;
-//   article_photo_url: string | null;
-//   created_at: string | null;
-//   letter_body: string | null;
-//   public: number | null;
-//   title: string | null;
-//   user_id: number | null;
-//   user_photo_url: string | null;
-//   username: string | null;
-// };
 
 type ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST = {
   data: ARTICLES_DATA_FOR_USER_ARTICLE_LIST;
