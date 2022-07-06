@@ -36,6 +36,10 @@ const UserArticlePost = () => {
   const textRef = useRef(null);
   const textAreaRef = useRef(null);
 
+  // 1. ファイル画像をアップロードした際に発火するイベント。
+  // 2. randomChar16メソッドを使って、ランダムな16桁の文字列を生成し、useStateのimageファイル名の文頭に付ける。
+  // 3. fireStorageにファイルを保存し、getDownloadURLでURLを取得。
+  // 4. URLを`[src=${url}]\n`の中にテンプレートリテラルとして埋め込み、textAreaに上書きする。
   useEffect(() => {
     let newFileNames = fileNames;
     let newImages = images;
@@ -49,7 +53,6 @@ const UserArticlePost = () => {
     newFileNames.push(fileName);
     setFileNames(newFileNames);
 
-    // 3. 上記のファイル名を使用してstorageにファイル情報を保存。
     const storageRef = ref(
       storage,
       `articleImages/${trimName}/articleImage/${fileName}`
@@ -98,6 +101,22 @@ const UserArticlePost = () => {
     );
   }, [image]);
 
+  // 1. 下書きデータを受け取った際に、letter_bodyにimage画像([]で囲まれたsrc属性から始まるURL)がある場合にそのURLを取り出す。
+  // 2. useStateであるimagesに、手としたURLを配列の要素に組み込み、setImagesを使って初期値をセットする。
+  useEffect(() => {
+    if (!data.data[0]) {
+      return;
+    }
+    const letterBody = data.data[0].letter_body;
+    const currentImages = letterBody.match(/https:\/\/.*[\]]/);
+    const images = currentImages?.map((image) => image.replace(/\]/, ''));
+    console.log(images);
+  }, [data]);
+
+  /**
+   * 下書きデータをpayloadとして纏めて、データベースに保存する関数
+   * @param e
+   */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     swal({
@@ -142,13 +161,24 @@ const UserArticlePost = () => {
     });
   };
 
+  /**
+   * 引数で受け取ったfireStorageのurlを加工し、textAreaに上書きする関数
+   * @param url
+   */
   const insertTextAreaWithdownloadURL = (url: string) => {
     const imgURL = `[src=${url}]\n`;
     let str = textArea;
     setTextArea(str + imgURL);
   };
 
-  const onSetCategory = () => {
+  /**
+   * 選択されたカテゴリーを、categoryArrayの配列にプッシュし返却する関数
+   * @returns
+   */
+  const onSetCategory = (): {
+    id: string;
+    name: string;
+  }[] => {
     const selectedCategoryArray = selectedCategory.trim().split(' ');
     const categoryArray = [];
     for (const category of selectedCategoryArray) {
