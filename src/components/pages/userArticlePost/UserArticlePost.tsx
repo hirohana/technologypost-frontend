@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps*/
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
@@ -33,10 +33,8 @@ const UserArticlePost = () => {
   const { data, category } = useUserArticlePost();
   const navigate = useNavigate();
   const { username } = useParams();
-  const textRef = useRef(null);
-  const textAreaRef = useRef(null);
 
-  // 1. ファイル画像をアップロードした際に発火するイベント。
+  // 1. ファイル画像をアップロードした際に発火する副作用。
   // 2. randomChar16メソッドを使って、ランダムな16桁の文字列を生成し、useStateのimageファイル名の文頭に付ける。
   // 3. fireStorageにファイルを保存し、getDownloadURLでURLを取得。
   // 4. URLを`[src=${url}]\n`の中にテンプレートリテラルとして埋め込み、textAreaに上書きする。
@@ -101,16 +99,31 @@ const UserArticlePost = () => {
     );
   }, [image]);
 
-  // 1. 下書きデータを受け取った際に、letter_bodyにimage画像([]で囲まれたsrc属性から始まるURL)がある場合にそのURLを取り出す。
-  // 2. useStateであるimagesに、手としたURLを配列の要素に組み込み、setImagesを使って初期値をセットする。
+  // 1. 下書きデータがある場合に、useStateであるtext及びtextAreaにtitleとletter_bodyをセット
+  // 2. categoriesからforEachを使い取り出したcategory.idとcategory.nameを各々連結させて、最後にselectedCategoryにセット。
+  // 3. letter_bodyにimage画像([]で囲まれたsrc属性から始まるURL)がある場合にそのURLを取り出す。
+  //    useStateであるimagesに、手としたURLを配列の要素に組み込み、setImagesを使って初期値をセットする。
   useEffect(() => {
     if (!data.data[0]) {
       return;
     }
+    setText(data.data[0].title);
+    setTextArea(data.data[0].letter_body);
+
+    let str = '';
+    data.categories.forEach((category) => {
+      str += `${category.id}.${category.name} `;
+    });
+    setSelectedCategory(str);
+
     const letterBody = data.data[0].letter_body;
-    const currentImages = letterBody.match(/https:\/\/.*[\]]/);
-    const images = currentImages?.map((image) => image.replace(/\]/, ''));
-    console.log(images);
+    const currentImages = letterBody.match(/https:\/\/.*[\]]/g);
+    const replaceImages = currentImages?.map((image) =>
+      image.replace(/\]/, '')
+    );
+    if (replaceImages) {
+      setImages(replaceImages);
+    }
   }, [data]);
 
   /**
@@ -217,8 +230,8 @@ const UserArticlePost = () => {
                       multiline={true}
                       label="タイトル(必須)"
                       className={styles.textfiled}
-                      defaultValue={data.data[0] ? data.data[0].title : ''}
-                      ref={textRef}
+                      value={text}
+                      onChange={(e) => setText(e.target.value)}
                     />
                     <TextField
                       variant="outlined"
@@ -230,10 +243,8 @@ const UserArticlePost = () => {
                       label="本文(必須)"
                       autoFocus
                       className={styles.textfiled}
-                      defaultValue={
-                        data.data[0] ? data.data[0].letter_body : ''
-                      }
-                      ref={textAreaRef}
+                      value={textArea}
+                      onChange={(e) => setTextArea(e.target.value)}
                     />
                     <SelectPulldown
                       menus={category}

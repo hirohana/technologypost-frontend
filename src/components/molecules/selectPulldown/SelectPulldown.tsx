@@ -1,5 +1,4 @@
 import { TextField } from '@mui/material';
-import { useState } from 'react';
 import styles from './SelectPulldown.module.scss';
 
 type PROPS = {

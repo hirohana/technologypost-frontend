@@ -52,11 +52,11 @@ const TemporarilyImageToFireStorage = (props: PROPS) => {
     <div className={styles.container}>
       {images.map((image, index) => (
         <div
-          key={fileNames[index]}
+          key={image}
           className={styles.container_image_deleteButton}
           title="削除"
         >
-          <img src={image} alt={fileNames[index]} />
+          <img src={image} alt={image} />
           <button onClick={() => imageDelete(index, image)}>✖</button>
         </div>
       ))}
