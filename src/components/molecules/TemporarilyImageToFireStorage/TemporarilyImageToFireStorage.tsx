@@ -8,6 +8,7 @@ import styles from './TemporarilyImageToFireStorage.module.scss';
 import { trimString } from 'utils/trimString/trimString';
 
 type PROPS = {
+  fireStorageId: string;
   fileNames: string[];
   images: string[];
   textArea: string;
@@ -17,18 +18,25 @@ type PROPS = {
 };
 
 const TemporarilyImageToFireStorage = (props: PROPS) => {
-  const { fileNames, images, setFileNames, setImages, textArea, setTextArea } =
-    props;
+  const {
+    fireStorageId,
+    fileNames,
+    images,
+    setFileNames,
+    setImages,
+    textArea,
+    setTextArea,
+  } = props;
   const { user } = useSelector(selectUser);
 
-  // firebaseのstorage及びfirestoreから該当するfilename,imageDbUrlを削除する関数。
+  // firebaseのfierStorageから該当するファイルを削除する関数。
   const imageDelete = async (index: number, image: string) => {
     const trimName = trimString(user.displayName);
 
     try {
       const storageRef = ref(
         storage,
-        `articleImages/${trimName}/articleImage/${fileNames[index]}`
+        `articleImages/${fireStorageId}/${trimName}/${fileNames[index]}`
       );
       await deleteObject(storageRef);
 
