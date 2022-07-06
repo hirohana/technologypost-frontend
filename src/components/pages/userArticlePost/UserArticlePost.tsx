@@ -42,8 +42,8 @@ const UserArticlePost = () => {
 
   // 1. ファイル画像をアップロードした際に発火する副作用。
   // 2. randomChar16メソッドを使って、ランダムな16桁の文字列を生成し、useStateのimageファイル名の文頭に付ける。
-  // 3. fireStorageにファイルを保存し、getDownloadURLでURLを取得。
-  // 4. URLを`[src=${url}]\n`の中にテンプレートリテラルとして埋め込み、textAreaに上書きする。
+  // 3. fireStorageのdraftImagesディレクトリ配下にファイルを保存し、getDownloadURLでURLを取得。
+  // 4. URLを`![image](${image})`の中にテンプレートリテラルとして埋め込み、markdownValueに上書きする。
   useEffect(() => {
     let newFileNames = fileNames;
     let newImages = images;
@@ -51,6 +51,7 @@ const UserArticlePost = () => {
     if (image === null) {
       return;
     }
+
     const randomChar = randomChar16();
     const fileName = randomChar + '_' + image.name;
     const trimName = trimString(user.displayName);
@@ -59,7 +60,7 @@ const UserArticlePost = () => {
 
     const storageRef = ref(
       storage,
-      `articleImages/${fireStorageId}/${trimName}/${fileName}`
+      `draftImages/${fireStorageId}/${trimName}/${fileName}`
     );
     const uploadTask = uploadBytesResumable(storageRef, image);
     setImage(null);
@@ -98,7 +99,7 @@ const UserArticlePost = () => {
         // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setMarkdownValue((preMarkdownValue) => {
-            return preMarkdownValue + `![image](${downloadURL})`;
+            return preMarkdownValue + `![image](${downloadURL})\n`;
           });
           newImages.push(downloadURL);
           setImages(newImages);
@@ -135,7 +136,8 @@ const UserArticlePost = () => {
   }, [data]);
 
   /**
-   * 下書きデータをpayloadとして纏めて、データベースに保存する関数
+   * 1.
+   * 2. 下書きデータをpayloadとして纏めてデータベースに保存。
    * @param e
    */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -220,8 +222,8 @@ const UserArticlePost = () => {
                   images={images}
                   setFileNames={setFileNames}
                   setImages={setImages}
-                  textArea={textArea}
-                  setTextArea={setTextArea}
+                  markdownValue={markdownValue}
+                  setMarkdownValue={setMarkdownValue}
                 />
                 <form onSubmit={(e) => handleSubmit(e)}>
                   <div className={styles.container_main}>

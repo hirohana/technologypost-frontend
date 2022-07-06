@@ -11,10 +11,10 @@ type PROPS = {
   fireStorageId: string;
   fileNames: string[];
   images: string[];
-  textArea: string;
+  markdownValue: string;
   setFileNames: React.Dispatch<React.SetStateAction<string[]>>;
   setImages: React.Dispatch<React.SetStateAction<string[]>>;
-  setTextArea: React.Dispatch<React.SetStateAction<string>>;
+  setMarkdownValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const TemporarilyImageToFireStorage = (props: PROPS) => {
@@ -24,8 +24,8 @@ const TemporarilyImageToFireStorage = (props: PROPS) => {
     images,
     setFileNames,
     setImages,
-    textArea,
-    setTextArea,
+    markdownValue,
+    setMarkdownValue,
   } = props;
   const { user } = useSelector(selectUser);
 
@@ -36,7 +36,7 @@ const TemporarilyImageToFireStorage = (props: PROPS) => {
     try {
       const storageRef = ref(
         storage,
-        `articleImages/${fireStorageId}/${trimName}/${fileNames[index]}`
+        `draftImages/${fireStorageId}/${trimName}/${fileNames[index]}`
       );
       await deleteObject(storageRef);
 
@@ -46,11 +46,14 @@ const TemporarilyImageToFireStorage = (props: PROPS) => {
       const newImages = images.filter((image) => {
         return image !== images[index];
       });
-      let copyTextArea = textArea;
-      const newTextArea = copyTextArea.replace(`[src=${image}]\n`, '');
+      let copyMarkdownValue = markdownValue;
+      const newMarkdownValue = copyMarkdownValue.replace(
+        `![image](${image})\n`,
+        ''
+      );
       setFileNames(newFileNames);
       setImages(newImages);
-      setTextArea(newTextArea);
+      setMarkdownValue(newMarkdownValue);
     } catch (err: any) {
       sweetAlertOfError(err);
     }
