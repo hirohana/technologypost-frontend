@@ -24,14 +24,13 @@ import { selectUser } from 'reducks/user/selectUser';
 import { randomChar16 } from 'utils/randomChar16/randomChar16';
 import { trimString } from 'utils/trimString/trimString';
 import { SelectPulldown } from 'components/molecules/selectPulldown/SelectPulldown';
-import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
 import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
 
 const fireStorageId = randomChar16();
 const UserArticlePost = () => {
+  const [unmounted, setUnmounted] = useState(false);
   const [text, setText] = useState('');
   const [markdownValue, setMarkdownValue] = useState('');
-  // const [textArea, setTextArea] = useState('');
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -41,13 +40,14 @@ const UserArticlePost = () => {
   const navigate = useNavigate();
   const { username } = useParams();
 
-  // -----------------------------------------------------------------------------------
-
   useEffect(() => {
-    return () => console.log('終了');
-  }, []);
-
-  // -----------------------------------------------------------------------------------
+    return () => {
+      if (!unmounted) {
+        return;
+      }
+      console.log('終了');
+    };
+  }, [unmounted]);
 
   // 1. ファイル画像をアップロードした際に発火する副作用。
   // 2. randomChar16メソッドを使って、ランダムな16桁の文字列を生成し、useStateのimageファイル名の文頭に付ける。
@@ -69,7 +69,7 @@ const UserArticlePost = () => {
 
     const storageRef = ref(
       storage,
-      `draftImages/${fireStorageId}/${trimName}/${fileName}`
+      `articleImages/${fireStorageId}/${trimName}/${fileName}`
     );
     const uploadTask = uploadBytesResumable(storageRef, image);
     setImage(null);
@@ -142,7 +142,6 @@ const UserArticlePost = () => {
     if (replaceImages) {
       setImages(replaceImages);
     }
-    return () => console.log('ああ');
   }, [data]);
 
   /**
@@ -158,39 +157,18 @@ const UserArticlePost = () => {
       buttons: ['キャンセル', 'OK'],
       dangerMode: true,
     }).then(async (willDelete) => {
-      if (!willDelete || !user.uid || image === null) {
+      if (!willDelete || !user.uid) {
         return;
       }
-      let newImages = images;
-      const trimName = trimString(user.displayName);
 
+      setUnmounted(true);
+      let stringFileNames = '';
       for (let i = 0; i < fileNames.length; i++) {
-        const storageRef = ref(
-          storage,
-          `articleImages/${fireStorageId}/${trimName}/${fileNames[i]}`
-        );
-        const uploadTask = uploadBytesResumable(storageRef, image);
-        setImage(null);
-        uploadTask.on(
-          'state_changed',
-          (snapshot) => {
-            // snapshotを使った処理をしない。
-          },
-          (error) => {
-            // エラーハンドリングも行わない。
-          },
-          () => {
-            // Upload completed successfully, now we can get the download URL
-
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              setMarkdownValue((preMarkdownValue) => {
-                return preMarkdownValue + `![image](${downloadURL})\n`;
-              });
-              newImages.push(downloadURL);
-              setImages(newImages);
-            });
-          }
-        );
+        if (i === 0) {
+          stringFileNames += fileNames[i];
+          continue;
+        }
+        stringFileNames += `, ${fileNames[i]}`;
       }
 
       // const category = onSetCategory();
@@ -281,19 +259,7 @@ const UserArticlePost = () => {
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                       />
-                      {/* <TextField
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        required
-                        multiline={true}
-                        rows={20}
-                        label="本文(必須)"
-                        autoFocus
-                        className={styles.textfiled}
-                        value={textArea}
-                        onChange={(e) => setTextArea(e.target.value)}
-                      /> */}
+
                       <SelectPulldown
                         menus={category}
                         selectedCategory={selectedCategory}
@@ -378,12 +344,13 @@ export default UserArticlePost;
 // import { trimString } from 'utils/trimString/trimString';
 // import { SelectPulldown } from 'components/molecules/selectPulldown/SelectPulldown';
 // import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
+// import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
 
 // const fireStorageId = randomChar16();
 // const UserArticlePost = () => {
-//   const [markdownValue, setMarkdownValue] = useState('Initial value');
 //   const [text, setText] = useState('');
-//   const [textArea, setTextArea] = useState('');
+//   const [markdownValue, setMarkdownValue] = useState('');
+//   // const [textArea, setTextArea] = useState('');
 //   const [fileNames, setFileNames] = useState<string[]>([]);
 //   const [images, setImages] = useState<string[]>([]);
 //   const [selectedCategory, setSelectedCategory] = useState('');
@@ -392,6 +359,12 @@ export default UserArticlePost;
 //   const { data, category } = useUserArticlePost();
 //   const navigate = useNavigate();
 //   const { username } = useParams();
+
+//   useEffect(() => {
+//     return () => {
+//       console.log('終了');
+//     };
+//   }, []);
 
 //   // 1. ファイル画像をアップロードした際に発火する副作用。
 //   // 2. randomChar16メソッドを使って、ランダムな16桁の文字列を生成し、useStateのimageファイル名の文頭に付ける。
@@ -470,7 +443,7 @@ export default UserArticlePost;
 //       return;
 //     }
 //     setText(data.data[0].title);
-//     setTextArea(data.data[0].letter_body);
+//     setMarkdownValue(data.data[0].letter_body);
 
 //     let str = '';
 //     data.categories.forEach((category) => {
@@ -486,10 +459,11 @@ export default UserArticlePost;
 //     if (replaceImages) {
 //       setImages(replaceImages);
 //     }
+//     return () => console.log('ああ');
 //   }, [data]);
 
 //   /**
-//    * 1.
+//    * 1. fireStorageのarticlesディレクトリ配下にファイルを保存。
 //    * 2. 下書きデータをpayloadとして纏めてデータベースに保存。
 //    * @param e
 //    */
@@ -501,39 +475,71 @@ export default UserArticlePost;
 //       buttons: ['キャンセル', 'OK'],
 //       dangerMode: true,
 //     }).then(async (willDelete) => {
-//       if (!willDelete || !user.uid) {
+//       if (!willDelete || !user.uid || image === null) {
 //         return;
 //       }
-//       const category = onSetCategory();
-//       const payload = {
-//         user_id: user.uid,
-//         title: text,
-//         letter_body: textArea,
-//         created_at: new Date().toLocaleString(),
-//         public: 0,
-//         category,
-//       };
+//       let newImages = images;
+//       const trimName = trimString(user.displayName);
 
-//       try {
-//         const response = await fetch(`${config.BACKEND_URL}/articles/draft`, {
-//           method: 'POST',
-//           headers: {
-//             'Content-Type': 'application/json',
+//       for (let i = 0; i < fileNames.length; i++) {
+//         const storageRef = ref(
+//           storage,
+//           `articleImages/${fireStorageId}/${trimName}/${fileNames[i]}`
+//         );
+//         const uploadTask = uploadBytesResumable(storageRef, image);
+//         setImage(null);
+//         uploadTask.on(
+//           'state_changed',
+//           (snapshot) => {
+//             // snapshotを使った処理をしない。
 //           },
-//           body: JSON.stringify(payload),
-//         });
-//         if (response.status === 200) {
-//           navigate(`/articles/user/${user.displayName}/article_list`);
-//         } else if (response.status === 500) {
-//           sweetAlertOfError(
-//             `サーバー側のエラーにより下書きデータが保存されませんでした。\nエラー内容: ${await response.json()}`
-//           );
-//         }
-//       } catch (err: any) {
-//         sweetAlertOfError(
-//           `通信エラーが発生し下書きデータが保存されなかった可能性があります。\nエラー内容: ${err}`
+//           (error) => {
+//             // エラーハンドリングも行わない。
+//           },
+//           () => {
+//             // Upload completed successfully, now we can get the download URL
+
+//             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+//               setMarkdownValue((preMarkdownValue) => {
+//                 return preMarkdownValue + `![image](${downloadURL})\n`;
+//               });
+//               newImages.push(downloadURL);
+//               setImages(newImages);
+//             });
+//           }
 //         );
 //       }
+
+//       // const category = onSetCategory();
+//       // const payload = {
+//       //   user_id: user.uid,
+//       //   title: text,
+//       //   letter_body: markdownValue,
+//       //   created_at: new Date().toLocaleString(),
+//       //   public: 0,
+//       //   category,
+//       // };
+
+//       // try {
+//       //   const response = await fetch(`${config.BACKEND_URL}/articles/draft`, {
+//       //     method: 'POST',
+//       //     headers: {
+//       //       'Content-Type': 'application/json',
+//       //     },
+//       //     body: JSON.stringify(payload),
+//       //   });
+//       //   if (response.status === 200) {
+//       //     navigate(`/articles/user/${user.displayName}/article_list`);
+//       //   } else if (response.status === 500) {
+//       //     sweetAlertOfError(
+//       //       `サーバー側のエラーにより下書きデータが保存されませんでした。\nエラー内容: ${await response.json()}`
+//       //     );
+//       //   }
+//       // } catch (err: any) {
+//       //   sweetAlertOfError(
+//       //     `通信エラーが発生し下書きデータが保存されなかった可能性があります。\nエラー内容: ${err}`
+//       //   );
+//       // }
 //     });
 //   };
 
@@ -563,96 +569,88 @@ export default UserArticlePost;
 //   };
 
 //   return (
-//     <>
-//       {user.displayName === username ? (
-//         <main className={styles.global_container}>
-//           <div className={styles.container}>
-//             {category.length !== 0 && (
-//               <>
-//                 <TemporarilyImageToFireStorage
-//                   fireStorageId={fireStorageId}
-//                   fileNames={fileNames}
-//                   images={images}
-//                   setFileNames={setFileNames}
-//                   setImages={setImages}
-//                   markdownValue={markdownValue}
-//                   setMarkdownValue={setMarkdownValue}
-//                 />
-//                 <form onSubmit={(e) => handleSubmit(e)}>
-//                   <div className={styles.container_main}>
-//                     <ImageIcon image={image} onChange={changeImageHandler} />
-//                     <TextField
-//                       variant="outlined"
-//                       fullWidth
-//                       required
-//                       multiline={true}
-//                       label="タイトル(必須)"
-//                       className={styles.textfiled}
-//                       value={text}
-//                       onChange={(e) => setText(e.target.value)}
-//                     />
-//                     <TextField
-//                       variant="outlined"
-//                       margin="normal"
-//                       fullWidth
-//                       required
-//                       multiline={true}
-//                       rows={20}
-//                       label="本文(必須)"
-//                       autoFocus
-//                       className={styles.textfiled}
-//                       value={textArea}
-//                       onChange={(e) => setTextArea(e.target.value)}
-//                     />
-//                     <SelectPulldown
-//                       menus={category}
-//                       selectedCategory={selectedCategory}
-//                       setSelectedCategory={setSelectedCategory}
-//                     />
+//     <DefaultLayout>
+//       <>
+//         {user.displayName === username ? (
+//           <main className={styles.global_container}>
+//             <div className={styles.container}>
+//               {category.length !== 0 && (
+//                 <>
+//                   <TemporarilyImageToFireStorage
+//                     fireStorageId={fireStorageId}
+//                     fileNames={fileNames}
+//                     images={images}
+//                     setFileNames={setFileNames}
+//                     setImages={setImages}
+//                     markdownValue={markdownValue}
+//                     setMarkdownValue={setMarkdownValue}
+//                   />
+//                   <form onSubmit={(e) => handleSubmit(e)}>
+//                     <div className={styles.container_main}>
+//                       <ImageIcon image={image} onChange={changeImageHandler} />
+//                       <TextField
+//                         variant="outlined"
+//                         fullWidth
+//                         required
+//                         multiline={true}
+//                         label="タイトル(必須)"
+//                         className={styles.textfiled}
+//                         value={text}
+//                         onChange={(e) => setText(e.target.value)}
+//                       />
 
-//                     <SimpleMde
-//                       value={markdownValue}
-//                       onChange={onMarkdownChange}
-//                     />
-//                     <div>
-//                       <div
-//                         dangerouslySetInnerHTML={{
-//                           __html: DOMPurify.sanitize(marked(markdownValue)),
-//                         }}
-//                       ></div>
-//                     </div>
-//                     <div className={styles.create_date}>
-//                       <div className={styles.timestamp}>
-//                         作成日 &nbsp;
-//                         <TimestampProcessing
-//                           timestamp={new Date().toISOString()}
-//                         />
+//                       <SelectPulldown
+//                         menus={category}
+//                         selectedCategory={selectedCategory}
+//                         setSelectedCategory={setSelectedCategory}
+//                       />
+
+//                       <SimpleMde
+//                         value={markdownValue}
+//                         onChange={onMarkdownChange}
+//                       />
+//                       <div>
+//                         <div
+//                           dangerouslySetInnerHTML={{
+//                             __html: DOMPurify.sanitize(marked(markdownValue)),
+//                           }}
+//                         ></div>
 //                       </div>
-//                       作成者 &nbsp;{user.displayName}
+//                       <div className={styles.create_date}>
+//                         <div className={styles.timestamp}>
+//                           作成日 &nbsp;
+//                           <TimestampProcessing
+//                             timestamp={new Date().toISOString()}
+//                           />
+//                         </div>
+//                         作成者 &nbsp;{user.displayName}
+//                       </div>
+//                       <Button
+//                         fullWidth
+//                         variant="contained"
+//                         type="submit"
+//                         disabled={
+//                           !text || !markdownValue || !selectedCategory.length
+//                         }
+//                         className={
+//                           !text || !markdownValue || !selectedCategory.length
+//                             ? styles.send_disable_btn
+//                             : styles.send_btn
+//                         }
+//                       >
+//                         下書き保存
+//                       </Button>
 //                     </div>
-//                     <Button
-//                       fullWidth
-//                       variant="contained"
-//                       type="submit"
-//                       disabled={!text || !textArea || !selectedCategory.length}
-//                       className={
-//                         !text || !textArea || !selectedCategory.length
-//                           ? styles.send_disable_btn
-//                           : styles.send_btn
-//                       }
-//                     >
-//                       下書き保存
-//                     </Button>
-//                   </div>
-//                 </form>
-//               </>
-//             )}
-//           </div>
-//         </main>
-//       ) : (
-//         <Error403 />
-//       )}
-//     </>
+//                   </form>
+//                 </>
+//               )}
+//             </div>
+//           </main>
+//         ) : (
+//           <Error403 />
+//         )}
+//       </>
+//     </DefaultLayout>
 //   );
 // };
 

@@ -36,7 +36,7 @@ const TemporarilyImageToFireStorage = (props: PROPS) => {
     try {
       const storageRef = ref(
         storage,
-        `draftImages/${fireStorageId}/${trimName}/${fileNames[index]}`
+        `articleImages/${fireStorageId}/${trimName}/${fileNames[index]}`
       );
       await deleteObject(storageRef);
 
