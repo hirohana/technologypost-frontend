@@ -6,9 +6,10 @@ import { storage } from '../../../firebase';
 import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
 import styles from './TemporarilyImageToFireStorage.module.scss';
 import { trimString } from 'utils/trimString/trimString';
+import { config } from 'config/applicationConfig';
 
 type PROPS = {
-  fireStorageId: string;
+  articleIdOfFireStorage: string;
   fileNames: string[];
   images: string[];
   markdownValue: string;
@@ -19,7 +20,7 @@ type PROPS = {
 
 const TemporarilyImageToFireStorage = (props: PROPS) => {
   const {
-    fireStorageId,
+    articleIdOfFireStorage,
     fileNames,
     images,
     setFileNames,
@@ -36,7 +37,7 @@ const TemporarilyImageToFireStorage = (props: PROPS) => {
     try {
       const storageRef = ref(
         storage,
-        `articleImages/${fireStorageId}/${trimName}/${fileNames[index]}`
+        `articleImages/${articleIdOfFireStorage}/${trimName}/${fileNames[index]}`
       );
       await deleteObject(storageRef);
 
@@ -54,6 +55,20 @@ const TemporarilyImageToFireStorage = (props: PROPS) => {
       setFileNames(newFileNames);
       setImages(newImages);
       setMarkdownValue(newMarkdownValue);
+
+      // データベースに格納されているデータを削除
+      const payload = {
+        fileNames,
+        images,
+        markdownValue,
+      };
+      await fetch(`${config.BACKEND_URL}/aa`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
     } catch (err: any) {
       sweetAlertOfError(err);
     }
