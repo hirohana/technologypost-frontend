@@ -143,7 +143,7 @@ const useUserArticlePost = () => {
       const draftArticlesData = async () => {
         try {
           const response = await fetch(
-            `${config.BACKEND_URL}/articles/${id}/draft`
+            `${config.BACKEND_URL}/articles/draft/${id}`
           );
           const draftData = await response.json();
           return draftData;

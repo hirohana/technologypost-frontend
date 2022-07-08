@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps*/
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import SimpleMde from 'react-simplemde-editor';
@@ -27,7 +27,7 @@ import { SelectPulldown } from 'components/molecules/selectPulldown/SelectPulldo
 import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
 import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
 
-let articleIdOfFireStorage = randomChar16();
+let articleIdOfFireStorage = '';
 const UserArticlePost = () => {
   const [unmounted, setUnmounted] = useState(false);
   const [text, setText] = useState('');
@@ -39,7 +39,7 @@ const UserArticlePost = () => {
   const { image, setImage, changeImageHandler } = useChangeImageHandler();
   const { data, category } = useUserArticlePost();
   const navigate = useNavigate();
-  const { username } = useParams();
+  const { username, id } = useParams();
 
   useEffect(() => {
     return () => {
@@ -68,6 +68,10 @@ const UserArticlePost = () => {
     newFileNames.push(fileName);
     setFileNames(newFileNames);
 
+    // 初回fireStorageにファイル画像を保存する際にrandomChar16関数を使用し、ストレージ用のIDを取得。
+    if (!articleIdOfFireStorage) {
+      articleIdOfFireStorage = randomChar16();
+    }
     const storageRef = ref(
       storage,
       `articleImages/${articleIdOfFireStorage}/${trimName}/${fileName}`
@@ -171,20 +175,19 @@ const UserArticlePost = () => {
       }
 
       setUnmounted(true);
+      // サーバーに下書きデータを送るための前処理。
       const category = onSetCategory();
-
       const stringImages = images.reduce(
         (prev, current) => (prev += `,${current}`)
       );
       const stringFileNames = fileNames.reduce(
         (prev, current) => (prev += `,${current}`)
       );
-
       const payload = {
-        user_id: user.uid,
+        userId: user.uid,
         title: text,
-        letter_body: markdownValue,
-        created_at: new Date().toLocaleString(),
+        letterBody: markdownValue,
+        createdAt: new Date().toLocaleString(),
         public: 0,
         articleIdOfStorage: articleIdOfFireStorage,
         fileNames: stringFileNames,
@@ -193,13 +196,29 @@ const UserArticlePost = () => {
       };
 
       try {
-        const response = await fetch(`${config.BACKEND_URL}/articles/draft`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        });
+        // URLパラメータから記事IDを取得できない場合、つまり下書きデータがデータベースに存在しない場合の処理。
+        let response: Response;
+        if (!id) {
+          console.log('最初の下書き保存');
+          response = await fetch(`${config.BACKEND_URL}/articles/draft`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+          // URLパラメータから記事IDを取得できる場合、つまり下書きデータがデータベースに存在する場合の処理。
+        } else {
+          console.log('下書きの上書き保存');
+          response = await fetch(`${config.BACKEND_URL}/articles/draft/${id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+        }
+
         if (response.status === 200) {
           navigate(`/articles/user/${user.displayName}/article_list`);
         } else if (response.status === 500) {

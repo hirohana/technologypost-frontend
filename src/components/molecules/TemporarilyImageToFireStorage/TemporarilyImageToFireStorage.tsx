@@ -7,6 +7,7 @@ import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
 import styles from './TemporarilyImageToFireStorage.module.scss';
 import { trimString } from 'utils/trimString/trimString';
 import { config } from 'config/applicationConfig';
+import { useParams } from 'react-router-dom';
 
 type PROPS = {
   articleIdOfFireStorage: string;
@@ -29,7 +30,7 @@ const TemporarilyImageToFireStorage = (props: PROPS) => {
     setMarkdownValue,
   } = props;
   const { user } = useSelector(selectUser);
-
+  const { id } = useParams();
   // firebaseのfierStorageから該当するファイルを削除する関数。
   const imageDelete = async (index: number, image: string) => {
     const trimName = trimString(user.displayName);
@@ -56,13 +57,21 @@ const TemporarilyImageToFireStorage = (props: PROPS) => {
       setImages(newImages);
       setMarkdownValue(newMarkdownValue);
 
+      const stringFileNames = newFileNames.reduce(
+        (prev, current) => (prev += `,${current}`)
+      );
+      const stringImages = newImages.reduce(
+        (prev, current) => (prev += `,${current}`)
+      );
+
       // データベースに格納されているデータを削除
       const payload = {
-        fileNames,
-        images,
-        markdownValue,
+        fileNames: stringFileNames,
+        images: stringImages,
+        letterBody: newMarkdownValue,
       };
-      await fetch(`${config.BACKEND_URL}/aa`, {
+
+      await fetch(`${config.BACKEND_URL}/articles/draft/image/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
