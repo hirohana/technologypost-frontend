@@ -2,8 +2,8 @@
     "version": 3,
     "mappings": "",
     "sources": [
-        "Article.module.scss"
+        "UserArticleList.module.scss"
     ],
     "names": [],
-    "file": "Article.module.css"
+    "file": "UserArticleList.module.css"
 }

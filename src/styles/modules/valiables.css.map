@@ -1,1 +1,9 @@
-{"version":3,"sources":["valiables.scss","valiables.css"],"names":[],"mappings":"AAiBA;EACE,yBAAA;AChBF;;ADoBA;EACE,iBAAA;EACA,gCAAA;EACA,+BAAA;EACA,iBAAA;ACjBF;;ADqBA;EACE,UAAA;EACA,cAAA;EACA,iBAAA;AClBF","file":"valiables.css"}
+{
+    "version": 3,
+    "mappings": "AAiBA,AAAA,UAAU,CAAC;EACT,KAAK,EAAE,kBAAkB;CAC1B;;AAGD,AAAA,aAAa,CAAC;EACZ,MAAM,EAAE,SAAS;EACjB,YAAY,EAAE,kBAAkB;EAChC,UAAU,EAAE,GAAG,CAAC,GAAG,CAAC,GAAG,CAAC,OAAkB;EAC1C,OAAO,EAAE,QAAQ;CAClB;;AAGD,AAAA,cAAc,CAAC;EACb,KAAK,EAAE,GAAG;EACV,MAAM,EAAE,MAAM;EACd,SAAS,EAAE,MAAM;CAClB",
+    "sources": [
+        "valiables.scss"
+    ],
+    "names": [],
+    "file": "valiables.css"
+}

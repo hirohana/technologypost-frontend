@@ -24,32 +24,31 @@
 }
 
 .container {
-  height: 70vh;
   margin-top: 50px;
 }
 
-.error_code {
-  color: red;
+.create_date {
+  margin: 15px 0;
 }
 
-.sendDisableBtn, .sendBtn {
+.timestamp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.send_disable_btn, .send_btn {
   background-color: #d3d1d1 !important;
   border-radius: 20px !important;
   color: white !important;
   cursor: pointer !important;
 }
 
-.sendDisableBtn:focus, .sendBtn:focus {
+.send_disable_btn:focus, .send_btn:focus {
   outline: 0;
 }
 
-.sendBtn {
+.send_btn {
   background-color: #00bfff !important;
 }
-
-.formControl {
-  min-width: 200px !important;
-  margin-top: 20px !important;
-  margin-bottom: 20px !important;
-}
-/*# sourceMappingURL=Contact.module.css.map */
+/*# sourceMappingURL=UserArticlePost.module.css.map */
