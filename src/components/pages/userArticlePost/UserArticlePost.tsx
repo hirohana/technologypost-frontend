@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps*/
-import { useEffect, useState, useLayoutEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import SimpleMde from 'react-simplemde-editor';
@@ -8,7 +8,13 @@ import marked from 'marked';
 import { Button, TextField } from '@mui/material';
 import swal from 'sweetalert';
 import 'easymde/dist/easymde.min.css';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  listAll,
+  deleteObject,
+} from 'firebase/storage';
 import { storage } from '../../../firebase';
 
 import { config } from 'config/applicationConfig';
@@ -29,7 +35,6 @@ import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
 
 let articleIdOfFireStorage = '';
 const UserArticlePost = () => {
-  const [unmounted, setUnmounted] = useState(false);
   const [text, setText] = useState('');
   const [markdownValue, setMarkdownValue] = useState('');
   const [fileNames, setFileNames] = useState<string[]>([]);
@@ -41,14 +46,28 @@ const UserArticlePost = () => {
   const navigate = useNavigate();
   const { username, id } = useParams();
 
+  //  新規作成からUserArticlePostコンポーネントに遷移し、ファイル画像をfirebaseのStorageに保存された後
+  //  url遷移した際に、firebaseのStorageに保存したファイル画像及びディレクトリを削除する。
   useEffect(() => {
     return () => {
-      if (!unmounted) {
+      if (id || !articleIdOfFireStorage) {
         return;
       }
-      console.log('終了');
+      (async () => {
+        try {
+          const trimUserName = trimString(username!);
+          const storageRef = ref(
+            storage,
+            `articleImages/${articleIdOfFireStorage}/${trimUserName}/`
+          );
+          const listResult = await listAll(storageRef);
+          listResult.items.forEach(async (item) => await deleteObject(item));
+        } catch (err) {
+          console.error(err);
+        }
+      })();
     };
-  }, [unmounted]);
+  }, []);
 
   // 1. ファイル画像をアップロードした際に発火する副作用。
   // 2. randomChar16メソッドを使って、ランダムな16桁の文字列を生成し、useStateのimageファイル名の文頭に付ける。
@@ -174,7 +193,6 @@ const UserArticlePost = () => {
         return;
       }
 
-      setUnmounted(true);
       // サーバーに下書きデータを送るための前処理。
       const category = onSetCategory();
       const stringImages = images.reduce(

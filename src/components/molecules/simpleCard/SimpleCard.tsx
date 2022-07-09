@@ -10,7 +10,6 @@ import { config } from 'config/applicationConfig';
 import ThreeDotMenu from 'components/molecules/threeDotMenu/ThreeDotMenu';
 import styles from './SimpleCard.module.scss';
 import TimestampProcessing from 'components/atoms/timestampProcessing/TimestampProcessing';
-import sweetAlertOfSuccess from 'utils/sweetAlert/sweetAlertOfSuccess';
 import { trimString } from 'utils/trimString/trimString';
 import { menuForUserArticleList } from 'components/molecules/threeDotMenu/menuForUserArticleListPage';
 
