@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
-import { useGetCookieToReduxStore } from "hooks/components/authAccount/useAuthAccount";
-import styles from "./DefaultLayout.module.scss";
+import { useGetCookieToReduxStore } from 'hooks/components/Login/useAuthLoginAndSignUp';
+import styles from './DefaultLayout.module.scss';
 
 type PROPS = {
   children: ReactNode;

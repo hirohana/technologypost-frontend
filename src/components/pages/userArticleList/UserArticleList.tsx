@@ -10,16 +10,18 @@ import { SimpleCards } from 'components/organisms/simpleCards/SimpleCards';
 import { CardsInformation } from 'components/molecules/cardsInformation/CardsInformation';
 import { Pagination } from 'components/molecules/pagination/Pagination';
 import AsideScrollTop from 'components/atoms/button/asideScrollTop/AsideScrollTop';
+import { trimString } from 'utils/trimString/trimString';
 
 const UserArticleList = () => {
   const { user } = useSelector(selectUser);
   const { username } = useParams();
+  const trimUserName = trimString(user.displayName);
   const { data } = useUserArticleList();
 
   return (
     <DefaultLayout>
       <main>
-        {user.displayName === username ? (
+        {trimUserName === username ? (
           <div className={styles.container}>
             <CardsInformation />
             <AsideScrollTop />

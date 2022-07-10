@@ -46,8 +46,8 @@ const UserArticlePost = () => {
   const navigate = useNavigate();
   const { username, id } = useParams();
 
-  //  新規作成からUserArticlePostコンポーネントに遷移し、ファイル画像をfirebaseのStorageに保存された後
-  //  url遷移した際に、firebaseのStorageに保存したファイル画像及びディレクトリを削除する。
+  //  新規作成からUserArticlePostコンポーネントに遷移し、ファイル画像をfirebaseのStorageに保存した後、
+  //  下書き保存前に意図せずurl遷移した際、firebaseのStorageに保存したファイル画像及びディレクトリを削除する。
   useEffect(() => {
     return () => {
       if (id || !articleIdOfFireStorage) {
