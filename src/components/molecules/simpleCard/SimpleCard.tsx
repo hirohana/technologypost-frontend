@@ -98,7 +98,7 @@ const SimpleCard = (props: PROPS) => {
                   ? () => navigate(`/articles/article/${data.article_id}`)
                   : () =>
                       navigate(
-                        `/articles/user/${user.displayName}/article_post/${data.article_id}`
+                        `/articles/user/${trimUserName}/article_post/${data.article_id}`
                       )
               }
             >

@@ -15,6 +15,7 @@ const useChangeImageHandler = () => {
         return;
       }
       if (e.target.value![0]) {
+        console.log(e.target.files![0]);
         setImage(e.target.files![0]);
         e.target.value = '';
       }

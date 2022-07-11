@@ -33,8 +33,9 @@ import { SelectPulldown } from 'components/molecules/selectPulldown/SelectPulldo
 import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
 import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
 
-let articleIdOfFireStorage = '';
 const UserArticlePost = () => {
+  const [isDraftData, setIsDraftData] = useState(false);
+  const [fireStorageId, setFireStorageId] = useState('');
   const [text, setText] = useState('');
   const [markdownValue, setMarkdownValue] = useState('');
   const [fileNames, setFileNames] = useState<string[]>([]);
@@ -49,28 +50,28 @@ const UserArticlePost = () => {
 
   //  新規作成からUserArticlePostコンポーネントに遷移し、ファイル画像をfirebaseのStorageに保存した後、
   //  下書き保存前に意図せずurl遷移した際、firebaseのStorageに保存したファイル画像及びディレクトリを削除する。
-  useEffect(() => {
-    return () => {
-      console.log(`StorageId: ${articleIdOfFireStorage}`);
-      console.log(`id: ${id}`);
-      if (id) {
-        return;
-      }
+  // useEffect(() => {
+  //   return () => {
+  //     if (id || isDraftData) {
+  //       return;
+  //     }
 
-      (async () => {
-        try {
-          const storageRef = ref(
-            storage,
-            `articleImages/${articleIdOfFireStorage}/${trimUserName}/`
-          );
-          const listResult = await listAll(storageRef);
-          listResult.items.forEach(async (item) => await deleteObject(item));
-        } catch (err) {
-          console.error(err);
-        }
-      })();
-    };
-  }, []);
+  //     (async () => {
+  //       console.log(isDraftData);
+  //       console.log(fireStorageId);
+  //       try {
+  //         const storageRef = ref(
+  //           storage,
+  //           `articleImages/${fireStorageId}/${trimUserName}/`
+  //         );
+  //         const listResult = await listAll(storageRef);
+  //         listResult.items.forEach(async (item) => await deleteObject(item));
+  //       } catch (err) {
+  //         console.error(err);
+  //       }
+  //     })();
+  //   };
+  // }, [isDraftData, fireStorageId]);
 
   // 1. ファイル画像をアップロードした際に発火する副作用。
   // 2. randomChar16メソッドを使って、ランダムな16桁の文字列を生成し、useStateのimageファイル名の文頭に付ける。
@@ -91,12 +92,19 @@ const UserArticlePost = () => {
     setFileNames(newFileNames);
 
     // 初回fireStorageにファイル画像を保存する際にrandomChar16関数を使用し、ストレージ用のIDを取得。
-    if (!articleIdOfFireStorage) {
-      articleIdOfFireStorage = randomChar16();
+    let newFireStorageId = '';
+    if (!fireStorageId) {
+      newFireStorageId = randomChar16();
+      setFireStorageId(newFireStorageId);
     }
+
+    // useStateの更新関数で値を更新した場合、即座に反映されないので、初回だけは下記のnewStroageUrlの値を
+    // 使用し、storageRefのディレクトリ名に充てる。
     const storageRef = ref(
       storage,
-      `articleImages/${articleIdOfFireStorage}/${trimName}/${fileName}`
+      fireStorageId
+        ? `articleImages/${fireStorageId}/${trimName}/${fileName}`
+        : `articleImages/${newFireStorageId}/${trimName}/${fileName}`
     );
     const uploadTask = uploadBytesResumable(storageRef, image);
     setImage(null);
@@ -172,9 +180,9 @@ const UserArticlePost = () => {
     ) {
       return;
     }
-    articleIdOfFireStorage = draftData.article_id_of_storage;
     const currentFileNames = draftData.file_names.split(',');
     const currentImages = draftData.images_url?.split(',');
+    setFireStorageId(draftData.article_id_of_storage);
     setFileNames(currentFileNames);
     setImages(currentImages);
   }, [data]);
@@ -210,7 +218,7 @@ const UserArticlePost = () => {
         letterBody: markdownValue,
         createdAt: new Date().toLocaleString(),
         public: 0,
-        articleIdOfStorage: articleIdOfFireStorage,
+        articleIdOfStorage: fireStorageId,
         fileNames: stringFileNames,
         imagesUrl: stringImages,
         category,
@@ -239,6 +247,7 @@ const UserArticlePost = () => {
         }
 
         if (response.status === 200) {
+          setIsDraftData(true);
           navigate(`/articles/user/${trimUserName}/article_list`);
         } else if (response.status === 500) {
           sweetAlertOfError(
@@ -287,7 +296,7 @@ const UserArticlePost = () => {
               {category.length !== 0 && (
                 <>
                   <TemporarilyImageToFireStorage
-                    articleIdOfFireStorage={articleIdOfFireStorage}
+                    articleIdOfFireStorage={fireStorageId}
                     fileNames={fileNames}
                     images={images}
                     setFileNames={setFileNames}
