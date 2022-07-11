@@ -45,17 +45,20 @@ const UserArticlePost = () => {
   const { data, category } = useUserArticlePost();
   const navigate = useNavigate();
   const { username, id } = useParams();
+  const trimUserName = trimString(user.displayName);
 
   //  新規作成からUserArticlePostコンポーネントに遷移し、ファイル画像をfirebaseのStorageに保存した後、
   //  下書き保存前に意図せずurl遷移した際、firebaseのStorageに保存したファイル画像及びディレクトリを削除する。
   useEffect(() => {
     return () => {
-      if (id || !articleIdOfFireStorage) {
+      console.log(`StorageId: ${articleIdOfFireStorage}`);
+      console.log(`id: ${id}`);
+      if (id) {
         return;
       }
+
       (async () => {
         try {
-          const trimUserName = trimString(username!);
           const storageRef = ref(
             storage,
             `articleImages/${articleIdOfFireStorage}/${trimUserName}/`
@@ -217,7 +220,6 @@ const UserArticlePost = () => {
         // URLパラメータから記事IDを取得できない場合、つまり下書きデータがデータベースに存在しない場合の処理。
         let response: Response;
         if (!id) {
-          console.log('最初の下書き保存');
           response = await fetch(`${config.BACKEND_URL}/articles/draft`, {
             method: 'POST',
             headers: {
@@ -227,7 +229,6 @@ const UserArticlePost = () => {
           });
           // URLパラメータから記事IDを取得できる場合、つまり下書きデータがデータベースに存在する場合の処理。
         } else {
-          console.log('下書きの上書き保存');
           response = await fetch(`${config.BACKEND_URL}/articles/draft/${id}`, {
             method: 'PUT',
             headers: {
@@ -238,7 +239,7 @@ const UserArticlePost = () => {
         }
 
         if (response.status === 200) {
-          navigate(`/articles/user/${user.displayName}/article_list`);
+          navigate(`/articles/user/${trimUserName}/article_list`);
         } else if (response.status === 500) {
           sweetAlertOfError(
             `サーバー側のエラーにより下書きデータが保存されませんでした。\nエラー内容: ${await response.json()}`
@@ -280,7 +281,7 @@ const UserArticlePost = () => {
   return (
     <DefaultLayout>
       <>
-        {user.displayName === username ? (
+        {trimUserName === username ? (
           <main className={styles.global_container}>
             <div className={styles.container}>
               {category.length !== 0 && (
