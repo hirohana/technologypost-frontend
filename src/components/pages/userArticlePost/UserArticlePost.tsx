@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps*/
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import SimpleMde from 'react-simplemde-editor';
@@ -287,6 +287,91 @@ const UserArticlePost = () => {
     setMarkdownValue(value);
   };
 
+  const imageUploadFunction = (file: any) => {
+    console.log(file);
+  };
+  // const imageUploadFunction = () => {
+  //   let newFileNames = fileNames;
+  //   let newImages = images;
+
+  //   if (image === null) {
+  //     return;
+  //   }
+
+  //   const randomChar = randomChar16();
+  //   const fileName = randomChar + '_' + image.name;
+  //   const trimName = trimString(user.displayName);
+  //   newFileNames.push(fileName);
+  //   setFileNames(newFileNames);
+
+  //   // 初回fireStorageにファイル画像を保存する際にrandomChar16関数を使用し、ストレージ用のIDを取得。
+  //   let newFireStorageId = '';
+  //   if (!fireStorageId) {
+  //     newFireStorageId = randomChar16();
+  //     setFireStorageId(newFireStorageId);
+  //   }
+
+  //   // useStateの更新関数で値を更新した場合、即座に反映されないので、初回だけは下記のnewStroageUrlの値を
+  //   // 使用し、storageRefのディレクトリ名に充てる。
+  //   const storageRef = ref(
+  //     storage,
+  //     fireStorageId
+  //       ? `articleImages/${fireStorageId}/${trimName}/${fileName}`
+  //       : `articleImages/${newFireStorageId}/${trimName}/${fileName}`
+  //   );
+  //   const uploadTask = uploadBytesResumable(storageRef, image);
+  //   setImage(null);
+  //   uploadTask.on(
+  //     'state_changed',
+  //     (snapshot) => {
+  //       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+  //       const progress =
+  //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //       console.log('Upload is ' + progress + '% done');
+  //       switch (snapshot.state) {
+  //         case 'paused':
+  //           console.log('Upload is paused');
+  //           break;
+  //         case 'running':
+  //           console.log('Upload is running');
+  //           break;
+  //       }
+  //     },
+  //     (error) => {
+  //       // A full list of error codes is available at
+  //       // https://firebase.google.com/docs/storage/web/handle-errors
+  //       switch (error.code) {
+  //         case 'storage/unauthorized':
+  //           // User doesn't have permission to access the object
+  //           break;
+  //         case 'storage/canceled':
+  //           // User canceled the upload
+  //           break;
+  //         case 'storage/unknown':
+  //           // Unknown error occurred, inspect error.serverResponse
+  //           break;
+  //       }
+  //     },
+  //     () => {
+  //       // Upload completed successfully, now we can get the download URL
+  //       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+  //         setMarkdownValue((preMarkdownValue) => {
+  //           return preMarkdownValue + `![image](${downloadURL})\n`;
+  //         });
+  //         newImages.push(downloadURL);
+  //         setImages(newImages);
+  //       });
+  //     }
+  //   );
+  // };
+
+  const autoUploadImage = useMemo(() => {
+    return {
+      uploadImage: true,
+      imageUploadFunction,
+    };
+  }, []);
+
   return (
     <DefaultLayout>
       <>
@@ -306,7 +391,13 @@ const UserArticlePost = () => {
                   />
                   <form onSubmit={(e) => handleSubmit(e)}>
                     <div className={styles.container_main}>
-                      <ImageIcon image={image} onChange={changeImageHandler} />
+                      <div className={styles.image_icon}>
+                        <ImageIcon
+                          image={image}
+                          onChange={changeImageHandler}
+                        />
+                      </div>
+
                       <TextField
                         variant="outlined"
                         fullWidth
@@ -327,6 +418,7 @@ const UserArticlePost = () => {
                       <SimpleMde
                         value={markdownValue}
                         onChange={onMarkdownChange}
+                        options={autoUploadImage}
                       />
                       <div>
                         <div

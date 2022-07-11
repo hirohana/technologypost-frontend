@@ -14,9 +14,7 @@ const SelectPulldown = (props: PROPS) => {
     if (selectedCategory.includes(e.target.value)) {
       return;
     }
-    const copySelectedBox = selectedCategory;
-    const newSelectedBox = `${copySelectedBox} ${e.target.value}`;
-    setSelectedCategory(newSelectedBox);
+    setSelectedCategory((prev) => `${prev} ${e.target.value}`);
   };
 
   return (
