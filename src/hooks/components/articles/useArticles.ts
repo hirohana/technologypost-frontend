@@ -7,7 +7,6 @@ import {
   ARTICLES_DATA_AND_PAGINATION,
   ARTICLE_DATA,
   ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST,
-  ARTICLE_DATA_FOR_USER_ARTICLE_LIST,
   DRAFT_ARTICLE_DATA_FOR_USER_ARTICLE_LIST,
 } from 'types/articles/articles';
 import { config } from 'config/applicationConfig';
@@ -27,6 +26,7 @@ const useArticles = () => {
   // を使用してページ毎に取得する。ページリロードした際にデータベースから該当記事一覧を取得するためのフック。
   // Articlesページで使用されている。
   useEffect(() => {
+    console.log('page');
     (async () => {
       try {
         const response = await fetch(
