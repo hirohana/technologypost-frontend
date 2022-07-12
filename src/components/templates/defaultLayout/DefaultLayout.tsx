@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from 'react';
 
 import { useGetCookieToReduxStore } from 'hooks/components/Login/useAuthLoginAndSignUp';
 import styles from './DefaultLayout.module.scss';
+import { useHeaderMenu } from 'hooks/components/defaultLayout/useHeaderMenu';
 
 type PROPS = {
   children: ReactNode;
@@ -10,6 +11,7 @@ type PROPS = {
 const DefaultLayout = (props: PROPS) => {
   const { children } = props;
   const [appear, setAppear] = useState(false);
+  const { menus } = useHeaderMenu();
   useGetCookieToReduxStore();
 
   // 画面が描画される表示速度を緩やかにしたい為、下記コードを記述することによりクラスappearが付与される。

@@ -1,0 +1,44 @@
+// ハンバーガーメニューのCSS
+.humbergar_menu__btn {
+  border: none;
+  background: transparent;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.humbergar_menu__btn span {
+  background-color: black;
+  width: 35px;
+  height: 2px;
+  display: block;
+  margin-bottom: 9px;
+  transition: transform 0.5s;
+
+  &:nth-child(3) {
+    margin-bottom: 0;
+  }
+}
+
+// .humbergar_menu__btnのmenuOpenがtrueのCSS
+.humbergar_menu__btn.menuOpen span {
+  &:nth-child(1) {
+    transform: translateY(11px) rotate(135deg);
+  }
+
+  &:nth-child(2) {
+    transform: translateX(-35px) scale(0);
+  }
+
+  &:nth-child(3) {
+    transform: translateY(-11px) rotate(-135deg);
+  }
+}
+
+// mediaquery
+@media (min-width: 960px) {
+  .humbergar_menu__btn {
+    display: none;
+  }
+}

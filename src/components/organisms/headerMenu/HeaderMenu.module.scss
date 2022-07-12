@@ -1,0 +1,52 @@
+@import '/src/styles/modules/valiables.scss';
+
+.header_relative.true {
+  background-color: white;
+  height: 60px;
+
+  & .container {
+    @extend .content-width;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    background-color: transparent;
+    z-index: 200;
+    padding-top: 10px;
+  }
+}
+
+.header_relative.false {
+  @extend .header_relative.true;
+
+  & .container {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.profile_and_humbergar {
+  display: flex;
+  align-items: center;
+
+  .profile {
+    margin-right: 20px;
+  }
+}
+
+.header__nav {
+  text-transform: uppercase;
+}
+
+.header__ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0px;
+  font-size: 1.2em;
+
+  &:last-child {
+    margin-right: 10px;
+  }
+}

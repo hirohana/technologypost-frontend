@@ -1,0 +1,39 @@
+@import '/src/styles/modules/valiables.scss';
+.container {
+  display: flex;
+  justify-content: flex-end;
+  background-color: rgba(216, 210, 210, 0.1);
+}
+
+.profile_container {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile_block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 5px;
+  margin-right: 10px;
+
+  & > p {
+    margin-bottom: 0;
+  }
+}
+
+.profile_user {
+  font-size: 0.8em;
+}
+
+.profile_name {
+  font-size: 1.1em;
+}
+
+.login_addIcon {
+  cursor: pointer;
+  color: gray;
+}
