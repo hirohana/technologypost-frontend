@@ -4,7 +4,7 @@ import { HeaderMenuBarColor } from 'components/atoms/header/headerMenuBarColor/H
 import { HumbergarButton } from 'components/atoms/button/humbergarButton/HumbergarButton';
 import { UserInformation } from 'components/molecules/userInformation/UserInformation';
 import logo from 'images/icons/pvp.png';
-import WebsiteIconAndTitle from 'components/atoms/image/websiteIconAndTitle/WebsiteIconAndTitle';
+// import WebsiteIconAndTitle from 'components/atoms/image/websiteIconAndTitle/WebsiteIconAndTitle';
 import styles from './HeaderMenu.module.scss';
 
 type PROPS = {
@@ -22,7 +22,7 @@ const HeaderMenu = (props: PROPS) => {
         <HeaderMenuBarColor />
         <div className={styles.container}>
           <MediaQuery query="(max-width: 960px)">
-            <WebsiteIconAndTitle icon={logo} title="" />
+            {/* <WebsiteIconAndTitle icon={logo} title="" /> */}
             <div className={styles.profile_and_humbergar}>
               <div className={styles.profile}>
                 <UserInformation />
@@ -31,7 +31,7 @@ const HeaderMenu = (props: PROPS) => {
             </div>
           </MediaQuery>
           <MediaQuery query="(min-width: 960px)">
-            <WebsiteIconAndTitle icon={logo} title="" />
+            {/* <WebsiteIconAndTitle icon={logo} title="" /> */}
             <div className={styles.profile_and_humbergar}>
               <nav className={styles.header__nav}>
                 <ul className={styles.header__ul}>

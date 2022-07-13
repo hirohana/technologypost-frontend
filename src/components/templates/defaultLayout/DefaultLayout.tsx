@@ -3,6 +3,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useGetCookieToReduxStore } from 'hooks/components/Login/useAuthLoginAndSignUp';
 import styles from './DefaultLayout.module.scss';
 import { useHeaderMenu } from 'hooks/components/defaultLayout/useHeaderMenu';
+import HeaderMenu from 'components/organisms/headerMenu/HeaderMenu';
 
 type PROPS = {
   children: ReactNode;
@@ -30,7 +31,7 @@ const DefaultLayout = (props: PROPS) => {
           appear ? styles.container_appear : styles.contaienr_disappear
         }
       >
-        <header className={styles.header}>Header</header>
+        <HeaderMenu menus={menus} />
         {children}
         <footer className={styles.footer}>Footer</footer>
       </div>

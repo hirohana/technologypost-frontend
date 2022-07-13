@@ -1,6 +1,6 @@
 import { useInView } from 'react-intersection-observer';
 
-import styles from './MenuBarColor.module.scss';
+import styles from './HeaderMenuBarColor.module.scss';
 
 const HeaderMenuBarColor = () => {
   const { ref, inView } = useInView({

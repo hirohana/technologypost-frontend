@@ -1,18 +1,26 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, Dialog, DialogTitle, DialogActions } from '@mui/material';
-import { ref, deleteObject, listAll } from 'firebase/storage';
+import {
+  ref,
+  deleteObject,
+  listAll,
+  uploadBytesResumable,
+  getDownloadURL,
+} from 'firebase/storage';
 
 // import ImageIconChoiceOnemore from 'components/atoms/button/imageIconChoiceOnemore/ImageIconChoiceOnemore';
 import { storage } from '../../../firebase';
 import { useChangeImageHandler } from 'hooks/components/changeImage/useChangeImage';
-import { randomChar16 } from 'utils/randomChar16/randomChar16';
 import { selectUser } from 'reducks/user/selectUser';
 import ProfileImage from 'components/atoms/image/profileImage/ProfileImage';
 import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
-import styles from './UpdateProfile.module.scss';
 import { trimString } from 'utils/trimString/trimString';
-const trimUserName = trimString(user.displayName);
+import { config } from 'config/applicationConfig';
+import sweetAlertOfSuccess from 'utils/sweetAlert/sweetAlertOfSuccess';
+import styles from './UpdateProfile.module.scss';
+import { updateProfile } from 'reducks/user/actionCreator';
+
 type PROPS = {
   open: boolean;
   modalClose: () => void;
@@ -24,53 +32,17 @@ const UpdateProfile = (props: PROPS) => {
   const [fileName, setFileName] = useState('');
   const { image, setImage, changeImageHandler } = useChangeImageHandler();
   const { user } = useSelector(selectUser);
-
-  /* 1. ファイル画像をアップロードした際に発火するuseEffect(発火イベントの関数はchangeImageHandler)
-     2. firebaseのstorageに16桁のランダムな文字列を生成するメソッド(randomchar16)を使用してファイル名を作成。
-     3. 上記のファイル名を使用してstorageにファイル情報を保存。
-     4. storageで使用できるgetDownloadURLを使ってURLを取得してからsetProfileImageのstate変更関数に代入。
-  */
-  // useEffect(() => {
-  //   if (image === null) {
-  //     return;
-  //   }
-  //   const randomChar = randomChar16();
-  //   const fileName = randomChar + '_' + image.name;
-  //   setFileName(fileName);
-  //   const blankRemovalName = user.displayName.replace(/\s+/g, '');
-  //   // 3. 上記のファイル名を使用してstorageにファイル情報を保存。
-  //   const uploadImg = storage
-  //     .ref(`avatars/${blankRemovalName}/${fileName}`)
-  //     .put(image);
-  //   setImage(null);
-  //   uploadImg.on(
-  //     firebase.storage.TaskEvent.STATE_CHANGED,
-  //     () => {
-  //       //何もしない
-  //     },
-  //     (err) => {
-  //       alert(err.message);
-  //     },
-  //     // 4. storageで使用できるgetDownloadURLを使ってURLを取得してからDBに保存。
-  //     async () => {
-  //       await storage
-  //         .ref(`avatars/${blankRemovalName}`)
-  //         .child(fileName)
-  //         .getDownloadURL()
-  //         .then(async (url) => {
-  //           setProfileImage(url);
-  //         });
-  //     }
-  //   );
-  // }, [image]);
+  const trimUserName = trimString(user.displayName);
+  const dispatch = useDispatch();
 
   // firebaseのstorageから該当するfileNameを削除する関数。
-  const imageDelete = async (fileName: string) => {
+  const imageDelete = async () => {
     try {
       const storageRef = ref(storage, `userProfileImages/${trimUserName}/`);
       const listResult = await listAll(storageRef);
       listResult.items.forEach(async (item) => await deleteObject(item));
       setProfileImage(null);
+      return storageRef;
     } catch (err: any) {
       sweetAlertOfError(
         `エラーが発生してファイル画像が削除されなかった可能性があります。エラー内容: ${err}`
@@ -78,47 +50,154 @@ const UpdateProfile = (props: PROPS) => {
     }
   };
 
-  const onClickCancel = () => {
-    if (!profileImage) {
-      modalClose();
+  // 1. firebaseのstorageにある既存のプロフィール画像ファイルを削除。
+  // 2. プロフィール画像をアップロードした画像に変更するためにfirebaseのstorageに保存。
+  // 3. データベース(users)のprofile_urlに上記で取得した絶対URLパスで更新。
+  // 4. Reduxのstoreのユーザー情報を更新。
+  useEffect(() => {
+    if (image === null) {
       return;
     }
-    imageDelete(fileName);
-    modalClose();
-  };
+    (async () => {
+      try {
+        const storageRef = await imageDelete();
+        if (storageRef === undefined) {
+          return;
+        }
+        const uploadTask = uploadBytesResumable(storageRef, image);
+        setImage(null);
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+              case 'paused':
+                console.log('Upload is paused');
+                break;
+              case 'running':
+                console.log('Upload is running');
+                break;
+            }
+          },
+          (error) => {
+            // A full list of error codes is available at
+            // https://firebase.google.com/docs/storage/web/handle-errors
+            switch (error.code) {
+              case 'storage/unauthorized':
+                // User doesn't have permission to access the object
+                break;
+              case 'storage/canceled':
+                // User canceled the upload
+                break;
+              case 'storage/unknown':
+                // Unknown error occurred, inspect error.serverResponse
+                break;
+            }
+          },
+          () => {
+            // Upload completed successfully, now we can get the download URL
+            getDownloadURL(uploadTask.snapshot.ref).then(
+              async (downloadURL) => {
+                const updateDatabase = async () => {
+                  const payload = {
+                    userId: user.uid,
+                    photoUrl: downloadURL,
+                  };
+                  try {
+                    const response = await fetch(
+                      `${config.BACKEND_URL}/account/user/photo_url`,
+                      {
+                        method: 'PUT',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                      }
+                    );
+                    const { message } = await response.json();
+                    sweetAlertOfSuccess(message);
+                  } catch (err: any) {
+                    sweetAlertOfError(
+                      `エラーが発生し、プロフィール画像が更新されなかった可能性があります。エラー内容: ${err}`
+                    );
+                  }
+                };
 
-  const onClickSave = async () => {
-    if (!profileImage) {
-      modalClose();
-      return;
-    }
+                const updateReduxStoreOfUser = async () => {
+                  dispatch(
+                    updateProfile({
+                      uid: user.uid,
+                      displayName: user.displayName,
+                      photoUrl: downloadURL,
+                    })
+                  );
+                };
 
-    const getAndDeleteFileName = async () => {};
-
-    const updateProfileImage = async () => {
-      const user = auth.currentUser;
-      await user
-        ?.updateProfile({
-          photoURL: profileImage,
-        })
-        .catch((err) =>
-          sweetAlertOfError(
-            `エラーが発生して前のプロフィール画像が更新されなかった可能性があります。エラー内容: ${err}`
-          )
+                try {
+                  await Promise.all([
+                    updateDatabase(),
+                    updateReduxStoreOfUser(),
+                  ]);
+                } catch (err) {
+                  sweetAlertOfError(
+                    `エラーが発生し、プロフィール画像が更新されなかった可能性があります。エラー内容: ${err}`
+                  );
+                }
+              }
+            );
+          }
         );
-    };
+      } catch (err) {
+        sweetAlertOfError(
+          `エラーが発生し、プロフィール画像が更新されなかった可能性があります。エラー内容: ${err}`
+        );
+        console.error(err);
+      } finally {
+        modalClose();
+        window.location.reload();
+      }
+    })();
+  }, [image]);
 
-    // Promise.all([getAndDeleteFileName(), updateProfileImage()])
-    //   .catch((err) =>
-    //     sweetAlertOfError(
-    //       `何らかのエラーが発生してプロフィール画像が更新されなかった可能性があります。エラー内容: ${err}`
-    //     )
-    //   )
-    //   .finally(() => {
-    //     modalClose();
-    //     window.location.reload();
-    //   });
-  };
+  // const onClickCancel = () => {
+  //   if (!profileImage) {
+  //     modalClose();
+  //     return;
+  //   }
+  //   imageDelete();
+  //   modalClose();
+  // };
+
+  // const onClickSave = async () => {
+  //   if (!profileImage) {
+  //     modalClose();
+  //     return;
+  //   }
+
+  //   const getAndDeleteFileName = async () => {
+  //     try {
+  //       await imageDelete();
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+
+  //   const updateProfileImage = async () => {
+  //     const user = auth.currentUser;
+  //     await user
+  //       ?.updateProfile({
+  //         photoURL: profileImage,
+  //       })
+  //       .catch((err) =>
+  //         sweetAlertOfError(
+  //           `エラーが発生して前のプロフィール画像が更新されなかった可能性があります。エラー内容: ${err}`
+  //         )
+  //       );
+  //   };
+  // };
 
   return (
     <div>
@@ -130,22 +209,22 @@ const UpdateProfile = (props: PROPS) => {
             imageDelete={imageDelete}
           />
 
-          <ImageIconChoiceOnemore
+          {/* <ImageIconChoiceOnemore
             image={profileImage}
             onChange={changeImageHandler}
-          />
+          /> */}
           <DialogTitle>プロフィール画像変更</DialogTitle>
         </div>
         <DialogActions>
           <Button
-            onClick={onClickCancel}
+            // onClick={onClickCancel}
             color="primary"
             className={styles.primary_btn}
           >
             キャンセル
           </Button>
           <Button
-            onClick={onClickSave}
+            // onClick={onClickSave}
             color="primary"
             className={styles.primary_btn}
           >
@@ -157,4 +236,4 @@ const UpdateProfile = (props: PROPS) => {
   );
 };
 
-export default UpdateProfile;
+export { UpdateProfile };
