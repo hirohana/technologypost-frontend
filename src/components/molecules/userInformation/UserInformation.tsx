@@ -2,10 +2,8 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Menu, MenuItem } from '@mui/material';
 import { deleteObject, listAll, ref } from 'firebase/storage';
-import MediaQuery from 'react-responsive';
 import swal from 'sweetalert';
 
-import { UserProfile } from '../userProfile/UserProfile';
 import { storage } from '../../../firebase';
 import { selectUser } from 'reducks/user/selectUser';
 import sweetAlertOfSuccess from 'utils/sweetAlert/sweetAlertOfSuccess';
@@ -125,62 +123,33 @@ const UserInformation = () => {
   };
 
   return (
-    <>
+    <div className={styles.container}>
+      <div className={styles.profile}>
+        <UserAvatar onClick={(e) => handleClick(e)} />
+        <div className={styles.profile_block}>
+          <span className={styles.profile_user}>ユーザー名</span>
+          <span className={styles.profile_name}>
+            {user.uid ? user.displayName : '----------'}
+          </span>
+        </div>
+      </div>
       {user.uid ? (
         <>
-          <MediaQuery query="(max-width: 600px)">
-            <div className={styles.container}>
-              <div className={styles.profile} title={user.displayName}>
-                <UserAvatar onClick={(e) => handleClick(e)} />
-              </div>
-              <Menu
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={() => updateProfileInformation()}>
-                  プロフィール編集
-                </MenuItem>
-                <MenuItem onClick={() => deleteAccount()}>
-                  アカウント削除
-                </MenuItem>
-              </Menu>
-              <UpdateProfile open={open} modalClose={modalClose} />
-            </div>
-          </MediaQuery>
-          <MediaQuery query="(min-width: 600px)">
-            <div className={styles.container}>
-              <div className={styles.profile} title={user.displayName}>
-                <UserAvatar onClick={(e) => handleClick(e)} />
-                <div className={styles.profile_block}>
-                  <p className={styles.profile_user}>ユーザー名</p>
-                  <p className={styles.profile_name}>{user.displayName}</p>
-                </div>
-              </div>
-              <Menu
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={() => updateProfileInformation()}>
-                  プロフィール編集
-                </MenuItem>
-                <MenuItem onClick={() => deleteAccount()}>
-                  アカウント削除
-                </MenuItem>
-              </Menu>
-              <UpdateProfile open={open} modalClose={modalClose} />
-            </div>
-          </MediaQuery>
+          <Menu
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={() => updateProfileInformation()}>
+              プロフィール編集
+            </MenuItem>
+            <MenuItem onClick={() => deleteAccount()}>アカウント削除</MenuItem>
+          </Menu>
+          <UpdateProfile open={open} modalClose={modalClose} />
         </>
-      ) : (
-        <>
-          <UserProfile />
-        </>
-      )}
-    </>
+      ) : null}
+    </div>
   );
 };
 

@@ -1,1 +1,41 @@
+@import '/src/styles/modules/valiables.scss';
+.container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+}
 
+.profile {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+
+.profile_block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 5px 10px 0px 5px;
+  // margin-top: 10px;
+  // margin-left: 5px;
+  // margin-right: 10px;
+
+  & > p {
+    margin-bottom: 0;
+  }
+}
+
+.profile_user {
+  font-size: 0.8em;
+}
+
+.profile_name {
+  font-size: 1.1em;
+}
+
+.login_addIcon {
+  cursor: pointer;
+  color: gray;
+}
