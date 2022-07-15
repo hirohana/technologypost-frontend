@@ -4,6 +4,9 @@ import { useGetCookieToReduxStore } from 'hooks/components/Login/useAuthLoginAnd
 import styles from './DefaultLayout.module.scss';
 import { useHeaderMenu } from 'hooks/components/defaultLayout/useHeaderMenu';
 import HeaderMenu from 'components/organisms/headerMenu/HeaderMenu';
+import { Footer } from 'components/molecules/footer/Footer';
+import MobileMenu from 'components/molecules/mobileMenu/MobileMenu';
+import MobileMenuCover from 'components/molecules/mobileMenuCover/MobileMenuCover';
 
 type PROPS = {
   children: ReactNode;
@@ -26,15 +29,18 @@ const DefaultLayout = (props: PROPS) => {
 
   return (
     <>
-      <div
-        className={
-          appear ? styles.container_appear : styles.contaienr_disappear
-        }
-      >
-        <HeaderMenu menus={menus} />
-        {children}
-        <footer className={styles.footer}>Footer</footer>
-      </div>
+      <MobileMenuCover>
+        <div
+          className={
+            appear ? styles.container_appear : styles.contaienr_disappear
+          }
+        >
+          <HeaderMenu menus={menus} />
+          {children}
+          <Footer />
+        </div>
+      </MobileMenuCover>
+      <MobileMenu menus={menus} />
     </>
   );
 };

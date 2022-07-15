@@ -12,9 +12,7 @@ const HeaderMenuBarColor = () => {
       <div ref={ref}></div>
       <div
         className={
-          inView
-            ? styles.menu_color__transparent
-            : styles.menu_color__light_blue
+          inView ? styles.menu_color__transparent : styles.menu_color__white
         }
       ></div>
     </>

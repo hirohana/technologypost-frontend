@@ -16,9 +16,10 @@ type PROPS = {
 
 const HeaderMenu = (props: PROPS) => {
   const { menus } = props;
+
   return (
     <>
-      <header className={`${styles.header_relative} ${styles.false}`}>
+      <header className={`${styles.header_relative}`}>
         <HeaderMenuBarColor />
         <div className={styles.container}>
           <MediaQuery query="(max-width: 960px)">

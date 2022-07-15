@@ -1,0 +1,45 @@
+// モバイルメニューのCSS
+
+.mobile_menu {
+  font-size: 1.5em;
+  position: fixed;
+  width: 300px;
+  top: 60px;
+  right: 0;
+  padding-left: 100px;
+}
+
+.mobile_menu__main {
+  perspective: 2000px;
+  transform-style: preserve-3d;
+  padding-left: 0px;
+}
+
+.mobile_menu__item {
+  list-style: none;
+  display: block;
+  transform: translate3d(0, 0, -1000px);
+  padding: 0;
+  transition: transform 0.3s, opacity 0.2s;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.mobile_menu.menuOpen {
+  & .mobile_menu__item {
+    opacity: 1;
+    transform: none;
+
+    @for $i from 1 to 10 {
+      &:nth-child(#{$i}) {
+        transition-delay: 0.07s * $i;
+      }
+    }
+  }
+}
+
+@media (min-width: 960px) {
+  .mobile_menu {
+    display: none;
+  }
+}
