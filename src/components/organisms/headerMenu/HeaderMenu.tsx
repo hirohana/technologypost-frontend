@@ -19,15 +19,15 @@ const HeaderMenu = (props: PROPS) => {
 
   return (
     <>
-      <header className={`${styles.header_relative}`}>
+      <header className={styles.header}>
         <HeaderMenuBarColor />
         <div className={styles.container}>
           <MediaQuery query="(max-width: 960px)">
             {/* <WebsiteIconAndTitle icon={logo} title="" /> */}
             <div className={styles.profile_and_humbergar}>
-              <div className={styles.profile}>
-                <UserInformation />
-              </div>
+              {/* <div className={styles.profile}> */}
+              <UserInformation />
+              {/* </div> */}
               <HumbergarButton />
             </div>
           </MediaQuery>

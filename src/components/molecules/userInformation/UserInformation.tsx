@@ -5,11 +5,12 @@ import { deleteObject, listAll, ref } from 'firebase/storage';
 import MediaQuery from 'react-responsive';
 import swal from 'sweetalert';
 
+import { UserProfile } from '../userProfile/UserProfile';
 import { storage } from '../../../firebase';
 import { selectUser } from 'reducks/user/selectUser';
-import { UserAvatar } from 'components/atoms/button/userAvatar/UserAvatar';
 import sweetAlertOfSuccess from 'utils/sweetAlert/sweetAlertOfSuccess';
 import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
+import { UserAvatar } from 'components/atoms/button/userAvatar/UserAvatar';
 import { UpdateProfile } from 'components/molecules/updateProfile/UpdateProfile';
 import { trimString } from 'utils/trimString/trimString';
 import { config } from 'config/applicationConfig';
@@ -129,10 +130,7 @@ const UserInformation = () => {
         <>
           <MediaQuery query="(max-width: 600px)">
             <div className={styles.container}>
-              <div
-                className={styles.profile_container}
-                title={user.displayName}
-              >
+              <div className={styles.profile} title={user.displayName}>
                 <UserAvatar onClick={(e) => handleClick(e)} />
               </div>
               <Menu
@@ -153,10 +151,7 @@ const UserInformation = () => {
           </MediaQuery>
           <MediaQuery query="(min-width: 600px)">
             <div className={styles.container}>
-              <div
-                className={styles.profile_container}
-                title={user.displayName}
-              >
+              <div className={styles.profile} title={user.displayName}>
                 <UserAvatar onClick={(e) => handleClick(e)} />
                 <div className={styles.profile_block}>
                   <p className={styles.profile_user}>ユーザー名</p>
@@ -182,30 +177,7 @@ const UserInformation = () => {
         </>
       ) : (
         <>
-          <MediaQuery query="(max-width: 600px)">
-            <div className={styles.container}>
-              <div className={styles.profile_container} title="unknown">
-                {/* <AccountCircleIcon
-                  fontSize="large"
-                  className={styles.login_addicon}
-                /> */}
-              </div>
-            </div>
-          </MediaQuery>
-          <MediaQuery query="(min-width: 600px)">
-            <div className={styles.container}>
-              <div className={styles.profile_container} title="unknown">
-                {/* <AccountCircleIcon
-                  fontSize="large"
-                  className={styles.login_addicon}
-                /> */}
-                <div className={styles.profile_block}>
-                  <p className={styles.profile_user}>ユーザー名</p>
-                  <p className={styles.profile_name}>unknown</p>
-                </div>
-              </div>
-            </div>
-          </MediaQuery>
+          <UserProfile />
         </>
       )}
     </>
