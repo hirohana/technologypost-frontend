@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Menu, MenuItem } from '@mui/material';
 import { deleteObject, listAll, ref } from 'firebase/storage';
 import swal from 'sweetalert';
@@ -20,8 +21,9 @@ const UserInformation = () => {
   const { user } = useSelector(selectUser);
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const trimUserName = trimString(user.displayName);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const trimUserName = trimString(user.displayName);
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement | HTMLDivElement>
@@ -43,6 +45,7 @@ const UserInformation = () => {
     handleClose();
   };
 
+  console.log(open);
   // アカウントを削除する関数
   // 1. firebaseのstorageからユーザーのプロフィール画像を削除(imageDelete)
   // 2. ユーザー情報が格納されているデータベース(users)からユーザー情報を削除。
@@ -124,8 +127,11 @@ const UserInformation = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.profile}>
-        <UserAvatar onClick={(e) => handleClick(e)} />
+      <div
+        className={styles.profile}
+        onClick={user.uid ? (e) => handleClick(e) : () => navigate('/login')}
+      >
+        <UserAvatar />
         <div className={styles.profile_block}>
           <span className={styles.profile_user}>ユーザー名</span>
           <span className={styles.profile_name}>

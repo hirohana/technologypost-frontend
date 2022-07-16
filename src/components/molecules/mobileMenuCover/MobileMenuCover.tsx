@@ -25,4 +25,4 @@ const MobileMenuCover = (props: PROPS) => {
   );
 };
 
-export default MobileMenuCover;
+export { MobileMenuCover };

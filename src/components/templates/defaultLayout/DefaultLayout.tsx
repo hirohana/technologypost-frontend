@@ -3,10 +3,10 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useGetCookieToReduxStore } from 'hooks/components/Login/useAuthLoginAndSignUp';
 import styles from './DefaultLayout.module.scss';
 import { useHeaderMenu } from 'hooks/components/defaultLayout/useHeaderMenu';
-import HeaderMenu from 'components/organisms/headerMenu/HeaderMenu';
+import { HeaderMenu } from 'components/organisms/headerMenu/HeaderMenu';
 import { Footer } from 'components/molecules/footer/Footer';
-import MobileMenu from 'components/molecules/mobileMenu/MobileMenu';
-import MobileMenuCover from 'components/molecules/mobileMenuCover/MobileMenuCover';
+import { MobileMenu } from 'components/molecules/mobileMenu/MobileMenu';
+import { MobileMenuCover } from 'components/molecules/mobileMenuCover/MobileMenuCover';
 
 type PROPS = {
   children: ReactNode;

@@ -28,4 +28,4 @@ const MobileMenu = (props: PROPS) => {
   );
 };
 
-export default MobileMenu;
+export { MobileMenu };
