@@ -1,0 +1,15 @@
+@import '../../../styles/modules/valiables.scss';
+
+.container {
+  @extend .content-width;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 600px) {
+  .container {
+    justify-content: space-between;
+  }
+}

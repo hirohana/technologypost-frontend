@@ -1,9 +1,9 @@
 /**
- * cookieにGitHubのデータを保存するメソッド。ログイン認証が終わってから1時間が有効期限。
+ * cookieに認証データを保存するメソッド。ログイン認証が終わってから1時間が有効期限。
  */
 const setCookie = (name: string, value: string, options: any) => {
   return new Promise((resolve) => {
-    let cook = "";
+    let cook = '';
     cook += `${name}=${encodeURIComponent(value)}`;
     if (options.expires) {
       let exp = new Date();

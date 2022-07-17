@@ -39,6 +39,7 @@ const useAuthLoginAndSignUp = () => {
       return;
     }
     if (image === null) {
+      sweetAlertOfError('プロフィール画像が設定されていません。');
       return;
     }
     let photoUrl = '';
@@ -105,7 +106,12 @@ const useAuthLoginAndSignUp = () => {
                 body: JSON.stringify(payload),
               }
             );
-            console.log(response);
+            const data = await response.json();
+            setUserName('');
+            setEmail('');
+            setPassword('');
+            setRetypingPassword('');
+            sweetAlertOfSuccess(data.message);
           });
         }
       );

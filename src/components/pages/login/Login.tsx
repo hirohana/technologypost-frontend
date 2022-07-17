@@ -33,13 +33,31 @@ const Login = () => {
     signUp,
   } = useAuthLoginAndSignUp();
 
+  const isLoginTrueClass = () => {
+    return !email || !password
+      ? styles.submit_button__false
+      : styles.submit_button;
+  };
+
+  const isLoginFalseClass = () => {
+    return !userName || !email || !password || !retypingPassword || !image
+      ? styles.submit_button__false
+      : styles.submit_button;
+  };
+
   return (
     <DefaultLayout>
       <div className={styles.global_container}>
         <div className={styles.container}>
-          <div>
-            <Avatar></Avatar>
-            <Typography component="h1" variant="h5">
+          <div className={styles.form_container}>
+            <Avatar
+              className={isLogin ? styles.avatar__login : styles.avatar__signup}
+            ></Avatar>
+            <Typography
+              component="h1"
+              variant="h5"
+              className={styles.typography}
+            >
               {isLogin ? 'ログイン' : 'アカウント登録'}
             </Typography>
             <form onSubmit={(e) => (isLogin ? authLogin(e) : signUp(e))}>
@@ -118,8 +136,17 @@ const Login = () => {
               <Button
                 fullWidth
                 variant="contained"
-                className={styles.submit_button}
+                className={isLogin ? isLoginTrueClass() : isLoginFalseClass()}
                 type="submit"
+                disabled={
+                  isLogin
+                    ? !email || !password
+                    : !userName ||
+                      !email ||
+                      !password ||
+                      !retypingPassword ||
+                      !image
+                }
               >
                 {isLogin ? 'ログイン' : 'アカウント登録'}
               </Button>

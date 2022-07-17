@@ -20,6 +20,8 @@ import { config } from 'config/applicationConfig';
 import sweetAlertOfSuccess from 'utils/sweetAlert/sweetAlertOfSuccess';
 import styles from './UpdateProfile.module.scss';
 import { updateProfile } from 'reducks/user/actionCreator';
+import ImageIcon from 'components/atoms/button/imageIcon/ImageIcon';
+import { randomChar16 } from 'utils/randomChar16/randomChar16';
 
 type PROPS = {
   open: boolean;
@@ -41,8 +43,6 @@ const UpdateProfile = (props: PROPS) => {
       const storageRef = ref(storage, `userProfileImages/${trimUserName}/`);
       const listResult = await listAll(storageRef);
       listResult.items.forEach(async (item) => await deleteObject(item));
-      setProfileImage(null);
-      return storageRef;
     } catch (err: any) {
       sweetAlertOfError(
         `エラーが発生してファイル画像が削除されなかった可能性があります。エラー内容: ${err}`
@@ -51,8 +51,8 @@ const UpdateProfile = (props: PROPS) => {
   };
 
   // 1. firebaseのstorageにある既存のプロフィール画像ファイルを削除。
-  // 2. プロフィール画像をアップロードした画像に変更するためにfirebaseのstorageに保存。
-  // 3. データベース(users)のprofile_urlに上記で取得した絶対URLパスで更新。
+  // 2. プロフィール画像をアップロードしたファイルに変更するためにfirebaseのstorageに保存。
+  // 3. データベース(users)のprofile_urlに対して、上記で取得した絶対URLパスで更新をする。
   // 4. Reduxのstoreのユーザー情報を更新。
   useEffect(() => {
     if (image === null) {
@@ -60,10 +60,14 @@ const UpdateProfile = (props: PROPS) => {
     }
     (async () => {
       try {
-        const storageRef = await imageDelete();
-        if (storageRef === undefined) {
-          return;
-        }
+        await imageDelete();
+
+        const randomChar = randomChar16();
+        const fileName = randomChar + '_' + image.name;
+        const storageRef = ref(
+          storage,
+          `userProfileImages/${trimUserName}/${fileName}`
+        );
         const uploadTask = uploadBytesResumable(storageRef, image);
         setImage(null);
         uploadTask.on(
@@ -155,49 +159,13 @@ const UpdateProfile = (props: PROPS) => {
           `エラーが発生し、プロフィール画像が更新されなかった可能性があります。エラー内容: ${err}`
         );
         console.error(err);
-      } finally {
-        modalClose();
-        window.location.reload();
       }
     })();
   }, [image]);
 
-  // const onClickCancel = () => {
-  //   if (!profileImage) {
-  //     modalClose();
-  //     return;
-  //   }
-  //   imageDelete();
-  //   modalClose();
-  // };
-
-  // const onClickSave = async () => {
-  //   if (!profileImage) {
-  //     modalClose();
-  //     return;
-  //   }
-
-  //   const getAndDeleteFileName = async () => {
-  //     try {
-  //       await imageDelete();
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-
-  //   const updateProfileImage = async () => {
-  //     const user = auth.currentUser;
-  //     await user
-  //       ?.updateProfile({
-  //         photoURL: profileImage,
-  //       })
-  //       .catch((err) =>
-  //         sweetAlertOfError(
-  //           `エラーが発生して前のプロフィール画像が更新されなかった可能性があります。エラー内容: ${err}`
-  //         )
-  //       );
-  //   };
-  // };
+  const onClickCancel = () => {
+    modalClose();
+  };
 
   return (
     <div>
@@ -208,27 +176,16 @@ const UpdateProfile = (props: PROPS) => {
             fileName={fileName}
             imageDelete={imageDelete}
           />
-
-          {/* <ImageIconChoiceOnemore
-            image={profileImage}
-            onChange={changeImageHandler}
-          /> */}
+          <ImageIcon image={image} onChange={changeImageHandler} />
           <DialogTitle>プロフィール画像変更</DialogTitle>
         </div>
         <DialogActions>
           <Button
-            // onClick={onClickCancel}
+            onClick={onClickCancel}
             color="primary"
             className={styles.primary_btn}
           >
-            キャンセル
-          </Button>
-          <Button
-            // onClick={onClickSave}
-            color="primary"
-            className={styles.primary_btn}
-          >
-            保存
+            モーダルを閉じる
           </Button>
         </DialogActions>
       </Dialog>

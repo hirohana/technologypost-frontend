@@ -5,7 +5,7 @@ import styles from './Home.module.scss';
 const Home = () => {
   return (
     <DefaultLayout>
-      <div>Home</div>;
+      <div>Home</div>
     </DefaultLayout>
   );
 };

@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { Avatar } from '@mui/material';
 import { useSelector } from 'react-redux';
 
@@ -11,6 +10,7 @@ type PROPS = {
   fileName: string;
   imageDelete: any;
 };
+
 const ProfileImage = (props: PROPS) => {
   const { profileImage, fileName, imageDelete } = props;
   const { user } = useSelector(selectUser);

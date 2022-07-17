@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.description_and_rating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.description_img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  margin-right: 10px;
+}
+
+@media (min-width: 400px) {
+  .container {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 600px) {
+  .container {
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+}

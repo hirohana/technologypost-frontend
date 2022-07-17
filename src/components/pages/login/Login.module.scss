@@ -14,6 +14,25 @@
   margin-bottom: 50px;
 }
 
+.form_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar__login {
+  background-color: $cLightBlue !important;
+  margin-bottom: 10px !important;
+}
+.avatar__signup {
+  @extend .avatar__login;
+  background-color: $cRed !important;
+}
+
+.typography {
+  margin-bottom: 10px !important;
+}
+
 .login_toggleMode {
   cursor: pointer;
   color: $cBlue;
@@ -38,14 +57,17 @@
 }
 
 .textfield {
-  margin-bottom: 10px !important;
+  margin-bottom: 20px !important;
 }
 
 .submit_button {
   color: $cWhite !important;
   background-color: $cLightBlue !important;
-  margin-top: 15px !important;
   margin-bottom: 20px !important;
+}
+.submit_button__false {
+  @extend .submit_button;
+  background-color: $cGray !important;
 }
 
 .background_image {
