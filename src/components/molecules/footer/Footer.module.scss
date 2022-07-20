@@ -18,10 +18,9 @@
 .link_items {
   display: flex;
   flex-direction: column;
-  font-size: 1.25em;
 
   & .link_item {
-    @extend .font-sm;
+    @extend .font-md;
     @extend .mb-sm;
   }
 }

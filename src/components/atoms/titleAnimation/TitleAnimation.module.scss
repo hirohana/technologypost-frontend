@@ -1,0 +1,23 @@
+.container {
+  transform: translatex(-400px);
+  opacity: 0;
+  transition: transform 1s, opacity 2s;
+  text-align: center;
+
+  &.appear {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@media (min-width: 600px) {
+  .container {
+    transform: translatex(-800px);
+  }
+}
+
+@media (min-width: 960px) {
+  .container {
+    text-align: start;
+  }
+}

@@ -38,62 +38,62 @@ const useHeaderMenu = () => {
 
   const menus = [
     {
-      key: 'home',
+      key: 'ホーム',
       element: (
         <button onClick={() => navigate('/')} className={styles.button_menu}>
-          home
+          ホーム
         </button>
       ),
     },
     {
-      key: 'articles',
+      key: '記事一覧',
       element: (
         <button
           onClick={() => navigate('/articles')}
           className={styles.button_menu}
         >
-          articles
+          記事一覧
         </button>
       ),
     },
     {
-      key: 'about',
+      key: '管理人について',
       element: (
         <button
           onClick={() => navigate('/about')}
           className={styles.button_menu}
         >
-          about
+          管理人について
         </button>
       ),
     },
     {
-      key: 'contact',
+      key: 'お問い合わせ',
       element: (
         <button
           onClick={() => navigate('/contact')}
           className={styles.button_menu}
         >
-          contact
+          お問い合わせ
         </button>
       ),
     },
     {
-      key: 'login',
+      key: 'ログイン',
       element: (
         <button
           onClick={() => navigate('/login')}
           className={styles.button_menu}
         >
-          login
+          ログイン
         </button>
       ),
     },
     {
-      key: 'logout',
+      key: 'ログアウト',
       element: (
         <button onClick={() => logoutAction()} className={styles.button_menu}>
-          logout
+          ログアウト
         </button>
       ),
     },

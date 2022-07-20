@@ -2,6 +2,8 @@ import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
 import { DescriptionList } from 'components/molecules/descriptionList/DescriptionList';
 import { useAboutList } from 'hooks/components/about/useAboutList';
 import styles from './About.module.scss';
+import AsideScrollTop from 'components/atoms/button/asideScrollTop/AsideScrollTop';
+import { TitleAnimation } from 'components/atoms/titleAnimation/TitleAnimation';
 
 const About = () => {
   const { profileList, skillList } = useAboutList();
@@ -10,6 +12,7 @@ const About = () => {
     <DefaultLayout>
       <div className={styles.container}>
         <main>
+          <TitleAnimation title="プロフィール" />
           <section className={styles.profile_container}>
             <div className={styles.pfofile_image_ul}>
               <img
@@ -27,6 +30,8 @@ const About = () => {
               {profileList[0].description}
             </p>
           </section>
+          <AsideScrollTop />
+          <TitleAnimation title="スキル一覧" />
           <section className={styles.skill_container}>
             {skillList.length !== 0 &&
               skillList.map((item) => (
@@ -39,6 +44,7 @@ const About = () => {
                 />
               ))}
           </section>
+          <TitleAnimation title="制作実績" />
         </main>
       </div>
     </DefaultLayout>

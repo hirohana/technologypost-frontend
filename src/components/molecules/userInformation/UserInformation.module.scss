@@ -37,3 +37,9 @@
   cursor: pointer;
   color: gray;
 }
+
+@media (min-width: 960px) {
+  .container {
+    width: 30%;
+  }
+}
