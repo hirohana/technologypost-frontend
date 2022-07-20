@@ -20,23 +20,27 @@ const UserArticleList = () => {
 
   return (
     <DefaultLayout>
-      <main>
-        {trimUserName === username ? (
-          <div className={styles.container}>
-            <CardsInformation />
-            <AsideScrollTop />
-            {data && <SimpleCards cardsData={data.data} />}
-            {data?.pagination.paginationMaxCount && (
-              <Pagination
-                maxPage={data.pagination.paginationMaxCount}
-                url={`articles/user/${username}/article_list`}
-              />
-            )}
-          </div>
-        ) : (
-          <Error403 />
-        )}
-      </main>
+      <div className={styles.contaienr}>
+        <main>
+          {trimUserName === username ? (
+            <div className={styles.container}>
+              <div className={styles.cards_information}>
+                <CardsInformation />
+              </div>
+              <AsideScrollTop />
+              {data && <SimpleCards cardsData={data.data} />}
+              {data?.pagination.paginationMaxCount ? (
+                <Pagination
+                  maxPage={data.pagination.paginationMaxCount}
+                  url={`articles/user/${username}/article_list`}
+                />
+              ) : null}
+            </div>
+          ) : (
+            <Error403 />
+          )}
+        </main>
+      </div>
     </DefaultLayout>
   );
 };
