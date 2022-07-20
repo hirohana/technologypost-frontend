@@ -11,6 +11,7 @@ import TextField from 'components/molecules/textField/TextField';
 import { Pagination } from 'components/molecules/pagination/Pagination';
 import { LoadingIcon } from 'components/atoms/loadingIcon/LoadingIcon';
 import styles from './Articles.module.scss';
+import SearchResultNotFound from 'components/molecules/searchResultNotFound/SearchResultNotFound';
 
 const Articles = () => {
   const [loading, setLoading] = useState(true);
@@ -40,7 +41,7 @@ const Articles = () => {
               changeValues={setSearchKeyword}
               onSubmitHandler={getArticlesBySearch}
             />
-            {data?.data ? (
+            {data?.data.length ? (
               <>
                 <Cards data={data.data} />
                 <Pagination
@@ -48,7 +49,9 @@ const Articles = () => {
                   url="articles"
                 />
               </>
-            ) : null}
+            ) : (
+              <SearchResultNotFound keyword={searchKeyword} />
+            )}
           </div>
         </main>
       )}

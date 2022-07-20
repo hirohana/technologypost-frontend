@@ -1,0 +1,15 @@
+@import '../../../styles/breakpoints/base';
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0px;
+
+  .keyword {
+    display: flex;
+    align-items: center;
+  }
+  > span {
+    @extend .font-lg;
+  }
+}
