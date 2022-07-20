@@ -3,13 +3,53 @@
 .container {
   @extend .content-width;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .pfofile_image_ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profile_image {
+    width: 250px;
+    object-fit: cover;
+    border-radius: 9999px;
+  }
+}
+
+.skill_container {
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
 }
 
+.profile_description {
+  margin-top: 0px;
+  white-space: pre-line;
+  word-wrap: break-word;
+}
+
 @media (min-width: 600px) {
   .container {
     justify-content: space-between;
+  }
+}
+
+@media (min-width: 960px) {
+  .profile_container {
+    .pfofile_image_ul {
+      flex-direction: row;
+    }
   }
 }

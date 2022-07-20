@@ -117,7 +117,7 @@ const useAuthLoginAndSignUp = () => {
       );
     } catch (err: any) {
       console.error(err);
-      sweetAlertOfError(err);
+      alert(err);
       return;
     }
   };

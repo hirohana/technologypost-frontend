@@ -3,6 +3,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-basis: 47%;
+  margin-right: 10px;
 }
 
 .description_and_rating {
@@ -18,15 +20,8 @@
   margin-right: 10px;
 }
 
-@media (min-width: 400px) {
-  .container {
-    flex-direction: row;
-  }
-}
-
 @media (min-width: 600px) {
   .container {
     flex-direction: column;
-    flex-wrap: wrap;
   }
 }

@@ -1,9 +1,7 @@
 @import './vendors/normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Kameron&family=Noto+Sans+JP&display=swap');
 
-@media (max-width: 960px) {
-  @import './breakpoints/base';
-}
+@import './breakpoints/base';
 
 @media (min-width: 960px) {
   @import './breakpoints/960';

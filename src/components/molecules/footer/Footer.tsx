@@ -42,8 +42,15 @@ const Footer = () => {
           >
             ログイン
           </Link>
+          <Link
+            to="/login"
+            className={styles.link_item}
+            style={{ textDecoration: 'none', color: 'black' }}
+          >
+            ログアウト
+          </Link>
         </div>
-        <p>&copy; &nbsp;{year} Hirohana</p>
+        <p className={styles.copy_right}>&copy; &nbsp;{year} Hirohana</p>
       </div>
     </div>
   );

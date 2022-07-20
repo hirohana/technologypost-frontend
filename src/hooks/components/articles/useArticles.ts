@@ -1,6 +1,6 @@
 // Articles関連のフック一覧
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import {
@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from 'reducks/user/selectUser';
 
 // articlesページのフック。
-const useArticles = () => {
+const useArticles = (func: any) => {
   const [data, setData] = useState<ARTICLES_DATA_AND_PAGINATION>();
   const [searchKeyword, setSearchKeyword] = useState('');
   const { search } = useLocation();
@@ -26,7 +26,6 @@ const useArticles = () => {
   // を使用してページ毎に取得する。ページリロードした際にデータベースから該当記事一覧を取得するためのフック。
   // Articlesページで使用されている。
   useEffect(() => {
-    console.log('page');
     (async () => {
       try {
         const response = await fetch(
@@ -34,6 +33,7 @@ const useArticles = () => {
         );
         const jsonData = await response.json();
         setData(jsonData);
+        func(false);
       } catch (err) {
         console.error(err);
       }
@@ -51,6 +51,7 @@ const useArticles = () => {
       );
       const data = await response.json();
       setData(data);
+      func(false);
     } catch (err) {
       console.error(err);
     }
