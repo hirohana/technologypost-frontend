@@ -78,8 +78,8 @@ const UserArticlePost = () => {
   // 3. fireStorageのdraftImagesディレクトリ配下にファイルを保存し、getDownloadURLでURLを取得。
   // 4. URLを`![image](${image})`の中にテンプレートリテラルとして埋め込み、markdownValueに上書きする。
   useEffect(() => {
-    let newFileNames = fileNames;
-    let newImages = images;
+    let newFileNames = [...fileNames];
+    let newImages = [...images];
 
     if (image === null) {
       return;
@@ -89,6 +89,7 @@ const UserArticlePost = () => {
     const fileName = randomChar + '_' + image.name;
     const trimName = trimString(user.displayName);
     newFileNames.push(fileName);
+    console.log(newFileNames);
     setFileNames(newFileNames);
 
     // 初回fireStorageにファイル画像を保存する際にrandomChar16関数を使用し、ストレージ用のIDを取得。
@@ -212,6 +213,7 @@ const UserArticlePost = () => {
       const stringFileNames = fileNames.reduce(
         (prev, current) => (prev += `,${current}`)
       );
+
       const payload = {
         userId: user.uid,
         title: text,

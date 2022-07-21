@@ -33,8 +33,9 @@ const useArticles = (func: any) => {
           `${config.BACKEND_URL}/articles/page/${page}`
         );
         const jsonData = await response.json();
-        setData(jsonData);
-        func(false);
+        console.log(jsonData);
+        // setData(jsonData);
+        // func(false);
       } catch (err) {
         console.error(err);
       }

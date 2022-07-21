@@ -8,17 +8,7 @@ import { Card } from 'components/molecules/card/Card';
 const Cards = (props: { data: ARTICLES_DATA }) => {
   const { data } = props;
   console.log(data);
-  return (
-    <>
-      <main>
-        <Container sx={{ py: 4 }} maxWidth="md">
-          <Grid container spacing={4}>
-            {data && <Card data={data} />}
-          </Grid>
-        </Container>
-      </main>
-    </>
-  );
+  return <div className={styles.container}>{data && <Card data={data} />}</div>;
 };
 
 export { Cards };
