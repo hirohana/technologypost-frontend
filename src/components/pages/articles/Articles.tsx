@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
@@ -15,8 +15,13 @@ import SearchResultNotFound from 'components/molecules/searchResultNotFound/Sear
 
 const Articles = () => {
   const [loading, setLoading] = useState(true);
-  const { data, searchKeyword, setSearchKeyword, getArticlesBySearch } =
-    useArticles(setLoading);
+  const {
+    keyword,
+    data,
+    searchKeyword,
+    setSearchKeyword,
+    getArticlesBySearch,
+  } = useArticles(setLoading);
   const { user } = useSelector(selectUser);
   const trimUserName = trimString(user.displayName);
 
@@ -50,7 +55,7 @@ const Articles = () => {
                 />
               </>
             ) : (
-              <SearchResultNotFound keyword={searchKeyword} />
+              <SearchResultNotFound keyword={keyword} />
             )}
           </div>
         </main>

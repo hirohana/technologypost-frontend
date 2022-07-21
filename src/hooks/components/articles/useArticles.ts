@@ -20,6 +20,7 @@ const useArticles = (func: any) => {
   const { search } = useLocation();
   const query = new URLSearchParams(search);
   let page = Number(query.get('page')) || 1;
+  const keyword = String(query.get('keyword')) || '';
   const navigate = useNavigate();
 
   // 記事検索した際のクエリパラメータkeywordに曖昧一致する記事及び、OFFSET(1ページにおける最大記事数6)
@@ -58,6 +59,7 @@ const useArticles = (func: any) => {
   };
 
   return {
+    keyword,
     data,
     searchKeyword,
     setSearchKeyword,

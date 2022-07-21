@@ -5,11 +5,13 @@
   justify-content: center;
   margin: 20px 0px;
 
-  .keyword {
+  .keyword_container {
     display: flex;
     align-items: center;
   }
-  > span {
+
+  .keyword {
     @extend .font-lg;
+    font-weight: bold;
   }
 }
