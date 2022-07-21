@@ -10,11 +10,13 @@ const SearchResultNotFound = (props: PROPS) => {
   return (
     <div className={styles.container}>
       <div className={styles.keyword_container}>
-        <span className={styles.keyword}>{keyword}</span>
-        <p>に一致する情報が見つかりませんでした。</p>
+        <p>
+          <span className={styles.keyword}>{keyword}</span>{' '}
+          に一致する情報が見つかりませんでした。
+        </p>
       </div>
     </div>
   );
 };
 
-export default SearchResultNotFound;
+export { SearchResultNotFound };

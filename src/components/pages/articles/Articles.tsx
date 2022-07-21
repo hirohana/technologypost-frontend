@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
@@ -11,7 +11,7 @@ import TextField from 'components/molecules/textField/TextField';
 import { Pagination } from 'components/molecules/pagination/Pagination';
 import { LoadingIcon } from 'components/atoms/loadingIcon/LoadingIcon';
 import styles from './Articles.module.scss';
-import SearchResultNotFound from 'components/molecules/searchResultNotFound/SearchResultNotFound';
+import { SearchResultNotFound } from 'components/atoms/searchResultNotFound/SearchResultNotFound';
 
 const Articles = () => {
   const [loading, setLoading] = useState(true);
