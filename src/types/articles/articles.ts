@@ -1,27 +1,17 @@
-type ARTICLE_DATA = {
-  article_id: number;
-  article_photo_url: string | null;
-  category_name: string | null;
-  created_at: string;
-  letter_body: string;
-  title: string;
-  user_id: number;
-  user_photo_url: string;
-  username: string;
-}[];
-
 type ARTICLES_DATA = {
-  username: string;
-  user_photo_url: string;
-  user_id: number;
-  title: string;
-  letter_body: string;
-  created_at: string;
   article_id: number;
-  article_photo_url: string | null;
+  article_id_storage: string | null;
   category_name: string | null;
   comment: string | null;
   comment_created_at: string | null;
+  created_at: string;
+  file_names: string | null;
+  images_url: string | null;
+  letter_body: string;
+  title: string;
+  user_id: number;
+  user_photo_url: string;
+  username: string;
 }[];
 
 type ARTICLES_DATA_AND_PAGINATION = {
@@ -77,7 +67,6 @@ type DRAFT_ARTICLE_DATA_FOR_USER_ARTICLE_LIST = {
 };
 
 export type {
-  ARTICLE_DATA,
   ARTICLES_DATA,
   ARTICLES_DATA_AND_PAGINATION,
   ARTICLES_DATA_FOR_USER_ARTICLE_LIST,

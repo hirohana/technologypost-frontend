@@ -5,7 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import {
   ARTICLES_DATA_AND_PAGINATION,
-  ARTICLE_DATA,
+  // ARTICLE_DATA,
   ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST,
   DRAFT_ARTICLE_DATA_FOR_USER_ARTICLE_LIST,
 } from 'types/articles/articles';
