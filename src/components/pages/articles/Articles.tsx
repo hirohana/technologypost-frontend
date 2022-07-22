@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
+import { Cards } from 'components/organisms/cards/Cards';
 import { selectUser } from 'reducks/user/selectUser';
 import { useArticles } from 'hooks/components/articles/useArticles';
 import { trimString } from 'utils/trimString/trimString';
-import { Cards } from 'components/organisms/cards/Cards';
 import TextField from 'components/molecules/textField/TextField';
 import { Pagination } from 'components/molecules/pagination/Pagination';
 import { LoadingIcon } from 'components/atoms/loadingIcon/LoadingIcon';
