@@ -34,7 +34,7 @@ type ARTICLES_DATA_FOR_USER_ARTICLE_LIST = ARTICLE_DATA_FOR_USER_ARTICLE_LIST[];
 // UserArticleListページで使用。
 type ARTICLE_DATA_FOR_USER_ARTICLE_LIST = {
   article_id: number;
-  article_id_of_storage: string | null;
+  article_id_storage: string | null;
   article_photo_url: string | null;
   created_at: string;
   letter_body: string;
@@ -54,7 +54,7 @@ type ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST = {
 // UserArticlePostページで使用。
 type DRAFT_ARTICLE_DATA_FOR_USER_ARTICLE_LIST = {
   article_id: number;
-  article_id_of_storage: string | null;
+  article_id_storage: string | null;
   article_photo_url: string | null;
   created_at: string;
   file_names: string | null;

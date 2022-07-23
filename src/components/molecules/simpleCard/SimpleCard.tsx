@@ -79,7 +79,7 @@ const SimpleCard = (props: PROPS) => {
               <button
                 title="削除"
                 onClick={() =>
-                  deleteArticle(data.article_id, data.article_id_of_storage)
+                  deleteArticle(data.article_id, data.article_id_storage)
                 }
               >
                 ✖

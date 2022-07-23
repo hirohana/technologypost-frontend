@@ -48,31 +48,6 @@ const UserArticlePost = () => {
   const { username, id } = useParams();
   const trimUserName = trimString(user.displayName);
 
-  //  新規作成からUserArticlePostコンポーネントに遷移し、ファイル画像をfirebaseのStorageに保存した後、
-  //  下書き保存前に意図せずurl遷移した際、firebaseのStorageに保存したファイル画像及びディレクトリを削除する。
-  // useEffect(() => {
-  //   return () => {
-  //     if (id || isDraftData) {
-  //       return;
-  //     }
-
-  //     (async () => {
-  //       console.log(isDraftData);
-  //       console.log(fireStorageId);
-  //       try {
-  //         const storageRef = ref(
-  //           storage,
-  //           `articleImages/${fireStorageId}/${trimUserName}/`
-  //         );
-  //         const listResult = await listAll(storageRef);
-  //         listResult.items.forEach(async (item) => await deleteObject(item));
-  //       } catch (err) {
-  //         console.error(err);
-  //       }
-  //     })();
-  //   };
-  // }, [isDraftData, fireStorageId]);
-
   // 1. ファイル画像をアップロードした際に発火する副作用。
   // 2. randomChar16メソッドを使って、ランダムな16桁の文字列を生成し、useStateのimageファイル名の文頭に付ける。
   // 3. fireStorageのdraftImagesディレクトリ配下にファイルを保存し、getDownloadURLでURLを取得。
@@ -176,14 +151,14 @@ const UserArticlePost = () => {
     // 画像ファイルがfireStorageに保存されていない場合、処理を進めないようにするための条件分岐。
     if (
       !draftData.file_names ||
-      !draftData.article_id_of_storage ||
+      !draftData.article_id_storage ||
       !draftData.images_url
     ) {
       return;
     }
     const currentFileNames = draftData.file_names.split(',');
     const currentImages = draftData.images_url?.split(',');
-    setFireStorageId(draftData.article_id_of_storage);
+    setFireStorageId(draftData.article_id_storage);
     setFileNames(currentFileNames);
     setImages(currentImages);
   }, [data]);
