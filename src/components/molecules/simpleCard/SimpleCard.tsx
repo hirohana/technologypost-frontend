@@ -12,6 +12,7 @@ import styles from './SimpleCard.module.scss';
 import TimestampProcessing from 'components/atoms/timestampProcessing/TimestampProcessing';
 import { trimString } from 'utils/trimString/trimString';
 import { menuForUserArticleList } from 'components/molecules/threeDotMenu/menuForUserArticleListPage';
+import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
 
 type PROPS = {
   data: ARTICLE_DATA_FOR_USER_ARTICLE_LIST;
@@ -41,32 +42,41 @@ const SimpleCard = (props: PROPS) => {
      * @returns
      */
     const articleDeleteAPI = async () => {
-      const response = await fetch(`${config.BACKEND_URL}/articles/${id}`, {
-        method: 'DELETE',
-      });
-      const jsonData = await response.json();
-      return jsonData;
+      try {
+        const response = await fetch(`${config.BACKEND_URL}/articles/${id}`, {
+          method: 'DELETE',
+        });
+        const jsonData = await response.json();
+        return jsonData;
+      } catch (err) {
+        return err;
+      }
     };
 
     /**
      * 画像ファイルがあった場合、firebaseのStorageに対しstorageIdが一致するディレクトリを削除する関数
      */
     const storageDeleteAPI = async () => {
-      const storageRef = ref(
-        storage,
-        `articleImages/${storageId}/${trimUserName}/`
-      );
-      const listResult = await listAll(storageRef);
-      listResult.items.forEach(async (item) => {
-        await deleteObject(item);
-      });
+      try {
+        const storageRef = ref(
+          storage,
+          `articleImages/${storageId}/${trimUserName}/`
+        );
+        const listResult = await listAll(storageRef);
+        listResult.items.forEach(async (item) => {
+          await deleteObject(item);
+        });
+      } catch (err: any) {
+        throw new Error(err);
+      }
     };
 
     try {
       await Promise.all([articleDeleteAPI(), storageDeleteAPI()]);
-      window.location.reload();
-    } catch (err) {
+      navigate('/articles');
+    } catch (err: any) {
       console.error(err);
+      sweetAlertOfError(err);
     }
   };
 
