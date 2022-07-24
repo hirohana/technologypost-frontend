@@ -31,6 +31,7 @@ const TemporarilyImageToFireStorage = (props: PROPS) => {
   } = props;
   const { user } = useSelector(selectUser);
   const { id } = useParams();
+
   // firebaseのfierStorageから該当するファイルを削除する関数。
   const imageDelete = async (index: number, image: string) => {
     const trimName = trimString(user.displayName);
@@ -41,7 +42,6 @@ const TemporarilyImageToFireStorage = (props: PROPS) => {
         `articleImages/${articleIdOfFireStorage}/${trimName}/${fileNames[index]}`
       );
       await deleteObject(storageRef);
-
       const newFileNames = fileNames.filter((fileName) => {
         return fileName !== fileNames[index];
       });
@@ -57,12 +57,17 @@ const TemporarilyImageToFireStorage = (props: PROPS) => {
       setImages(newImages);
       setMarkdownValue(newMarkdownValue);
 
-      const stringFileNames = newFileNames.reduce(
-        (prev, current) => (prev += `,${current}`)
-      );
-      const stringImages = newImages.reduce(
-        (prev, current) => (prev += `,${current}`)
-      );
+      let stringFileNames = '';
+      let stringImages = '';
+
+      if (newFileNames.length !== 0) {
+        stringFileNames = newFileNames.reduce(
+          (prev, current) => (prev += `,${current}`)
+        );
+        stringImages = newImages.reduce(
+          (prev, current) => (prev += `,${current}`)
+        );
+      }
 
       // データベースに格納されているデータを削除
       const payload = {
@@ -70,7 +75,6 @@ const TemporarilyImageToFireStorage = (props: PROPS) => {
         images: stringImages,
         letterBody: newMarkdownValue,
       };
-
       await fetch(`${config.BACKEND_URL}/articles/draft/image/${id}`, {
         method: 'PUT',
         headers: {

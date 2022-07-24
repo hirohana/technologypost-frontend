@@ -38,7 +38,7 @@ const SimpleCard = (props: PROPS) => {
     }
 
     /**
-     * 記事データベース(articles)に対し、一致した記事IDのデータを削除する関数
+     * 記事データベース(articles)と中間テーブル(articles_category)に対し、一致した記事IDのデータを削除する関数
      * @returns
      */
     const articleDeleteAPI = async () => {

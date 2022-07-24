@@ -23,13 +23,10 @@ import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
 
 const UserArticlePost = () => {
   const { user } = useSelector(selectUser);
-  const { username, id } = useParams();
-  const { image, setImage, changeImageHandler } = useChangeImageHandler();
+  const { username } = useParams();
   const trimUserName = trimString(user.displayName);
 
   const {
-    data,
-    setData,
     category,
     handleSubmit,
     fireStorageId,
@@ -44,6 +41,8 @@ const UserArticlePost = () => {
     setMarkdownValue,
     markdownValue,
     onMarkdownChange,
+    image,
+    changeImageHandler,
   } = useUserArticlePost();
 
   return (
@@ -68,7 +67,7 @@ const UserArticlePost = () => {
                       <div className={styles.image_icon}>
                         <ImageIcon
                           image={image}
-                          onChange={changeImageHandler}
+                          onChange={(e) => changeImageHandler(e)}
                         />
                       </div>
 
