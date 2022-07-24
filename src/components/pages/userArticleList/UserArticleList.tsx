@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { selectUser } from 'reducks/user/selectUser';
-import { useUserArticleList } from 'hooks/components/articles/useArticles';
+import { useUserArticleList } from 'hooks/components/UserArticleList/useUserArticleList';
 import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
 import Error403 from '../error/error403/Error403';
 import styles from './UserArticleList.module.scss';
