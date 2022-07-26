@@ -39,9 +39,9 @@ const Card = (props: { data: ARTICLE_DATA }) => {
               <AvatarImage src={data.user_photo_url} />
               <p>{data.username}</p>
             </div>
-            <CategoryIcon
+            {/* <CategoryIcon
               categories={data.category_name ? data.category_name : ''}
-            />
+            /> */}
           </div>
         </div>
       </div>

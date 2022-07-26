@@ -9,6 +9,7 @@ import { AvatarImage } from 'components/atoms/button/avatar/AvatarImage';
 import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
 import CategoryIcon from 'components/atoms/categoryIcon/CategoryIcon';
 import { Comments } from 'components/molecules/comments/Comments';
+import PostComment from 'components/molecules/postComment/PostComment';
 
 const Article = () => {
   const { data } = useArticle();
@@ -57,7 +58,9 @@ const Article = () => {
             />
           </div>
         )}
-        <div className={styles.comment_input_container}></div>
+        <div className={styles.post_comment}>
+          <PostComment />
+        </div>
       </div>
     </DefaultLayout>
   );
