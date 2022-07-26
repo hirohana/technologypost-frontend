@@ -2,8 +2,6 @@ type ARTICLE_DATA = {
   article_id: number;
   article_id_storage: string | null;
   category_name: string | null;
-  comment: string | null;
-  comment_created_at: string | null;
   created_at: string;
   file_names: string | null;
   images_url: string | null;
@@ -14,9 +12,21 @@ type ARTICLE_DATA = {
   username: string;
 };
 
+type COMMENTS = {
+  comment_created_at: string;
+  user_comment: string;
+  user_photo_url: string;
+  username: string;
+}[];
+
 type PAGINATION = {
   totalPages: number;
   paginationMaxCount: number;
+};
+
+type ARTICLE_DATA_AND_COMMENTS = {
+  data: ARTICLE_DATA[];
+  comments: COMMENTS;
 };
 
 type ARTICLES_DATA = ARTICLE_DATA[];
@@ -69,7 +79,9 @@ type DRAFT_ARTICLE_DATA_FOR_USER_ARTICLE_LIST = {
 
 export type {
   ARTICLE_DATA,
+  COMMENTS,
   ARTICLES_DATA,
+  ARTICLE_DATA_AND_COMMENTS,
   ARTICLES_DATA_AND_PAGINATION,
   ARTICLES_DATA_FOR_USER_ARTICLE_LIST,
   ARTICLES_DATA_AND_PAGINATION_FOR_USER_ARTICLE_LIST,

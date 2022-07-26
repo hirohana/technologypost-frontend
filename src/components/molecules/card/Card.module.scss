@@ -50,20 +50,6 @@
   }
 }
 
-.category {
-  display: flex;
-  align-items: center;
-  margin-top: 5px;
-
-  .category_icon {
-    color: $cLightBlue;
-  }
-  .category_name {
-    width: 100%;
-    word-break: break-all;
-  }
-}
-
 @media (min-width: 600px) {
   .card_container {
     display: flex;

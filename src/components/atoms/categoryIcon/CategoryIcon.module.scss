@@ -1,0 +1,15 @@
+@import '../../../styles/modules/valiables.scss';
+
+.category {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+
+  .category_icon {
+    color: $cLightBlue;
+  }
+  .category_name {
+    width: 100%;
+    word-break: break-all;
+  }
+}

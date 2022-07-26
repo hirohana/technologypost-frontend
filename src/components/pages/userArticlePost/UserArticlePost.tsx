@@ -1,6 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps*/
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import SimpleMde from 'react-simplemde-editor';
 import DOMPurify from 'dompurify';
@@ -10,7 +8,6 @@ import 'easymde/dist/easymde.min.css';
 
 import { useUserArticlePost } from 'hooks/components/UserArticlePost/useUserArticlePost';
 import { TemporarilyImageToFireStorage } from 'components/molecules/TemporarilyImageToFireStorage/TemporarilyImageToFireStorage';
-import { useChangeImageHandler } from 'hooks/components/changeImage/useChangeImage';
 import Error403 from 'components/pages/error/error403/Error403';
 import ImageIcon from 'components/atoms/button/imageIcon/ImageIcon';
 import TimestampProcessing from 'components/atoms/timestampProcessing/TimestampProcessing';

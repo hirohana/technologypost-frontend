@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 
 import { ARTICLE_DATA } from 'types/articles/articles';
 import TimestampProcessing from 'components/atoms/timestampProcessing/TimestampProcessing';
 import styles from './Card.module.scss';
 import { AvatarImage } from 'components/atoms/button/avatar/AvatarImage';
 import { useCard } from 'hooks/components/card/useCard';
+import CategoryIcon from 'components/atoms/categoryIcon/CategoryIcon';
 
 const Card = (props: { data: ARTICLE_DATA }) => {
   const { data } = props;
@@ -36,15 +36,12 @@ const Card = (props: { data: ARTICLE_DATA }) => {
           <div className={styles.card_information}>
             <p className={styles.title}>{data.title}</p>
             <div className={styles.avatar_username}>
-              <AvatarImage url={data.user_photo_url} />
+              <AvatarImage src={data.user_photo_url} />
               <p>{data.username}</p>
             </div>
-            <div className={styles.category}>
-              <LocalOfferIcon className={styles.category_icon} />
-              <span className={styles.category_name}>
-                {data.category_name ? data.category_name : ''}
-              </span>
-            </div>
+            <CategoryIcon
+              categories={data.category_name ? data.category_name : ''}
+            />
           </div>
         </div>
       </div>
