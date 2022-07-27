@@ -35,6 +35,7 @@
     "react-responsive": "^9.0.0-beta.10",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-share": "^4.4.0",
     "react-simplemde-editor": "^5.0.2",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",

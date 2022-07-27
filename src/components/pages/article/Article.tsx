@@ -13,6 +13,7 @@ import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
 import CategoryIcon from 'components/atoms/categoryIcon/CategoryIcon';
 import { Comments } from 'components/organisms/comments/Comments';
 import PostComment from 'components/molecules/postComment/PostComment';
+import { TwitterAndFacebookIcon } from 'components/atoms/twitterAndFacebookIcon/TwitterAndFacebookIcon';
 
 const Article = () => {
   const { data } = useArticle();
@@ -49,6 +50,7 @@ const Article = () => {
                     __html: DOMPurify.sanitize(marked(articleData.letter_body)),
                   }}
                 ></div>
+                <TwitterAndFacebookIcon title="aa" />
               </main>
             )}
           </div>
