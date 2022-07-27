@@ -1,25 +1,15 @@
 @import '../../../styles/modules/valiables.scss';
 
-.comments_container {
-  width: 100%;
-  max-width: 600px;
-  box-shadow: 0px 0px 15px -5px #777777;
-  background-color: $cWhite;
-
-  .comments_list {
-    padding: 20px;
-  }
-
-  .comments_header {
-    margin: 0px;
-    border-bottom: 2px solid $cGray;
-  }
-}
-
 .comment_container {
   border-bottom: 2px solid $cGray;
   margin-top: 10px;
   padding-bottom: 10px;
+
+  .threedot_timestamp {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
 
   .comment_information {
     display: flex;

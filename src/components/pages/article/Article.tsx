@@ -1,19 +1,23 @@
 import DOMPurify from 'dompurify';
 import marked from 'marked';
 
-import { useArticle } from 'hooks/components/article/useArticle';
+import {
+  useArticle,
+  useSubmitComment,
+} from 'hooks/components/article/useArticle';
 import TimestampProcessing from 'components/atoms/timestampProcessing/TimestampProcessing';
 import styles from './Article.module.scss';
 import 'easymde/dist/easymde.min.css';
 import { AvatarImage } from 'components/atoms/button/avatar/AvatarImage';
 import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
 import CategoryIcon from 'components/atoms/categoryIcon/CategoryIcon';
-import { Comments } from 'components/molecules/comments/Comments';
+import { Comments } from 'components/organisms/comments/Comments';
 import PostComment from 'components/molecules/postComment/PostComment';
 
 const Article = () => {
   const { data } = useArticle();
   const articleData = data?.data[0];
+  const { submitComment, text, setText } = useSubmitComment();
 
   return (
     <DefaultLayout>
@@ -51,15 +55,11 @@ const Article = () => {
         </div>
         {articleData?.article_id && data?.comments.length !== 0 && (
           <div className={styles.comments_container}>
-            <Comments
-              photoUrl={articleData.user_photo_url}
-              userName={articleData.username}
-              comments={data!.comments}
-            />
+            <Comments comments={data!.comments} />
           </div>
         )}
         <div className={styles.post_comment}>
-          <PostComment />
+          <PostComment text={text} setText={setText} onSubmit={submitComment} />
         </div>
       </div>
     </DefaultLayout>

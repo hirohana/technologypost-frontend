@@ -12,12 +12,15 @@ type ARTICLE_DATA = {
   username: string;
 };
 
-type COMMENTS = {
+type COMMENT = {
+  comment_id: number;
   comment_created_at: string;
   user_comment: string;
   user_photo_url: string;
   username: string;
-}[];
+};
+
+type COMMENTS = COMMENT[];
 
 type PAGINATION = {
   totalPages: number;
@@ -79,6 +82,7 @@ type DRAFT_ARTICLE_DATA_FOR_USER_ARTICLE_LIST = {
 
 export type {
   ARTICLE_DATA,
+  COMMENT,
   COMMENTS,
   ARTICLES_DATA,
   ARTICLE_DATA_AND_COMMENTS,

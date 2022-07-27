@@ -31,11 +31,9 @@
     margin: 10px 0px;
   }
 
-  .body_and_comments {
-    > img {
-      max-width: 100%;
-      object-fit: cover;
-    }
+  img {
+    max-width: 100%;
+    object-fit: cover;
   }
 
   .user_informartion {
@@ -77,11 +75,20 @@
   }
 }
 
+.post_comment {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 @media (min-width: 480px) {
   .article_container {
     width: 90%;
   }
   .comments_container {
+    width: 90%;
+  }
+  .post_comment {
     width: 90%;
   }
 }
