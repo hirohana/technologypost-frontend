@@ -16,7 +16,7 @@ import PostComment from 'components/molecules/postComment/PostComment';
 import { TwitterAndFacebookIcon } from 'components/atoms/twitterAndFacebookIcon/TwitterAndFacebookIcon';
 
 const Article = () => {
-  const { data } = useArticle();
+  const { data, imagesArray } = useArticle();
   const articleData = data?.data[0];
   const { submitComment, text, setText } = useSubmitComment();
 
@@ -50,14 +50,24 @@ const Article = () => {
                     __html: DOMPurify.sanitize(marked(articleData.letter_body)),
                   }}
                 ></div>
-                <TwitterAndFacebookIcon title="aa" />
+                <TwitterAndFacebookIcon
+                  title={articleData.title}
+                  imageUrl={imagesArray[0]}
+                  userName={articleData.username}
+                />
               </main>
             )}
           </div>
         </div>
-        {articleData?.article_id && data?.comments.length !== 0 && (
+        {articleData?.article_id && data?.comments.length !== 0 ? (
           <div className={styles.comments_container}>
             <Comments comments={data!.comments} />
+          </div>
+        ) : (
+          <div className={styles.no_comments_container}>
+            <p className={styles.no_comment}>
+              現在コメントは投稿されていません。
+            </p>
           </div>
         )}
         <div className={styles.post_comment}>

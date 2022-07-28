@@ -1,4 +1,4 @@
-@import "/src/styles/modules/valiables";
+@import '/src/styles/modules/valiables';
 
 .form {
   display: flex;
@@ -20,8 +20,8 @@
 
   & .textField {
     width: 250px;
-    margin-top: 20px;
     border-radius: 9999px;
+    margin: 20px 0px;
     padding: 10px;
     border-color: $cBlack;
     padding-left: 50px;

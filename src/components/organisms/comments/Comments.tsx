@@ -13,7 +13,10 @@ const Comments = (props: PROPS) => {
     <div className={styles.comments_container}>
       <div className={styles.comments_list}>
         <p className={styles.comments_header}>コメント</p>
-        {comments && comments.map((comment) => <Comment comment={comment} />)}
+        {comments &&
+          comments.map((comment) => (
+            <Comment comment={comment} key={comment.comment_id} />
+          ))}
       </div>
     </div>
   );

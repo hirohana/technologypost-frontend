@@ -12,6 +12,7 @@ const deleteComment = async (commentId: number) => {
     await fetch(`${config.BACKEND_URL}/articles/comments/${commentId}`, {
       method: 'DELETE',
     });
+    window.location.reload();
   } catch (err: any) {
     console.error(err);
     sweetAlertOfError(err);

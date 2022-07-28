@@ -1,6 +1,6 @@
-import SearchIcon from "@mui/icons-material/Search";
+import SearchIcon from '@mui/icons-material/Search';
 
-import styles from "./TextField.module.scss";
+import styles from './SearchField.module.scss';
 
 type PROPS = {
   onSubmitHandler: any;
@@ -8,7 +8,7 @@ type PROPS = {
   changeValues: any;
 };
 
-const TextField = (props: PROPS) => {
+const SearchField = (props: PROPS) => {
   const { onSubmitHandler, values, changeValues } = props;
   return (
     <>
@@ -32,4 +32,4 @@ const TextField = (props: PROPS) => {
   );
 };
 
-export default TextField;
+export { SearchField };

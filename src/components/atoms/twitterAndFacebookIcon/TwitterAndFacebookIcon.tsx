@@ -9,15 +9,18 @@ import {
   TwitterShareButton,
 } from 'react-share';
 import { selectUser } from 'reducks/user/selectUser';
+import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
 
 import styles from './TwitterAndFacebookIcon.module.scss';
 
 type PROPS = {
   title: string;
+  imageUrl: string;
+  userName: string;
 };
 
 const TwitterAndFacebookIcon = (props: PROPS) => {
-  const { title } = props;
+  const { title, imageUrl, userName } = props;
   const [url, setUrl] = useState('');
   const { user } = useSelector(selectUser);
   const { id } = useParams();
@@ -28,21 +31,23 @@ const TwitterAndFacebookIcon = (props: PROPS) => {
   }, [url]);
 
   const handleClick = async () => {
-    const payload = {};
+    const payload = {
+      userName,
+      title,
+      imageUrl,
+      siteUrl: window.location.href,
+    };
 
     try {
-      const response = await fetch(
-        `${config.BACKEND_URL}/articles/article/${id}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      await fetch(`${config.BACKEND_URL}/articles/article/ogp/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
     } catch (err: any) {
-      sweetAlert(err);
+      sweetAlertOfError(err);
       console.error(err);
     }
   };

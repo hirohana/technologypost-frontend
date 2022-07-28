@@ -14,13 +14,18 @@ import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
  */
 const useArticle = () => {
   const [data, setData] = useState<ARTICLE_DATA_AND_COMMENTS | undefined>();
+  const [imagesArray, setImagesArray] = useState<string[]>([]);
   const { id } = useParams();
 
   useEffect(() => {
     (async () => {
       try {
         const data = await fetch(`${config.BACKEND_URL}/articles/${id}`);
-        const jsonData = await data.json();
+        const jsonData: ARTICLE_DATA_AND_COMMENTS = await data.json();
+        if (jsonData.data[0]?.images_url) {
+          const newImagesArray = jsonData.data[0].images_url.split(',');
+          setImagesArray(newImagesArray);
+        }
         setData(jsonData);
       } catch (err) {
         console.error(err);
@@ -28,7 +33,7 @@ const useArticle = () => {
     })();
   }, [id]);
 
-  return { data };
+  return { data, imagesArray };
 };
 
 /**
@@ -55,6 +60,7 @@ const useSubmitComment = () => {
         body: JSON.stringify(payload),
       });
       setText('');
+      window.location.reload();
     } catch (err: any) {
       sweetAlertOfError(err);
       console.error(err);

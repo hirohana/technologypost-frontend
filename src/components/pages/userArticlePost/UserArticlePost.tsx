@@ -89,13 +89,12 @@ const UserArticlePost = () => {
                         value={markdownValue}
                         onChange={onMarkdownChange}
                       />
-                      <div>
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: DOMPurify.sanitize(marked(markdownValue)),
-                          }}
-                        ></div>
-                      </div>
+                      <div
+                        className={styles.markdown_value}
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(marked(markdownValue)),
+                        }}
+                      ></div>
                       <div className={styles.create_date}>
                         <div className={styles.timestamp}>
                           作成日 &nbsp;

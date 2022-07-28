@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { AppBar, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Toolbar, Typography } from '@mui/material';
 
 import { useDraftInitialDataSet } from 'hooks/components/UserArticleList/useUserArticleList';
 import { selectUser } from 'reducks/user/selectUser';
@@ -12,8 +12,7 @@ const CardsInformation = () => {
 
   return (
     <div className={styles.container}>
-      <button onClick={draftInitialDataSet}>記事作成</button>
-      {/* <Link to={`/articles/user/${trimUserName}/article_post`}>記事作成</Link> */}
+      <Button onClick={draftInitialDataSet}>記事作成</Button>
       <AppBar position="relative">
         <Toolbar className={styles.title}>
           <CameraAltIcon />

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
@@ -7,11 +7,12 @@ import { Cards } from 'components/organisms/cards/Cards';
 import { selectUser } from 'reducks/user/selectUser';
 import { useArticles } from 'hooks/components/articles/useArticles';
 import { trimString } from 'utils/trimString/trimString';
-import TextField from 'components/molecules/textField/TextField';
+import { SearchField } from 'components/molecules/searchField/SearchField';
 import { Pagination } from 'components/molecules/pagination/Pagination';
 import { LoadingIcon } from 'components/atoms/loadingIcon/LoadingIcon';
 import styles from './Articles.module.scss';
 import { SearchResultNotFound } from 'components/atoms/searchResultNotFound/SearchResultNotFound';
+import { Button } from '@mui/material';
 
 const Articles = () => {
   const [loading, setLoading] = useState(true);
@@ -23,6 +24,7 @@ const Articles = () => {
     getArticlesBySearch,
   } = useArticles(setLoading);
   const { user } = useSelector(selectUser);
+  const navigate = useNavigate();
   const trimUserName = trimString(user.displayName);
 
   return (
@@ -34,14 +36,17 @@ const Articles = () => {
           <div className={styles.container}>
             {user.uid ? (
               <div className={styles.container_titles}>
-                <Link to={`/articles/user/${trimUserName}/article_list`}>
-                  <p className={styles.user_titles}>
-                    {user.displayName}の記事一覧
-                  </p>
-                </Link>
+                <Button
+                  className={styles.user_titles}
+                  onClick={() =>
+                    navigate(`/articles/user/${trimUserName}/article_list`)
+                  }
+                >
+                  {user.displayName}の記事一覧
+                </Button>
               </div>
             ) : null}
-            <TextField
+            <SearchField
               values={searchKeyword}
               changeValues={setSearchKeyword}
               onSubmitHandler={getArticlesBySearch}

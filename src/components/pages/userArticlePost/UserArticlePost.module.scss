@@ -21,6 +21,12 @@
   display: flex;
 }
 
+.markdown_value {
+  img {
+    max-width: 100%;
+  }
+}
+
 .send_disable_btn {
   background-color: $cGray !important;
   border-radius: 20px !important;

@@ -23,7 +23,7 @@ const UserArticleList = () => {
       <div className={styles.contaienr}>
         <main>
           {trimUserName === username ? (
-            <div className={styles.container}>
+            <div className={styles.card_container}>
               <div className={styles.cards_information}>
                 <CardsInformation />
               </div>
