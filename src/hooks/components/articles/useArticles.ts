@@ -39,7 +39,7 @@ const useArticles = (func: any) => {
   const getArticlesBySearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      navigate(`/articles?keyword=${searchKeyword}`);
+      navigate(`/?keyword=${searchKeyword}`);
       const response = await fetch(
         `${config.BACKEND_URL}/articles/search?keyword=${searchKeyword}`
       );

@@ -1,0 +1,7 @@
+@import '../../../styles/modules/valiables.scss';
+
+.border_bottom {
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid $cGray;
+}

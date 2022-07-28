@@ -6,6 +6,7 @@ import styles from './Card.module.scss';
 import { AvatarImage } from 'components/atoms/button/avatar/AvatarImage';
 import { useCard } from 'hooks/components/card/useCard';
 import CategoryIcon from 'components/atoms/categoryIcon/CategoryIcon';
+import { BorderBottom } from '@mui/icons-material';
 
 const Card = (props: { data: ARTICLE_DATA }) => {
   const { data } = props;
@@ -16,7 +17,7 @@ const Card = (props: { data: ARTICLE_DATA }) => {
     <>
       <div
         className={styles.container}
-        onClick={() => navigate(`/articles/article/${data.article_id}`)}
+        onClick={() => navigate(`/articles/${data.article_id}`)}
       >
         <div className={styles.timestamp_likes}>
           <div className={styles.timestamp}>
@@ -30,7 +31,7 @@ const Card = (props: { data: ARTICLE_DATA }) => {
                 ? imagesUrl[0]
                 : 'https://source.unsplash.com/random'
             }
-            alt="articleImage"
+            alt={imagesUrl.length ? 'articleImage' : ''}
             className={styles.image}
           />
           <div className={styles.card_information}>

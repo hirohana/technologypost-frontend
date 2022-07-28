@@ -6,7 +6,7 @@ const ArticlesRoutes = () => {
   return (
     <Routes>
       <Route path="/user/*" element={<UserRoutes />} />
-      <Route path="/article/:id" element={<Article />} />
+      <Route path="/articles/:id" element={<Article />} />
       <Route path="/" element={<Articles />} />
       <Route path="*" element={<Error404 />} />
     </Routes>

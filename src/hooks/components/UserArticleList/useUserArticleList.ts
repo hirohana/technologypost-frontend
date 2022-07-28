@@ -60,7 +60,7 @@ const useDraftInitialDataSet = () => {
       });
       const jsonData = await response.json();
       const id = jsonData.id;
-      navigate(`/articles/user/${trimUserName}/article_post/${id}`);
+      navigate(`/user/${trimUserName}/article_post/${id}`);
     } catch (err: any) {
       console.error(err);
       alert(err.message);

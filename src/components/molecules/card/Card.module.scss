@@ -36,7 +36,10 @@
 }
 
 .card_information {
+  width: 50%;
+
   .title {
+    width: 100%;
     @extend .font-lg;
     border-bottom: 2px solid $cGray;
     margin-bottom: 0px;
@@ -44,6 +47,7 @@
 
   .avatar_username {
     display: flex;
+    width: 100%;
     align-items: center;
     @extend .font-lr;
     border-bottom: 2px solid $cGray;

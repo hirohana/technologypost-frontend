@@ -29,12 +29,12 @@ const UserArticleList = () => {
               </div>
               <AsideScrollTop />
               {data && <SimpleCards cardsData={data.data} />}
-              {data?.pagination.paginationMaxCount ? (
+              {data?.pagination.paginationMaxCount && (
                 <Pagination
                   maxPage={data.pagination.paginationMaxCount}
-                  url={`articles/user/${username}/article_list`}
+                  url={`user/${username}/article_list`}
                 />
-              ) : null}
+              )}
             </div>
           ) : (
             <Error403 />

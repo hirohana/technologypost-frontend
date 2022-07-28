@@ -34,10 +34,6 @@ const useFooterMenu = () => {
       to: '/',
     },
     {
-      text: '記事一覧',
-      to: '/articles',
-    },
-    {
       text: '管理人について',
       to: '/about',
     },

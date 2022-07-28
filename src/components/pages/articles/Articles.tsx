@@ -38,9 +38,7 @@ const Articles = () => {
               <div className={styles.container_titles}>
                 <Button
                   className={styles.user_titles}
-                  onClick={() =>
-                    navigate(`/articles/user/${trimUserName}/article_list`)
-                  }
+                  onClick={() => navigate(`/user/${trimUserName}/article_list`)}
                 >
                   {user.displayName}の記事一覧
                 </Button>
@@ -56,7 +54,7 @@ const Articles = () => {
                 <Cards data={data.data} />
                 <Pagination
                   maxPage={data.pagination.paginationMaxCount}
-                  url="articles"
+                  url=""
                 />
               </>
             ) : (

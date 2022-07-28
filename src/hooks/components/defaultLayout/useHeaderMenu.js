@@ -46,17 +46,6 @@ const useHeaderMenu = () => {
       ),
     },
     {
-      key: '記事一覧',
-      element: (
-        <button
-          onClick={() => navigate('/articles')}
-          className={styles.button_menu}
-        >
-          記事一覧
-        </button>
-      ),
-    },
-    {
       key: '管理人について',
       element: (
         <button

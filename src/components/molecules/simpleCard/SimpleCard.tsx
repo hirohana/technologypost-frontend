@@ -73,7 +73,7 @@ const SimpleCard = (props: PROPS) => {
 
     try {
       await Promise.all([articleDeleteAPI(), storageDeleteAPI()]);
-      navigate('/articles');
+      navigate('/');
     } catch (err: any) {
       console.error(err);
       sweetAlertOfError(err);
@@ -105,10 +105,10 @@ const SimpleCard = (props: PROPS) => {
               className={styles.card_container}
               onClick={
                 data.public === 1
-                  ? () => navigate(`/articles/article/${data.article_id}`)
+                  ? () => navigate(`/articles/${data.article_id}`)
                   : () =>
                       navigate(
-                        `/articles/user/${trimUserName}/article_post/${data.article_id}`
+                        `/user/${trimUserName}/article_post/${data.article_id}`
                       )
               }
             >
