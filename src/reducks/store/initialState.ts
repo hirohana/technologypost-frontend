@@ -9,5 +9,6 @@ const initialState: USER_INITIAL_STATE = {
 
 // menuOpenStateの初期値
 const menuOpenInitialState = false;
+const isLoadingInitialState = true;
 
-export { initialState, menuOpenInitialState };
+export { initialState, menuOpenInitialState, isLoadingInitialState };

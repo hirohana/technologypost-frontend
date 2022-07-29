@@ -10,7 +10,6 @@
 
 .container {
   @extend .content-width;
-  height: 70vh;
   margin-top: 50px;
 }
 
@@ -41,7 +40,7 @@
 }
 
 .background_image {
-  background: url(../../../images/cat.jpg);
+  background: url(../../../images/catAndDog.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

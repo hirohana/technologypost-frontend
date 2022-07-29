@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 
 import { UsersReducer } from 'reducks/user/reducers';
 import { MenuOpenReducer } from 'reducks/menuOpen/reducer';
+import { IsLoadingReducer } from 'reducks/loading/reducer';
 // デプロイする際は下記のコードを消去する。
 // それに伴って、composeWithDevTools(applyMiddleware(thunk))を
 // applyMiddleware(thunk)に変更する。
@@ -18,6 +19,7 @@ const createStore = (): any => {
     combineReducers({
       user: UsersReducer,
       menuOpen: MenuOpenReducer,
+      isLoading: IsLoadingReducer,
     }),
     middleWare()
   );

@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
+
 import { Cards } from 'components/organisms/cards/Cards';
 import { selectUser } from 'reducks/user/selectUser';
 import { useArticles } from 'hooks/components/articles/useArticles';
@@ -13,25 +13,24 @@ import { LoadingIcon } from 'components/atoms/loadingIcon/LoadingIcon';
 import styles from './Articles.module.scss';
 import { SearchResultNotFound } from 'components/atoms/searchResultNotFound/SearchResultNotFound';
 import { Button } from '@mui/material';
+import { useIsLoading } from 'hooks/redux/isLoading/useIsLoading';
 
 const Articles = () => {
-  const [loading, setLoading] = useState(true);
   const {
     keyword,
     data,
     searchKeyword,
     setSearchKeyword,
     getArticlesBySearch,
-  } = useArticles(setLoading);
+  } = useArticles();
   const { user } = useSelector(selectUser);
+  const { isLoading } = useIsLoading();
   const navigate = useNavigate();
   const trimUserName = trimString(user.displayName);
 
-  return (
-    <DefaultLayout>
-      {loading ? (
-        <LoadingIcon />
-      ) : (
+  if (!isLoading) {
+    return (
+      <DefaultLayout>
         <main>
           <div className={styles.container}>
             {user.uid ? (
@@ -62,9 +61,15 @@ const Articles = () => {
             )}
           </div>
         </main>
-      )}
-    </DefaultLayout>
-  );
+      </DefaultLayout>
+    );
+  } else {
+    return (
+      <DefaultLayout>
+        <LoadingIcon />
+      </DefaultLayout>
+    );
+  }
 };
 
 export default Articles;

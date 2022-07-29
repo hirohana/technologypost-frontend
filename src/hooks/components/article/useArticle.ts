@@ -6,6 +6,8 @@ import { config } from 'config/applicationConfig';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'reducks/user/selectUser';
 import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
+import { isLoading } from 'reducks/loading/actionCreator';
+import { useDispatch } from 'react-redux';
 
 /**
  * URLパラメータのidと一致する記事を取得するフック。
@@ -15,10 +17,12 @@ import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
 const useArticle = () => {
   const [data, setData] = useState<ARTICLE_DATA_AND_COMMENTS | undefined>();
   const [imagesArray, setImagesArray] = useState<string[]>([]);
+  const dispatch = useDispatch();
   const { id } = useParams();
 
   useEffect(() => {
     (async () => {
+      dispatch(isLoading(true));
       try {
         const data = await fetch(`${config.BACKEND_URL}/articles/${id}`);
         const jsonData: ARTICLE_DATA_AND_COMMENTS = await data.json();
@@ -27,7 +31,9 @@ const useArticle = () => {
           setImagesArray(newImagesArray);
         }
         setData(jsonData);
+        dispatch(isLoading(false));
       } catch (err) {
+        dispatch(isLoading(false));
         console.error(err);
       }
     })();
@@ -43,8 +49,10 @@ const useSubmitComment = () => {
   const [text, setText] = useState('');
   const { id } = useParams();
   const { user } = useSelector(selectUser);
+  const dispatch = useDispatch();
 
   const submitComment = async () => {
+    dispatch(isLoading(true));
     const payload = {
       articleId: id,
       userId: user.uid,
@@ -60,8 +68,10 @@ const useSubmitComment = () => {
         body: JSON.stringify(payload),
       });
       setText('');
+      dispatch(isLoading(false));
       window.location.reload();
     } catch (err: any) {
+      dispatch(isLoading(false));
       sweetAlertOfError(err);
       console.error(err);
     }

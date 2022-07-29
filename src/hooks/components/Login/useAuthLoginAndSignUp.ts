@@ -12,6 +12,7 @@ import { randomChar16 } from 'utils/randomChar16/randomChar16';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { trimString } from 'utils/trimString/trimString';
 import { useChangeImageHandler } from '../changeImage/useChangeImage';
+import { isLoading } from 'reducks/loading/actionCreator';
 
 /**
  * パスワード認証、アカウント登録を行うフック。
@@ -43,7 +44,7 @@ const useAuthLoginAndSignUp = () => {
       return;
     }
     let photoUrl = '';
-
+    dispatch(isLoading(true));
     try {
       const randomChar = randomChar16();
       const fileName = randomChar + '_' + image.name;
@@ -111,11 +112,13 @@ const useAuthLoginAndSignUp = () => {
             setEmail('');
             setPassword('');
             setRetypingPassword('');
+            dispatch(isLoading(false));
             sweetAlertOfSuccess(data.message);
           });
         }
       );
     } catch (err: any) {
+      dispatch(isLoading(false));
       console.error(err);
       alert(err);
       return;
@@ -125,6 +128,7 @@ const useAuthLoginAndSignUp = () => {
   // Eメールとパスワードを使ったログイン認証を行う関数
   const authLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    dispatch(isLoading(true));
     const payload = {
       email,
       password,
@@ -166,8 +170,12 @@ const useAuthLoginAndSignUp = () => {
           secure: true,
         }),
       ]);
+      dispatch(isLoading(false));
+      setEmail('');
+      setPassword('');
       sweetAlertOfSuccess(message);
     } catch (err: any) {
+      dispatch(isLoading(false));
       console.error(err);
       sweetAlertOfError(err);
     }

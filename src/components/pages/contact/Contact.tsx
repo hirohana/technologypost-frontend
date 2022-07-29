@@ -7,12 +7,12 @@ import {
   InputLabel,
   FormControl,
 } from '@mui/material';
-import swal from 'sweetalert';
 
 import styles from './Contact.module.scss';
 import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
+import { useContact } from 'hooks/components/contact/useContact';
 
-type FormData = {
+export type FormData = {
   username: string;
   email: string;
   menuItem: string;
@@ -26,61 +26,7 @@ const Contact = () => {
     formState: { errors },
     reset,
   } = useForm<FormData>({ criteriaMode: 'all', shouldFocusError: false });
-
-  const onSubmit = (data: FormData) => {
-    swal({
-      text: '送信内容に問題はありませんか？',
-      icon: 'warning',
-      buttons: ['キャンセル', 'OK'],
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (!willDelete) {
-        return;
-      }
-
-      const username = data.username;
-      const userEmail = data.email;
-      const menuItem = data.menuItem;
-      const inquiry = data.inquiry;
-
-      const payload = {
-        text:
-          'お問い合わせがありました\n' +
-          'お名前: ' +
-          username +
-          '\n' +
-          'Email: ' +
-          userEmail +
-          '\n' +
-          'お問い合わせ項目: ' +
-          menuItem +
-          '\n' +
-          '問い合わせ内容: \n' +
-          inquiry,
-      };
-      reset();
-      const url = process.env.ADMIN_URL || '';
-
-      fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      })
-        .then(() => {
-          swal(
-            'Success',
-            '送信が完了しました!追って連絡いたします!',
-            'success'
-          );
-        })
-        .catch((err) => {
-          swal(
-            'Error',
-            '何らかのエラーが発生して送信できませんでした。',
-            'error'
-          );
-        });
-    });
-  };
+  const { onSubmit } = useContact(reset);
 
   return (
     <>

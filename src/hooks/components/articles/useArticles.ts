@@ -3,14 +3,17 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { isLoading } from 'reducks/loading/actionCreator';
 import { ARTICLES_DATA_AND_PAGINATION } from 'types/articles/articles';
 import { config } from 'config/applicationConfig';
+import { useDispatch } from 'react-redux';
 
 // articlesページのフック。
-const useArticles = (func: any) => {
+const useArticles = () => {
   const [data, setData] = useState<ARTICLES_DATA_AND_PAGINATION>();
   const [searchKeyword, setSearchKeyword] = useState('');
   const { search } = useLocation();
+  const dispatch = useDispatch();
   const query = new URLSearchParams(search);
   let page = Number(query.get('page')) || 1;
   const keyword = String(query.get('keyword')) || '';
@@ -21,14 +24,16 @@ const useArticles = (func: any) => {
   // Articlesページで使用されている。
   useEffect(() => {
     (async () => {
+      dispatch(isLoading(true));
       try {
         const response = await fetch(
           `${config.BACKEND_URL}/articles/page/${page}`
         );
         const jsonData = await response.json();
         setData(jsonData);
-        func(false);
+        dispatch(isLoading(false));
       } catch (err) {
+        dispatch(isLoading(false));
         console.error(err);
       }
     })();
@@ -38,6 +43,7 @@ const useArticles = (func: any) => {
   // moleculesのpaginationで使用されている。
   const getArticlesBySearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    dispatch(isLoading(true));
     try {
       navigate(`/?keyword=${searchKeyword}`);
       const response = await fetch(
@@ -45,8 +51,9 @@ const useArticles = (func: any) => {
       );
       const data = await response.json();
       setData(data);
-      func(false);
+      dispatch(isLoading(false));
     } catch (err) {
+      dispatch(isLoading(false));
       console.error(err);
     }
   };
