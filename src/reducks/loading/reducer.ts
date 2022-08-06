@@ -8,7 +8,6 @@ const IsLoadingReducer = (
 ): boolean => {
   switch (action.type) {
     case Actions.IS_LOADING:
-      console.log(action.payload.isLoading);
       return action.payload.isLoading;
     default:
       return state;

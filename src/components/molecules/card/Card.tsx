@@ -6,7 +6,6 @@ import styles from './Card.module.scss';
 import { AvatarImage } from 'components/atoms/button/avatar/AvatarImage';
 import { useCard } from 'hooks/components/card/useCard';
 import CategoryIcon from 'components/atoms/categoryIcon/CategoryIcon';
-import { BorderBottom } from '@mui/icons-material';
 
 const Card = (props: { data: ARTICLE_DATA }) => {
   const { data } = props;
