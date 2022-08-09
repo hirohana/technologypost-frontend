@@ -1,19 +1,19 @@
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
+import DefaultLayout from "components/templates/defaultLayout/DefaultLayout";
 
-import { Cards } from 'components/organisms/cards/Cards';
-import { selectUser } from 'reducks/user/selectUser';
-import { useArticles } from 'hooks/components/articles/useArticles';
-import { trimString } from 'utils/trimString/trimString';
-import { SearchField } from 'components/molecules/searchField/SearchField';
-import { Pagination } from 'components/molecules/pagination/Pagination';
-import { LoadingIcon } from 'components/atoms/loadingIcon/LoadingIcon';
-import styles from './Articles.module.scss';
-import { SearchResultNotFound } from 'components/atoms/searchResultNotFound/SearchResultNotFound';
-import { Button } from '@mui/material';
-import { useIsLoading } from 'hooks/redux/isLoading/useIsLoading';
+import { Cards } from "components/organisms/cards/Cards";
+import { selectUser } from "reducks/user/selectUser";
+import { useArticles } from "hooks/components/articles/useArticles";
+import { trimString } from "utils/trimString/trimString";
+import { SearchField } from "components/molecules/searchField/SearchField";
+import { Pagination } from "components/molecules/pagination/Pagination";
+import { LoadingIcon } from "components/atoms/loadingIcon/LoadingIcon";
+import styles from "./Articles.module.scss";
+import { SearchResultNotFound } from "components/atoms/searchResultNotFound/SearchResultNotFound";
+import { Button } from "@mui/material";
+import { useIsLoading } from "hooks/redux/isLoading/useIsLoading";
 
 const Articles = () => {
   const {
