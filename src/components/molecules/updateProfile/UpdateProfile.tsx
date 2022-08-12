@@ -1,27 +1,27 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Button, Dialog, DialogTitle, DialogActions } from '@mui/material';
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Button, Dialog, DialogTitle, DialogActions } from "@mui/material";
 import {
   ref,
   deleteObject,
   listAll,
   uploadBytesResumable,
   getDownloadURL,
-} from 'firebase/storage';
+} from "firebase/storage";
 
 // import ImageIconChoiceOnemore from 'components/atoms/button/imageIconChoiceOnemore/ImageIconChoiceOnemore';
-import { storage } from '../../../firebase';
-import { useChangeImageHandler } from 'hooks/components/changeImage/useChangeImage';
-import { selectUser } from 'reducks/user/selectUser';
-import ProfileImage from 'components/atoms/image/profileImage/ProfileImage';
-import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
-import { trimString } from 'utils/trimString/trimString';
-import { config } from 'config/applicationConfig';
-import sweetAlertOfSuccess from 'utils/sweetAlert/sweetAlertOfSuccess';
-import styles from './UpdateProfile.module.scss';
-import { updateProfile } from 'reducks/user/actionCreator';
-import ImageIcon from 'components/atoms/button/imageIcon/ImageIcon';
-import { randomChar16 } from 'utils/randomChar16/randomChar16';
+import { storage } from "../../../firebase";
+import { useChangeImageHandler } from "hooks/components/changeImage/useChangeImage";
+import { selectUser } from "reducks/user/selectUser";
+import ProfileImage from "components/atoms/image/profileImage/ProfileImage";
+import sweetAlertOfError from "utils/sweetAlert/sweetAlertOfError";
+import { trimString } from "utils/trimString/trimString";
+import { config } from "config/applicationConfig";
+import sweetAlertOfSuccess from "utils/sweetAlert/sweetAlertOfSuccess";
+import styles from "./UpdateProfile.module.scss";
+import { updateProfile } from "reducks/user/actionCreator";
+import ImageIcon from "components/atoms/button/imageIcon/ImageIcon";
+import { randomChar16 } from "utils/randomChar16/randomChar16";
 
 type PROPS = {
   open: boolean;
@@ -30,8 +30,8 @@ type PROPS = {
 
 const UpdateProfile = (props: PROPS) => {
   const { open, modalClose } = props;
-  const [profileImage, setProfileImage] = useState<string | null>('');
-  const [fileName, setFileName] = useState('');
+  const [profileImage, setProfileImage] = useState<string | null>("");
+  const [fileName, setFileName] = useState("");
   const { image, setImage, changeImageHandler } = useChangeImageHandler();
   const { user } = useSelector(selectUser);
   const trimUserName = trimString(user.displayName);
@@ -63,7 +63,7 @@ const UpdateProfile = (props: PROPS) => {
         await imageDelete();
 
         const randomChar = randomChar16();
-        const fileName = randomChar + '_' + image.name;
+        const fileName = randomChar + "_" + image.name;
         const storageRef = ref(
           storage,
           `userProfileImages/${trimUserName}/${fileName}`
@@ -71,18 +71,18 @@ const UpdateProfile = (props: PROPS) => {
         const uploadTask = uploadBytesResumable(storageRef, image);
         setImage(null);
         uploadTask.on(
-          'state_changed',
+          "state_changed",
           (snapshot) => {
             // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
+            console.log("Upload is " + progress + "% done");
             switch (snapshot.state) {
-              case 'paused':
-                console.log('Upload is paused');
+              case "paused":
+                console.log("Upload is paused");
                 break;
-              case 'running':
-                console.log('Upload is running');
+              case "running":
+                console.log("Upload is running");
                 break;
             }
           },
@@ -90,13 +90,13 @@ const UpdateProfile = (props: PROPS) => {
             // A full list of error codes is available at
             // https://firebase.google.com/docs/storage/web/handle-errors
             switch (error.code) {
-              case 'storage/unauthorized':
+              case "storage/unauthorized":
                 // User doesn't have permission to access the object
                 break;
-              case 'storage/canceled':
+              case "storage/canceled":
                 // User canceled the upload
                 break;
-              case 'storage/unknown':
+              case "storage/unknown":
                 // Unknown error occurred, inspect error.serverResponse
                 break;
             }
@@ -114,9 +114,10 @@ const UpdateProfile = (props: PROPS) => {
                     const response = await fetch(
                       `${config.BACKEND_URL}/account/user/photo_url`,
                       {
-                        method: 'PUT',
+                        credentials: "include",
+                        method: "PUT",
                         headers: {
-                          'Content-Type': 'application/json',
+                          "Content-Type": "application/json",
                         },
                         body: JSON.stringify(payload),
                       }

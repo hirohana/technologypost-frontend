@@ -1,16 +1,16 @@
-import { useDispatch } from 'react-redux';
-import { deleteObject, listAll, ref } from 'firebase/storage';
-import swal from 'sweetalert';
+import { useDispatch } from "react-redux";
+import { deleteObject, listAll, ref } from "firebase/storage";
+import swal from "sweetalert";
 
-import { storage } from '../../../../firebase';
-import sweetAlertOfSuccess from 'utils/sweetAlert/sweetAlertOfSuccess';
-import sweetAlertOfError from 'utils/sweetAlert/sweetAlertOfError';
-import { config } from 'config/applicationConfig';
-import { logout } from 'reducks/user/actionCreator';
-import { deleteAllCookies } from 'utils/deleteAllCookies/deleteAllCookies';
-import { useSelector } from 'react-redux';
-import { selectUser } from 'reducks/user/selectUser';
-import { trimString } from 'utils/trimString/trimString';
+import { storage } from "../../../../firebase";
+import sweetAlertOfSuccess from "utils/sweetAlert/sweetAlertOfSuccess";
+import sweetAlertOfError from "utils/sweetAlert/sweetAlertOfError";
+import { config } from "config/applicationConfig";
+import { logout } from "reducks/user/actionCreator";
+import { deleteAllCookies } from "utils/deleteAllCookies/deleteAllCookies";
+import { useSelector } from "react-redux";
+import { selectUser } from "reducks/user/selectUser";
+import { trimString } from "utils/trimString/trimString";
 
 // アカウントを削除する関数
 // 1. firebaseのstorageからユーザーのプロフィール画像を削除(imageDelete)
@@ -24,9 +24,9 @@ const useDeleteAccount = () => {
 
   const deleteAccount = () => {
     swal({
-      text: 'アカウントを削除してもよろしいですか？',
-      icon: 'warning',
-      buttons: ['キャンセル', 'OK'],
+      text: "アカウントを削除してもよろしいですか？",
+      icon: "warning",
+      buttons: ["キャンセル", "OK"],
       dangerMode: true,
     }).then(async (willDelete) => {
       if (!willDelete) {
@@ -57,9 +57,10 @@ const useDeleteAccount = () => {
         };
         try {
           const response = await fetch(`${config.BACKEND_URL}/account`, {
-            method: 'DELETE',
+            credentials: "include",
+            method: "DELETE",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(payload),
           });

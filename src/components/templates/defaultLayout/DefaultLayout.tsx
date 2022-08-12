@@ -1,13 +1,12 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from "react";
 
-import { useGetCookieToReduxStore } from 'hooks/components/Login/useAuthLoginAndSignUp';
-import styles from './DefaultLayout.module.scss';
-import { useHeaderMenu } from 'hooks/components/defaultLayout/useHeaderMenu';
-import { HeaderMenu } from 'components/organisms/headerMenu/HeaderMenu';
-import { Footer } from 'components/molecules/footer/Footer';
-import { MobileMenu } from 'components/molecules/mobileMenu/MobileMenu';
-import { MobileMenuCover } from 'components/molecules/mobileMenuCover/MobileMenuCover';
-import { LoadingIcon } from 'components/atoms/loadingIcon/LoadingIcon';
+import { useGetCookieToReduxStore } from "hooks/components/Login/useAuthLoginAndSignUp";
+import { useHeaderMenu } from "hooks/components/defaultLayout/useHeaderMenu";
+import { HeaderMenu } from "components/organisms/headerMenu/HeaderMenu";
+import { Footer } from "components/molecules/footer/Footer";
+import { MobileMenu } from "components/molecules/mobileMenu/MobileMenu";
+import { MobileMenuCover } from "components/molecules/mobileMenuCover/MobileMenuCover";
+import { LoadingIcon } from "components/atoms/loadingIcon/LoadingIcon";
 
 type PROPS = {
   children: ReactNode;
