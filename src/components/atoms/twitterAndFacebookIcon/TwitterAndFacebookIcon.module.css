@@ -1,8 +1,9 @@
+@charset "UTF-8";
 .icon {
   margin-right: 20px;
-  &:focus {
-    outline: 0 !important;
-  }
+}
+.icon:focus {
+  outline: 0 !important;
 }
 
 /* ボタンの装飾　*/
@@ -34,3 +35,4 @@
   /* 文字色を白色に指定 */
   color: #fff;
 }
+/*# sourceMappingURL=TwitterAndFacebookIcon.module.css.map */

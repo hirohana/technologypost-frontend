@@ -1,6 +1,6 @@
-import { Routes, Route } from 'react-router-dom';
-import { Articles, Article, Error404 } from 'components/pages';
-import UserRoutes from './UserRoutes';
+import { Routes, Route } from "react-router-dom";
+import { Articles, Article, Error404 } from "components/pages";
+import UserRoutes from "./UserRoutes";
 
 const ArticlesRoutes = () => {
   return (
