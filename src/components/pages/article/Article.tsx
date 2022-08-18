@@ -1,21 +1,21 @@
-import DOMPurify from 'dompurify';
-import marked from 'marked';
+import DOMPurify from "dompurify";
+import marked from "marked";
 
 import {
   useArticle,
   useSubmitComment,
-} from 'hooks/components/article/useArticle';
-import TimestampProcessing from 'components/atoms/timestampProcessing/TimestampProcessing';
-import styles from './Article.module.scss';
-import 'easymde/dist/easymde.min.css';
-import { AvatarImage } from 'components/atoms/button/avatar/AvatarImage';
-import DefaultLayout from 'components/templates/defaultLayout/DefaultLayout';
-import CategoryIcon from 'components/atoms/categoryIcon/CategoryIcon';
-import { Comments } from 'components/organisms/comments/Comments';
-import PostComment from 'components/molecules/postComment/PostComment';
-import { TwitterAndFacebookIcon } from 'components/atoms/twitterAndFacebookIcon/TwitterAndFacebookIcon';
-import { useIsLoading } from 'hooks/redux/isLoading/useIsLoading';
-import { LoadingIcon } from 'components/atoms/loadingIcon/LoadingIcon';
+} from "hooks/components/article/useArticle";
+import TimestampProcessing from "components/atoms/timestampProcessing/TimestampProcessing";
+import styles from "./Article.module.scss";
+import "easymde/dist/easymde.min.css";
+import { AvatarImage } from "components/atoms/button/avatar/AvatarImage";
+import DefaultLayout from "components/templates/defaultLayout/DefaultLayout";
+import CategoryIcon from "components/atoms/categoryIcon/CategoryIcon";
+import { Comments } from "components/organisms/comments/Comments";
+import PostComment from "components/molecules/postComment/PostComment";
+import { TwitterAndFacebookIcon } from "components/atoms/twitterAndFacebookIcon/TwitterAndFacebookIcon";
+import { useIsLoading } from "hooks/redux/isLoading/useIsLoading";
+import { LoadingIcon } from "components/atoms/loadingIcon/LoadingIcon";
 
 const Article = () => {
   const { data, imagesArray } = useArticle();
@@ -45,7 +45,7 @@ const Article = () => {
                       categories={
                         articleData.category_name
                           ? articleData.category_name
-                          : ''
+                          : ""
                       }
                     />
                   </div>
@@ -62,6 +62,9 @@ const Article = () => {
                     title={articleData.title}
                     imageUrl={imagesArray[0]}
                     userName={articleData.username}
+                    letterBody={DOMPurify.sanitize(
+                      marked(articleData.letter_body)
+                    )}
                   />
                 </main>
               )}
