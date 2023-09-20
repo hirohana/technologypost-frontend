@@ -16,4 +16,7 @@ Node.js(Express)を使用し、ReactのSSR(React.Hydrate)を実現したDocker�
 3. 【heroku logs --tail】で現在のHerokuに公開されているアプリのログを確認する。デプロイの際のエラーチェックにも使用。
 4. 【heroku open】で現在公開されているアプリをブラウザが立ち上がる。
 
+## 公開URL
+https://my-portfolio-75f19.web.app
+
 
